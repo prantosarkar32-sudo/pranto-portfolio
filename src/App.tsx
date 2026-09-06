@@ -567,20 +567,46 @@ export default function App() {
 
             {/* Modal: About Me */}
             {activeModal === 'about-me' && (
-              <div className="space-y-4">
+              <div className="space-y-5">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-[11px] font-mono uppercase tracking-wider text-cyan-300">
-                  <span>about me</span>
+                  <span>about me &amp; creative philosophy</span>
                 </div>
                 <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-white" style={{ fontFamily: 'var(--font-heading)' }}>
                   Pranto Sarkar
                 </h3>
                 <p className="text-white/80 text-sm sm:text-base leading-relaxed">
-                  I am a passionate <strong>Motion Designer &amp; AI Artist</strong> dedicated to crafting kinetic visuals, 3D brand experiences, and futuristic motion assets. With deep mastery in <strong>After Effects, Illustrator, Photoshop, and Premiere Pro</strong>, I combine cutting-edge generative AI workflows with precise artistic craft.
+                  I am a Dhaka-based <strong>Senior Motion Designer &amp; AI Artist</strong> specializing in kinetic visual storytelling, commercial broadcast animation, and high-fidelity generative AI aesthetics. With over 4+ years dedicated to crafting brand experiences, I bridge the gap between classic graphic motion craft and neural AI pipelines.
                 </p>
-                <div className="pt-2 flex flex-wrap gap-2">
-                  <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-white/70">kinetic typography</span>
-                  <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-white/70">brand identity in motion</span>
-                  <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-white/70">generative ai artistry</span>
+
+                {/* 3 Pillars of Craft */}
+                <div className="grid sm:grid-cols-3 gap-3 pt-1">
+                  <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10">
+                    <div className="text-xs font-mono text-cyan-400 mb-1">01. MOTION</div>
+                    <div className="text-sm font-semibold text-white">Kinetic Rhythm</div>
+                    <div className="text-xs text-white/60 mt-1">High-impact transitions, smooth easing, and kinetic typography that command attention.</div>
+                  </div>
+                  <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10">
+                    <div className="text-xs font-mono text-amber-400 mb-1">02. ARTISTRY</div>
+                    <div className="text-sm font-semibold text-white">Generative AI</div>
+                    <div className="text-xs text-white/60 mt-1">Custom neural prompting, synthetic world building, and seamless multi-model composites.</div>
+                  </div>
+                  <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10">
+                    <div className="text-xs font-mono text-purple-400 mb-1">03. DIRECTION</div>
+                    <div className="text-sm font-semibold text-white">Brand Impact</div>
+                    <div className="text-xs text-white/60 mt-1">Commercial campaigns, high-converting product ads, and futuristic social visual identities.</div>
+                  </div>
+                </div>
+
+                {/* Core Toolkit Highlights */}
+                <div className="pt-2 border-t border-white/10">
+                  <div className="text-xs font-mono uppercase text-white/50 mb-2">Primary Arsenal:</div>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-white/80">After Effects</span>
+                    <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-white/80">Premiere Pro</span>
+                    <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-white/80">Illustrator</span>
+                    <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-white/80">Photoshop</span>
+                    <span className="px-3 py-1 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-xs font-mono text-cyan-300">Generative AI (Midjourney, Runway, ComfyUI)</span>
+                  </div>
                 </div>
               </div>
             )}
@@ -589,23 +615,71 @@ export default function App() {
             {activeModal === 'projects' && (
               <div className="space-y-4">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-[11px] font-mono uppercase tracking-wider text-amber-300">
-                  <span>selected showcase</span>
+                  <span>selected showcase &amp; case studies</span>
                 </div>
                 <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-white" style={{ fontFamily: 'var(--font-heading)' }}>
-                  Motion &amp; Visual Projects
+                  Featured Works
                 </h3>
-                <div className="grid gap-3 pt-2">
-                  <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 hover:border-white/20 transition-all">
-                    <div className="text-sm font-semibold text-white">Interactive Brand Showreel</div>
-                    <div className="text-xs text-white/60">Dynamic cursor-scrubbed kinetic visual experiences and broadcast sequences.</div>
+                <p className="text-white/70 text-xs sm:text-sm">
+                  A curation of kinetic brand identities, commercial video campaigns, and futuristic generative visual assets.
+                </p>
+
+                <div className="grid gap-3 pt-1">
+                  <div className="p-4 rounded-2xl bg-white/[0.04] border border-white/10 hover:border-cyan-400/40 transition-all group">
+                    <div className="flex justify-between items-start mb-1.5">
+                      <div className="text-sm font-semibold text-white group-hover:text-cyan-300 transition-colors">
+                        Kinetic Brand Identity &amp; Broadcast Showreel
+                      </div>
+                      <span className="text-[10px] font-mono text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded-full border border-cyan-500/20">Motion Graphics</span>
+                    </div>
+                    <div className="text-xs text-white/60 mb-2.5">
+                      Cursor-scrubbed interactive visual storytelling, title sequence choreography, and high-energy brand animations.
+                    </div>
+                    <div className="flex items-center gap-2 text-[11px] font-mono text-white/40">
+                      <span>After Effects</span>
+                      <span>•</span>
+                      <span>Illustrator</span>
+                      <span>•</span>
+                      <span>Sound Design</span>
+                    </div>
                   </div>
-                  <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 hover:border-white/20 transition-all">
-                    <div className="text-sm font-semibold text-white">Generative 3D Asset Direction</div>
-                    <div className="text-xs text-white/60">Blended motion graphic styles with advanced neural generative pipelines.</div>
+
+                  <div className="p-4 rounded-2xl bg-white/[0.04] border border-white/10 hover:border-amber-400/40 transition-all group">
+                    <div className="flex justify-between items-start mb-1.5">
+                      <div className="text-sm font-semibold text-white group-hover:text-amber-300 transition-colors">
+                        Neural AI Visual World-Building
+                      </div>
+                      <span className="text-[10px] font-mono text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded-full border border-amber-500/20">AI Generation</span>
+                    </div>
+                    <div className="text-xs text-white/60 mb-2.5">
+                      Synthetic environment direction, character styling, and prompt architecture merged with fluid cinematic post-processing.
+                    </div>
+                    <div className="flex items-center gap-2 text-[11px] font-mono text-white/40">
+                      <span>Prompt Engineering</span>
+                      <span>•</span>
+                      <span>Photoshop</span>
+                      <span>•</span>
+                      <span>Runway / Midjourney</span>
+                    </div>
                   </div>
-                  <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 hover:border-white/20 transition-all">
-                    <div className="text-sm font-semibold text-white">Commercial Video Titles &amp; VFX</div>
-                    <div className="text-xs text-white/60">Post-production, precision compositing, color grade, and kinetic timing.</div>
+
+                  <div className="p-4 rounded-2xl bg-white/[0.04] border border-white/10 hover:border-purple-400/40 transition-all group">
+                    <div className="flex justify-between items-start mb-1.5">
+                      <div className="text-sm font-semibold text-white group-hover:text-purple-300 transition-colors">
+                        Commercial Product Launch &amp; High-Retention Reels
+                      </div>
+                      <span className="text-[10px] font-mono text-purple-400 bg-purple-950/60 px-2 py-0.5 rounded-full border border-purple-500/20">Commercial VFX</span>
+                    </div>
+                    <div className="text-xs text-white/60 mb-2.5">
+                      Speed ramps, dynamic product isolation, kinetic typography hooks, and commercial-grade grading tailored for multi-platform reach.
+                    </div>
+                    <div className="flex items-center gap-2 text-[11px] font-mono text-white/40">
+                      <span>Premiere Pro</span>
+                      <span>•</span>
+                      <span>After Effects</span>
+                      <span>•</span>
+                      <span>Color Grade</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -615,23 +689,40 @@ export default function App() {
             {activeModal === 'contact' && (
               <div className="space-y-4">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-[11px] font-mono uppercase tracking-wider text-purple-300">
-                  <span>get in touch</span>
+                  <span>direct collaboration</span>
                 </div>
                 <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-white" style={{ fontFamily: 'var(--font-heading)' }}>
-                  Let's collaborate
+                  Let's Create Something Extraordinary
                 </h3>
                 <p className="text-white/80 text-sm leading-relaxed">
-                  Have a motion project, commercial campaign, or brand vision in mind? Feel free to reach out directly via email.
+                  Whether you have an upcoming commercial campaign, brand showreel, or need generative AI visuals that captivate audiences, feel free to reach out directly.
                 </p>
-                <div className="p-4 rounded-2xl bg-white/5 border border-white/15 flex items-center justify-between">
-                  <span className="font-mono text-sm text-cyan-300 select-all">prantosarkar32@gmail.com</span>
+
+                {/* Email Box */}
+                <div className="p-4 rounded-2xl bg-white/5 border border-white/15 flex flex-col sm:flex-row gap-3 sm:items-center justify-between">
+                  <div>
+                    <div className="text-[11px] font-mono uppercase text-white/40">Official Inquiries:</div>
+                    <span className="font-mono text-sm sm:text-base text-cyan-300 select-all">prantosarkar32@gmail.com</span>
+                  </div>
                   <button
                     type="button"
                     onClick={handleCopyEmail}
-                    className="px-3 py-1.5 rounded-full bg-white text-black text-xs font-semibold hover:bg-cyan-300 transition-colors cursor-pointer"
+                    className="self-start sm:self-auto px-4 py-2 rounded-full bg-white text-black text-xs font-semibold hover:bg-cyan-300 transition-colors cursor-pointer"
                   >
-                    {copied ? 'Copied!' : 'Copy Email'}
+                    {copied ? '✓ Copied!' : 'Copy Email'}
                   </button>
+                </div>
+
+                {/* Quick Details */}
+                <div className="grid grid-cols-2 gap-3 pt-1 text-xs">
+                  <div className="p-3 rounded-xl bg-white/[0.03] border border-white/10">
+                    <div className="text-white/40 font-mono">Location</div>
+                    <div className="text-white font-medium mt-0.5">Dhaka, Bangladesh (UTC+6)</div>
+                  </div>
+                  <div className="p-3 rounded-xl bg-white/[0.03] border border-white/10">
+                    <div className="text-white/40 font-mono">Availability</div>
+                    <div className="text-emerald-400 font-medium mt-0.5">Freelance &amp; Remote Contracts</div>
+                  </div>
                 </div>
               </div>
             )}
