@@ -9,4 +9,6 @@ dist-ssr
 !.vscode/extensions.json
 .idea
 .DS_Store
+._*
+.netlify
 portfolio-backup
