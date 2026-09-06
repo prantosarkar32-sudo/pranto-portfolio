@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pranto Sarkar | Senior Motion Designer & 3D Visual Artist</title>
+  <meta name="description" content="Portfolio of Pranto Sarkar, a Senior Motion Designer and 3D Visual Artist specializing in high-impact 3D CGI, commercial animation, title sequences, and kinetic brand identity." />
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="bg-[#070809] text-slate-100 antialiased selection:bg-indigo-500/40 selection:text-white relative">
+
+  <!-- 0. Dangling Light "Hi" Intro Experience -->
+  <div id="intro-curtain" class="fixed inset-0 z-[9999] bg-[#000000] flex flex-col items-center justify-center pointer-events-auto overflow-hidden cursor-pointer select-none">
+    
+    <!-- The Dangling Light Rig (wire + socket + bulb + cone) -->
+    <div id="light-rig" class="absolute top-0 left-1/2 flex flex-col items-center pointer-events-none" style="transform-origin: top center; transform: translate3d(-50%, -400px, 0); will-change: transform;">
+      <!-- Wire -->
+      <div id="light-wire" class="w-[2px] rounded-full" style="height: 250px; background: linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.4) 100%);"></div>
+      <!-- Bulb Socket cap -->
+      <div class="w-3.5 h-3 rounded-sm bg-gradient-to-b from-zinc-500 to-zinc-700 border border-white/20 -mt-0.5 shadow-sm"></div>
+      <!-- Bulb Globe -->
+      <div id="light-bulb" class="relative flex items-center justify-center -mt-0.5" style="width: 28px; height: 28px;">
+        <!-- Outer Glowing Corona (Matching reference image green glow) -->
+        <div id="bulb-outer-glow" class="absolute rounded-full pointer-events-none" style="inset: -40px; background: radial-gradient(circle, rgba(34, 197, 94, 0.85) 0%, rgba(16, 185, 129, 0.35) 45%, transparent 70%); opacity: 0; filter: blur(8px); transition: opacity 0.15s ease;"></div>
+        <!-- Inner Bulb Glass Sphere -->
+        <div id="bulb-core" class="w-full h-full rounded-full transition-all duration-150" style="background: #18181b; border: 1.5px solid rgba(255,255,255,0.25);"></div>
+      </div>
+      <!-- Volumetric Light Beam/Cone (soft green falloff) -->
+      <div id="light-cone" class="pointer-events-none" style="width: 0; height: 0; border-left: 130px solid transparent; border-right: 130px solid transparent; border-top: 240px solid rgba(34, 197, 94, 0.09); margin-top: -2px; filter: blur(14px); opacity: 0; transition: opacity 0.25s ease;"></div>
+    </div>
+
+    <!-- "Hi" Text — 100% INVISIBLE (pitch dark) until illuminated -->
+    <div id="hi-text-wrap" class="relative flex items-center justify-center pointer-events-none" style="margin-top: 130px; opacity: 0; transition: opacity 0.2s ease;">
+      <span id="hi-text-lit" class="font-heading font-black leading-none select-none tracking-tight" style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: clamp(100px, 22vw, 220px); background: radial-gradient(circle 380px at var(--light-x, 50%) var(--light-y, -20%), #bbf7d0 0%, #4ade80 25%, #16a34a 55%, #052e16 80%, transparent 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; filter: drop-shadow(0 0 45px rgba(34,197,94,0.6));">Hi</span>
+    </div>
+
+    <!-- Skip hint -->
+    <div id="intro-skip-hint" class="absolute bottom-8 font-mono tracking-widest uppercase" style="font-size: 10px; color: rgba(255,255,255,0.25); opacity: 0; transition: opacity 0.8s ease;">
+      tap anywhere to skip
+    </div>
+  </div>
+
+  <!-- Ultra-Fine Tactile Noise Texture & Matrix Grid -->
+  <div class="noise-overlay"></div>
+  <div class="fixed inset-0 bg-grid-pattern pointer-events-none z-0"></div>
+
+  <!-- Ambient Background Mesh Glow -->
+  <div class="fixed inset-0 glow-mesh pointer-events-none z-0"></div>
+
+  <!-- 1. Floating Island Navigation -->
+  <header class="fixed top-5 inset-x-0 z-50 flex justify-center px-4">
+    <nav class="glass-nav rounded-full px-5 py-2.5 flex items-center justify-between gap-4 md:gap-8 max-w-5xl w-full">
+      <!-- Brand Monogram / Logo -->
+      <a href="#hero" class="flex items-center gap-2.5 group" id="replay-intro-trigger" title="Click to replay intro animation">
+        <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-400 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/25 group-hover:scale-105 transition-transform">
+          PS
+        </div>
+        <span class="font-heading font-bold text-sm tracking-tight text-white hidden sm:inline">Pranto<span class="text-indigo-400">Sarkar</span></span>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <div class="hidden md:flex items-center gap-7 text-xs font-medium text-slate-300">
+        <a href="#hero" class="desktop-nav-link hover:text-white transition-colors">Home</a>
+        <a href="#about" class="desktop-nav-link hover:text-white transition-colors">About</a>
+        <a href="#projects" class="desktop-nav-link hover:text-white transition-colors">Portfolio</a>
+        <a href="#skills" class="desktop-nav-link hover:text-white transition-colors">Services</a>
+        <a href="#process" class="desktop-nav-link hover:text-white transition-colors">Process</a>
+        <a href="#contact" class="desktop-nav-link hover:text-white transition-colors">Contact</a>
+      </div>
+
+      <!-- Action & Download CV Button (matching reference) -->
+      <div class="flex items-center gap-3">
+        <a href="#contact" class="px-5 py-2 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition-all shadow-md shadow-indigo-600/30 hover:scale-[1.02] active:scale-[0.98] shimmer-btn flex items-center gap-1.5">
+          <i data-lucide="download" class="w-3.5 h-3.5"></i>
+          <span>Download CV</span>
+        </a>
+
+        <!-- Mobile Menu Trigger -->
+        <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-300 hover:text-white" aria-label="Toggle Navigation">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Mobile Fullscreen Navigation Overlay -->
+  <div id="mobile-menu" class="fixed inset-0 z-40 bg-[#070809]/95 backdrop-blur-2xl opacity-0 pointer-events-none transition-all duration-300 flex flex-col justify-center items-center gap-6 p-6">
+    <a href="#hero" class="mobile-nav-link text-xl font-heading font-medium text-slate-200 hover:text-indigo-400 transition-colors">Home</a>
+    <a href="#about" class="mobile-nav-link text-xl font-heading font-medium text-slate-200 hover:text-indigo-400 transition-colors">About</a>
+    <a href="#projects" class="mobile-nav-link text-xl font-heading font-medium text-slate-200 hover:text-indigo-400 transition-colors">Portfolio</a>
+    <a href="#skills" class="mobile-nav-link text-xl font-heading font-medium text-slate-200 hover:text-indigo-400 transition-colors">Services</a>
+    <a href="#process" class="mobile-nav-link text-xl font-heading font-medium text-slate-200 hover:text-indigo-400 transition-colors">Process</a>
+    <a href="#contact" class="mobile-nav-link text-xl font-heading font-medium text-slate-200 hover:text-indigo-400 transition-colors">Contact</a>
+    <div class="pt-6 border-t border-white/10 w-full max-w-xs text-center space-y-3">
+      <a href="#contact" class="block w-full py-3 rounded-xl bg-indigo-600 text-white font-medium text-sm shadow-lg shadow-indigo-600/30">
+        Download CV
+      </a>
+    </div>
+  </div>
+
+  <main class="relative z-10">
+
+    <!-- 2. Two-Column Asymmetric Studio Hero Section (Inspired by Reference) -->
+    <section id="hero" class="pt-32 pb-16 md:pt-40 md:pb-24 px-4 max-w-6xl mx-auto min-h-[90vh] flex flex-col justify-between relative overflow-hidden">
+      
+      <!-- Ambient Diagonal Geometric Ribbons (Matching reference layout depth) -->
+      <div class="diagonal-geometry -top-10 -right-20 w-[480px] h-[480px] hidden lg:block"></div>
+      <div class="diagonal-geometry top-1/3 -left-32 w-[380px] h-[380px] hidden lg:block"></div>
+
+      <!-- Main Two-Column Split Container -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center my-auto relative z-10">
+        
+        <!-- LEFT COLUMN: Intro, Name, Role & Socials -->
+        <div class="lg:col-span-7 flex flex-col items-start text-left">
+          
+          <!-- Hello Greeting Badge -->
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-xs font-semibold text-indigo-400 mb-6 backdrop-blur-md">
+            <span>Hello</span>
+            <span class="inline-block transform origin-bottom-right animate-pulse">👋</span>
+          </div>
+
+          <!-- Main Bold Heading: I'm Pranto Sarkar -->
+          <h1 class="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight font-heading leading-[1.08] mb-3 text-white">
+            I’m <span class="text-gradient">Pranto Sarkar</span>
+          </h1>
+
+          <!-- Role Subtitle: Senior Motion Designer & 3D Artist -->
+          <h2 class="text-xl sm:text-2xl md:text-3xl font-bold font-heading text-slate-200 mb-6">
+            Senior Motion <span class="text-indigo-400">Designer</span> & <span class="text-gradient-cyan">3D Artist</span>
+          </h2>
+
+          <!-- Bio Paragraph -->
+          <p class="text-slate-400 text-sm sm:text-base leading-relaxed max-w-lg mb-9 font-light">
+            I’m a creative motion designer and visual director based in Dhaka, dedicated to crafting high-impact 3D CGI, commercial animation, and bespoke visual storytelling for global brands.
+          </p>
+
+          <!-- Action Buttons & Inline Social Handles (Matching Reference Layout) -->
+          <div class="flex flex-wrap items-center gap-6">
+            <a href="#about" class="px-7 py-3.5 rounded-full bg-[#13161f] hover:bg-indigo-600 text-white font-semibold text-sm transition-all border border-white/15 shadow-xl hover:scale-105 active:scale-95 flex items-center gap-2">
+              <span>About Me</span>
+            </a>
+
+            <!-- Inline Social Icons -->
+            <div class="flex items-center gap-3 text-slate-400">
+              <a href="https://github.com/prantosarkar32" target="_blank" rel="noreferrer" class="p-2.5 rounded-full hover:text-white hover:bg-white/5 transition-all" aria-label="GitHub">
+                <i data-lucide="github" class="w-4 h-4"></i>
+              </a>
+              <a href="https://linkedin.com" target="_blank" rel="noreferrer" class="p-2.5 rounded-full hover:text-white hover:bg-white/5 transition-all" aria-label="LinkedIn">
+                <i data-lucide="linkedin" class="w-4 h-4"></i>
+              </a>
+              <a href="https://instagram.com" target="_blank" rel="noreferrer" class="p-2.5 rounded-full hover:text-white hover:bg-white/5 transition-all" aria-label="Instagram">
+                <i data-lucide="instagram" class="w-4 h-4"></i>
+              </a>
+              <a href="https://twitter.com" target="_blank" rel="noreferrer" class="p-2.5 rounded-full hover:text-white hover:bg-white/5 transition-all" aria-label="Twitter">
+                <i data-lucide="twitter" class="w-4 h-4"></i>
+              </a>
+              <a href="mailto:prantosarkar32@gmail.com" class="p-2.5 rounded-full hover:text-white hover:bg-white/5 transition-all" aria-label="Email">
+                <i data-lucide="mail" class="w-4 h-4"></i>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN: Creative Portrait Focal Point with Floating Tool Badges -->
+        <div class="lg:col-span-5 flex items-center justify-center relative min-h-[380px] sm:min-h-[460px]" id="hero-interactive-zone">
+          
+          <!-- Ambient Diagonal Background Glow Card -->
+          <div class="absolute w-72 h-72 sm:w-96 sm:h-96 rounded-[44px] bg-gradient-to-tr from-indigo-600/10 via-white/[0.02] to-cyan-500/10 border border-white/10 rotate-6 shadow-2xl pointer-events-none"></div>
+
+          <!-- Delicate Orbital Contour Rings -->
+          <div class="absolute w-80 h-80 sm:w-[420px] sm:h-[420px] rounded-full border border-indigo-500/20 border-dashed animate-[spin_60s_linear_infinite] pointer-events-none"></div>
+          <div class="absolute w-64 h-64 sm:w-[320px] sm:h-[320px] rounded-full border border-cyan-400/15 pointer-events-none"></div>
+
+          <!-- Central Subject / Artist Centerpiece with Splash Particles -->
+          <div class="relative z-10 w-60 h-60 sm:w-72 sm:h-72 rounded-full overflow-hidden border-2 border-white/15 shadow-[0_20px_60px_rgba(0,0,0,0.8)] flex flex-col items-center justify-center bg-gradient-to-b from-[#111422] via-[#090b12] to-[#050608] group">
+            
+            <!-- Luxury Monogram Centerpiece Artwork -->
+            <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-400 p-[2px] shadow-2xl shadow-indigo-500/30 group-hover:scale-105 transition-transform duration-500 mb-3">
+              <div class="w-full h-full rounded-[22px] bg-[#0c0e18] flex items-center justify-center font-heading font-black text-3xl sm:text-4xl text-transparent bg-clip-text bg-gradient-to-tr from-white via-slate-200 to-indigo-300">
+                PS
+              </div>
+            </div>
+
+            <span class="font-heading font-bold text-white text-base">Pranto Sarkar</span>
+            <span class="text-xs font-mono text-indigo-400 tracking-wider">MOTION & 3D STUDIO</span>
+
+            <!-- Organic Dust / Splash Particle Dots at Base -->
+            <div class="absolute bottom-3 inset-x-0 flex justify-center gap-1.5 opacity-60">
+              <span class="w-1 h-1 rounded-full bg-indigo-400 animate-ping"></span>
+              <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+              <span class="w-1 h-1 rounded-full bg-purple-400"></span>
+              <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+              <span class="w-1 h-1 rounded-full bg-indigo-400"></span>
+            </div>
+          </div>
+
+          <!-- FLOATING APP BADGE 1: After Effects (Ae) - Top Left -->
+          <div class="absolute top-2 left-2 sm:left-4 z-20 animate-float-1 group/badge cursor-pointer" title="Adobe After Effects">
+            <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[#00005b]/80 border-2 border-[#9999ff]/60 backdrop-blur-xl shadow-[0_12px_30px_rgba(0,0,91,0.5)] flex items-center justify-center font-heading font-extrabold text-xl sm:text-2xl text-[#9999ff] group-hover/badge:scale-110 transition-transform">
+              Ae
+            </div>
+          </div>
+
+          <!-- FLOATING APP BADGE 2: Cinema 4D (C4D) - Top Right -->
+          <div class="absolute top-4 right-2 sm:right-6 z-20 animate-float-2 group/badge cursor-pointer" title="Maxon Cinema 4D">
+            <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[#00186b]/80 border-2 border-[#0095ff]/60 backdrop-blur-xl shadow-[0_12px_30px_rgba(0,24,107,0.5)] flex items-center justify-center font-heading font-black text-sm sm:text-base text-[#38bdf8] group-hover/badge:scale-110 transition-transform">
+              C4D
+            </div>
+          </div>
+
+          <!-- FLOATING APP BADGE 3: Photoshop (Ps) - Center Right -->
+          <div class="absolute top-1/2 -right-2 sm:right-2 -translate-y-1/2 z-20 animate-float-3 group/badge cursor-pointer" title="Adobe Photoshop">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#001e36]/80 border-2 border-[#31a8ff]/60 backdrop-blur-xl shadow-[0_12px_30px_rgba(0,30,54,0.5)] flex items-center justify-center font-heading font-bold text-lg sm:text-xl text-[#31a8ff] group-hover/badge:scale-110 transition-transform">
+              Ps
+            </div>
+          </div>
+
+          <!-- FLOATING APP BADGE 4: Blender - Bottom Left -->
+          <div class="absolute bottom-8 left-0 sm:left-4 z-20 animate-float-4 group/badge cursor-pointer" title="Blender 3D">
+            <div class="w-13 h-13 sm:w-14 sm:h-14 p-3 rounded-2xl bg-[#2b1704]/80 border-2 border-[#ea7600]/60 backdrop-blur-xl shadow-[0_12px_30px_rgba(234,118,0,0.4)] flex items-center justify-center font-heading font-bold text-xs sm:text-sm text-[#ff9800] group-hover/badge:scale-110 transition-transform">
+              <span class="tracking-tight">3D</span>
+            </div>
+          </div>
+
+          <!-- FLOATING APP BADGE 5: Premiere Pro (Pr) - Bottom Right -->
+          <div class="absolute -bottom-2 right-12 sm:right-20 z-20 animate-float-5 group/badge cursor-pointer" title="Adobe Premiere Pro">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#330033]/80 border-2 border-[#ea77ff]/60 backdrop-blur-xl shadow-[0_12px_30px_rgba(51,0,51,0.5)] flex items-center justify-center font-heading font-bold text-base sm:text-lg text-[#ea77ff] group-hover/badge:scale-110 transition-transform">
+              Pr
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- BOTTOM CENTER: Computer Mouse Scroll Indicator (Directly from reference) -->
+      <div class="w-full flex justify-center mt-12 sm:mt-16 relative z-20">
+        <a href="#about" class="flex flex-col items-center gap-2 text-slate-500 hover:text-indigo-400 transition-colors group cursor-pointer" aria-label="Scroll to content">
+          <div class="w-6 h-10 rounded-full border-2 border-slate-500/50 group-hover:border-indigo-400 flex justify-center pt-2 transition-colors shadow-lg">
+            <span class="w-1.5 h-2 rounded-full bg-slate-400 group-hover:bg-indigo-400 animate-mouse-dot"></span>
+          </div>
+        </a>
+      </div>
+
+    </section>
+
+    <!-- 3. Infinite Tech Stack Marquee -->
+    <section class="py-8 border-y border-white/[0.06] bg-black/30 overflow-hidden relative">
+      <div class="absolute left-0 inset-y-0 w-24 bg-gradient-to-r from-[#08090a] to-transparent z-10 pointer-events-none"></div>
+      <div class="absolute right-0 inset-y-0 w-24 bg-gradient-to-l from-[#08090a] to-transparent z-10 pointer-events-none"></div>
+
+      <div class="animate-marquee flex items-center gap-12 text-slate-400 text-xs font-mono tracking-wider uppercase">
+        <div class="flex items-center gap-2"><i data-lucide="video" class="w-4 h-4 text-indigo-400"></i> After Effects</div>
+        <div class="flex items-center gap-2"><i data-lucide="box" class="w-4 h-4 text-cyan-400"></i> Cinema 4D</div>
+        <div class="flex items-center gap-2"><i data-lucide="cuboid" class="w-4 h-4 text-amber-400"></i> Blender 3D</div>
+        <div class="flex items-center gap-2"><i data-lucide="zap" class="w-4 h-4 text-purple-400"></i> Unreal Engine 5</div>
+        <div class="flex items-center gap-2"><i data-lucide="sun" class="w-4 h-4 text-yellow-400"></i> Octane Render</div>
+        <div class="flex items-center gap-2"><i data-lucide="flame" class="w-4 h-4 text-red-400"></i> Redshift 3D</div>
+        <div class="flex items-center gap-2"><i data-lucide="sparkles" class="w-4 h-4 text-pink-400"></i> Houdini FX</div>
+        <div class="flex items-center gap-2"><i data-lucide="film" class="w-4 h-4 text-fuchsia-400"></i> Premiere Pro</div>
+        <div class="flex items-center gap-2"><i data-lucide="sliders" class="w-4 h-4 text-emerald-400"></i> DaVinci Resolve</div>
+        <div class="flex items-center gap-2"><i data-lucide="type" class="w-4 h-4 text-indigo-300"></i> Kinetic Typography</div>
+        <!-- Duplicate for continuous loop -->
+        <div class="flex items-center gap-2"><i data-lucide="video" class="w-4 h-4 text-indigo-400"></i> After Effects</div>
+        <div class="flex items-center gap-2"><i data-lucide="box" class="w-4 h-4 text-cyan-400"></i> Cinema 4D</div>
+        <div class="flex items-center gap-2"><i data-lucide="cuboid" class="w-4 h-4 text-amber-400"></i> Blender 3D</div>
+        <div class="flex items-center gap-2"><i data-lucide="zap" class="w-4 h-4 text-purple-400"></i> Unreal Engine 5</div>
+        <div class="flex items-center gap-2"><i data-lucide="sun" class="w-4 h-4 text-yellow-400"></i> Octane Render</div>
+        <div class="flex items-center gap-2"><i data-lucide="flame" class="w-4 h-4 text-red-400"></i> Redshift 3D</div>
+        <div class="flex items-center gap-2"><i data-lucide="sparkles" class="w-4 h-4 text-pink-400"></i> Houdini FX</div>
+        <div class="flex items-center gap-2"><i data-lucide="film" class="w-4 h-4 text-fuchsia-400"></i> Premiere Pro</div>
+        <div class="flex items-center gap-2"><i data-lucide="sliders" class="w-4 h-4 text-emerald-400"></i> DaVinci Resolve</div>
+        <div class="flex items-center gap-2"><i data-lucide="type" class="w-4 h-4 text-indigo-300"></i> Kinetic Typography</div>
+      </div>
+    </section>
+
+    <!-- 4. Interactive Bento Grid (About & Philosophy) -->
+    <section id="about" class="py-24 px-4 max-w-6xl mx-auto">
+      <div class="flex flex-col items-center text-center mb-16">
+        <span class="text-xs font-mono uppercase tracking-widest text-indigo-400 mb-2">Creative Philosophy</span>
+        <h2 class="text-3xl sm:text-4xl font-bold font-heading">Engineered for Motion & Cinematic Impact</h2>
+        <p class="text-slate-400 text-sm sm:text-base max-w-xl mt-3">Combining high-end 3D CGI simulation with fluid, emotionally resonant keyframe choreography.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Bento Card 1: Core Philosophy (Col Span 2) -->
+        <div class="spotlight-card rounded-3xl p-8 md:col-span-2 flex flex-col justify-between min-h-[280px]">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 mb-6">
+              <i data-lucide="sparkles" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-2xl font-semibold font-heading mb-3 text-white">Kinetic Craft & 3D World-Building</h3>
+            <p class="text-slate-400 text-sm leading-relaxed max-w-lg">
+              I bridge high-end 3D CGI simulation, photorealistic lighting, and fluid keyframe animation. From brand identity sizzle reels to broadcast title sequences and surreal CGI product spots, every frame is sculpted with intentionality and rhythm.
+            </p>
+          </div>
+          <div class="flex flex-wrap gap-2 pt-6 mt-6 border-t border-white/[0.06]">
+            <span class="px-3 py-1 rounded-full bg-white/[0.04] text-xs font-mono text-slate-300">Cinema 4D</span>
+            <span class="px-3 py-1 rounded-full bg-white/[0.04] text-xs font-mono text-slate-300">After Effects</span>
+            <span class="px-3 py-1 rounded-full bg-white/[0.04] text-xs font-mono text-slate-300">Redshift & Octane</span>
+            <span class="px-3 py-1 rounded-full bg-white/[0.04] text-xs font-mono text-slate-300">60FPS Dynamics</span>
+          </div>
+        </div>
+
+        <!-- Bento Card 2: Quantitative Metrics -->
+        <div class="spotlight-card rounded-3xl p-8 flex flex-col justify-between">
+          <div class="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 mb-6">
+            <i data-lucide="film" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <span class="text-5xl font-extrabold font-heading text-gradient">35+</span>
+            <h4 class="text-lg font-semibold text-white mt-1">Shipped Commercials</h4>
+            <p class="text-slate-400 text-xs mt-2">Delivered for global tech brands, broadcast networks, and visionary creative directors.</p>
+          </div>
+          <div class="pt-6 mt-6 border-t border-white/[0.06] flex items-center justify-between text-xs text-slate-400">
+            <span>Client Satisfaction</span>
+            <span class="text-emerald-400 font-semibold font-mono">100%</span>
+          </div>
+        </div>
+
+        <!-- Bento Card 3: Global Location & Remote Availability -->
+        <div class="spotlight-card rounded-3xl p-8 flex flex-col justify-between">
+          <div class="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 mb-6">
+            <i data-lucide="globe" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <h4 class="text-xl font-semibold text-white mb-2">Remote Studio Pipeline</h4>
+            <p class="text-slate-400 text-xs leading-relaxed">
+              Equipped with high-performance GPU render infrastructure and available across European, US, and Asian timezone overlaps.
+            </p>
+          </div>
+          <div class="flex items-center gap-2 text-xs font-mono text-slate-300 pt-6 mt-6 border-t border-white/[0.06]">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span id="live-time-ticker">GMT+6 (Dhaka) • Worldwide</span>
+          </div>
+        </div>
+
+        <!-- Bento Card 4: Design System Mastery (Col Span 2) -->
+        <div class="spotlight-card rounded-3xl p-8 md:col-span-2 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-6">
+              <i data-lucide="activity" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-2xl font-semibold font-heading mb-3 text-white">Motion Systems & Brand Choreography</h3>
+            <p class="text-slate-400 text-sm leading-relaxed max-w-lg">
+              Designing comprehensive kinetic languages: mathematical easing curves, rhythmic typography choreography, broadcast packaging, and interactive Lottie motion assets.
+            </p>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-6 mt-6 border-t border-white/[0.06] text-xs font-mono text-slate-300">
+            <div class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> Styleframes</div>
+            <div class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> Kinetic Typography</div>
+            <div class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> Easing Mastery</div>
+            <div class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> 4K Volumetrics</div>
+            <div class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> Lottie / WebGL</div>
+            <div class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> Sound Design Sync</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Technical Skills & Engineering Pillars Matrix -->
+    <section id="skills" class="py-20 px-4 max-w-6xl mx-auto">
+      <div class="flex flex-col items-center text-center mb-16">
+        <span class="text-xs font-mono uppercase tracking-widest text-indigo-400 mb-2">Capabilities</span>
+        <h2 class="text-3xl sm:text-4xl font-bold font-heading">Creative & 3D Arsenal</h2>
+        <p class="text-slate-400 text-sm sm:text-base max-w-lg mt-3">High-caliber motion design and 3D CGI capabilities honed across global commercial campaigns.</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Pillar 1 -->
+        <div class="spotlight-card rounded-3xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 mb-5">
+              <i data-lucide="video" class="w-5 h-5"></i>
+            </div>
+            <h3 class="font-heading font-bold text-white text-base mb-1.5">Motion & 2D/3D Animation</h3>
+            <p class="text-slate-400 text-xs leading-relaxed mb-6">Design-driven animation with mathematical easing, tempo, and rhythm.</p>
+            <div class="space-y-2 text-xs font-mono">
+              <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.02] border border-white/5">
+                <span class="text-slate-200">After Effects</span>
+                <span class="text-indigo-400 text-[10px]">Expressions</span>
+              </div>
+              <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.02] border border-white/5">
+                <span class="text-slate-200">Kinetic Typography</span>
+                <span class="text-indigo-400 text-[10px]">Rhythm Sync</span>
+              </div>
+              <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.02] border border-white/5">
+                <span class="text-slate-200">Character Rigging</span>
+                <span class="text-indigo-400 text-[10px]">Duik / Joysticks</span>
+              </div>
+              <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.02] border border-white/5">
+                <span class="text-slate-200">Lottie & JSON</span>
+                <span class="text-indigo-400 text-[10px]">Web Motion</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pillar 2 -->
+        <div class="spotlight-card rounded-3xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 mb-5">
+              <i data-lucide="box" class="w-5 h-5"></i>
+            </div>
+            <h3 class="font-heading font-bold text-white text-base mb-1.5">3D CGI & Lookdev</h3>
+            <p class="text-slate-400 text-xs leading-relaxed mb-6">Photorealistic texturing, complex lighting, and cinematic world-building.</p>
+            <div class="space-y-2 text-xs font-mono">
+              <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.02] border border-white/5">
+                <span class="text-slate-200">Cinema 4D</span>
+                <span class="text-cyan-400 text-[10px]">MoGraph Pro</span>
+              </div>
+              <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.02] border border-white/5">
+                <span class="text-slate-200">Redshift 3D</span>
+                <span class="text-cyan-400 text-[10px]">PBR Shaders</span>
+              </div>
+              <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.02] border border-white/5">
+                <span class="text-slate-200">Octane Render</span>
+                <span class="text-cyan-400 text-[10px]">Volumetrics</span>
+              </div>
+              <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.02] border border-white/5">
+                <span class="text-slate-200">Blender 3D</span>
+                <span class="text-cyan-400 text-[10px]">Geometry Nodes</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pillar 3 -->
+        <div class="spotlight-card rounded-3xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-5">
+              <i data-lucide="sparkles" class="w-5 h-5"></i>
+            </div>
+            <h3 class="font-heading font-bold text-white text-base mb-1.5">Procedural & FX</h3>
+            <p class="text-slate-400 text-xs leading-relaxed mb-6">Real-time engines, fluid dynamics, and physics-driven particle simulations.</p>
+            <div class="space-y-2 text-xs font-mono">
+              <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.02] border border-white/5">
+                <span class="text-slate-200">Unreal Engine 5</span>
+                <span class="text-emerald-400 text-[10px]">Lumen & Nanite</span>
+              </div>
+              <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.02] border border-white/5">
+                <span class="text-slate-200">Houdini FX</span>
+                <span class="text-emerald-400 text-[10px]">Particles / Pyro</span>
+              </div>
+              <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.02] border border-white/5">
+                <span class="text-slate-200">X-Particles</span>
+                <span class="text-emerald-400 text-[10px]">Fluid Dynamics</span>
+              </div>
+              <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.02] border border-white/5">
+                <span class="text-slate-200">Substance 3D</span>
+                <span class="text-emerald-400 text-[10px]">Texturing</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pillar 4 -->
+        <div class="spotlight-card rounded-3xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 mb-5">
+              <i data-lucide="film" class="w-5 h-5"></i>
+            </div>
+            <h3 class="font-heading font-bold text-white text-base mb-1.5">Post & Art Direction</h3>
+            <p class="text-slate-400 text-xs leading-relaxed mb-6">Color science, compositing, sound synchronization, and creative storytelling.</p>
+            <div class="space-y-2 text-xs font-mono">
+              <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.02] border border-white/5">
+                <span class="text-slate-200">Premiere Pro</span>
+                <span class="text-purple-400 text-[10px]">Master Editing</span>
+              </div>
+              <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.02] border border-white/5">
+                <span class="text-slate-200">DaVinci Resolve</span>
+                <span class="text-purple-400 text-[10px]">ACES Color Grade</span>
+              </div>
+              <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.02] border border-white/5">
+                <span class="text-slate-200">Sound & Foley Sync</span>
+                <span class="text-purple-400 text-[10px]">Audio Reactive</span>
+              </div>
+              <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.02] border border-white/5">
+                <span class="text-slate-200">Styleframes</span>
+                <span class="text-purple-400 text-[10px]">Art Direction</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Featured Projects Showcase -->
+    <section id="projects" class="py-24 px-4 max-w-6xl mx-auto">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div>
+          <span class="text-xs font-mono uppercase tracking-widest text-indigo-400 mb-2 block">Selected Works</span>
+          <h2 class="text-3xl sm:text-4xl font-bold font-heading">Featured Projects</h2>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="flex flex-wrap gap-2 p-1.5 rounded-2xl bg-white/[0.03] border border-white/[0.06]">
+          <button class="filter-btn px-4 py-2 rounded-xl text-xs font-medium bg-indigo-600 text-white shadow-lg shadow-indigo-500/30 transition-all" data-filter="all">All</button>
+          <button class="filter-btn px-4 py-2 rounded-xl text-xs font-medium bg-white/5 text-slate-400 hover:text-white hover:bg-white/10 transition-all" data-filter="3dcgi">3D CGI</button>
+          <button class="filter-btn px-4 py-2 rounded-xl text-xs font-medium bg-white/5 text-slate-400 hover:text-white hover:bg-white/10 transition-all" data-filter="motion">Motion Graphics</button>
+          <button class="filter-btn px-4 py-2 rounded-xl text-xs font-medium bg-white/5 text-slate-400 hover:text-white hover:bg-white/10 transition-all" data-filter="branding">Kinetic Brand</button>
+        </div>
+      </div>
+
+      <!-- Project Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        
+        <!-- Project 1: Aetheris -->
+        <div class="project-card spotlight-card rounded-3xl overflow-hidden flex flex-col group" data-category="motion">
+          <div class="h-64 sm:h-72 bg-gradient-to-br from-indigo-950/40 via-slate-900 to-black p-6 relative overflow-hidden flex items-center justify-center border-b border-white/[0.06]">
+            <!-- Decorative Visual Container -->
+            <div class="w-full h-full rounded-2xl bg-[#0f1219] border border-white/10 p-4 shadow-2xl relative transform group-hover:scale-[1.02] transition-transform duration-500 flex flex-col justify-between">
+              <div class="flex items-center justify-between pb-3 border-b border-white/10">
+                <div class="flex items-center gap-1.5">
+                  <span class="w-2.5 h-2.5 rounded-full bg-red-500/70"></span>
+                  <span class="w-2.5 h-2.5 rounded-full bg-amber-500/70"></span>
+                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/70"></span>
+                </div>
+                <span class="text-[11px] font-mono text-slate-500">aetheris.reel • 4K ProRes</span>
+              </div>
+              <div class="py-6 flex flex-col items-center justify-center text-center">
+                <div class="p-3 rounded-2xl bg-indigo-500/10 text-indigo-400 mb-2">
+                  <i data-lucide="film" class="w-8 h-8"></i>
+                </div>
+                <span class="font-heading font-bold text-base text-white">Aetheris Cinematic Title Sequence</span>
+                <span class="text-xs text-slate-400">Speculative Sci-Fi Broadcast Title Sequence</span>
+              </div>
+              <div class="flex items-center justify-between text-[11px] font-mono text-slate-400">
+                <span>FPS: 60fps</span>
+                <span class="text-indigo-400">Octane Volumetrics</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-8 flex flex-col justify-between flex-1">
+            <div>
+              <div class="flex items-center gap-2 mb-3">
+                <span class="px-2.5 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 text-[11px] font-mono">Cinema 4D</span>
+                <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 text-[11px] font-mono">Octane Render</span>
+                <span class="px-2.5 py-0.5 rounded-full bg-purple-500/10 text-purple-400 text-[11px] font-mono">After Effects</span>
+              </div>
+              <h3 class="text-xl font-bold font-heading text-white group-hover:text-indigo-400 transition-colors">Aetheris — Sci-Fi Title Sequence</h3>
+              <p class="text-slate-400 text-xs sm:text-sm mt-2 leading-relaxed">
+                A speculative dystopian broadcast title sequence exploring digital singularity. Features procedural kinetic typography, volumetric fog choreography, and audio-reactive pacing.
+              </p>
+            </div>
+            <div class="flex items-center gap-4 mt-6 pt-6 border-t border-white/[0.06]">
+              <a href="#contact" class="text-xs font-medium text-white hover:text-indigo-400 transition-colors flex items-center gap-1.5">
+                <span>Watch Reel</span>
+                <i data-lucide="play" class="w-3.5 h-3.5"></i>
+              </a>
+              <a href="#contact" class="text-xs font-medium text-slate-400 hover:text-white transition-colors flex items-center gap-1.5">
+                <i data-lucide="layers" class="w-3.5 h-3.5"></i>
+                <span>Styleframes</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 2: Chronos -->
+        <div class="project-card spotlight-card rounded-3xl overflow-hidden flex flex-col group" data-category="3dcgi">
+          <div class="h-64 sm:h-72 bg-gradient-to-br from-amber-950/40 via-slate-900 to-black p-6 relative overflow-hidden flex items-center justify-center border-b border-white/[0.06]">
+            <div class="w-full h-full rounded-2xl bg-[#14120e] border border-white/10 p-4 shadow-2xl relative transform group-hover:scale-[1.02] transition-transform duration-500 flex flex-col justify-between">
+              <div class="flex items-center justify-between pb-3 border-b border-white/10">
+                <div class="flex items-center gap-1.5">
+                  <span class="w-2.5 h-2.5 rounded-full bg-red-500/70"></span>
+                  <span class="w-2.5 h-2.5 rounded-full bg-amber-500/70"></span>
+                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/70"></span>
+                </div>
+                <span class="text-[11px] font-mono text-slate-500">chronos.cgi • Redshift PBR</span>
+              </div>
+              <div class="py-6 flex flex-col items-center justify-center text-center">
+                <div class="p-3 rounded-2xl bg-amber-500/10 text-amber-400 mb-2">
+                  <i data-lucide="box" class="w-8 h-8"></i>
+                </div>
+                <span class="font-heading font-bold text-base text-white">Chronos Luxury Horology</span>
+                <span class="text-xs text-slate-400">Macro Photorealistic 3D Commercial</span>
+              </div>
+              <div class="flex items-center justify-between text-[11px] font-mono text-slate-400">
+                <span>Render: Redshift GPU</span>
+                <span class="text-amber-400">ACES Color</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-8 flex flex-col justify-between flex-1">
+            <div>
+              <div class="flex items-center gap-2 mb-3">
+                <span class="px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-400 text-[11px] font-mono">Blender 3D</span>
+                <span class="px-2.5 py-0.5 rounded-full bg-red-500/10 text-red-400 text-[11px] font-mono">Redshift</span>
+                <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 text-[11px] font-mono">DaVinci Resolve</span>
+              </div>
+              <h3 class="text-xl font-bold font-heading text-white group-hover:text-amber-400 transition-colors">Chronos — Luxury Timepiece CGI Spot</h3>
+              <p class="text-slate-400 text-xs sm:text-sm mt-2 leading-relaxed">
+                Hyper-realistic commercial showcasing microscopic tourbillon escapements, sapphire glass refractions, and fluid rotational camera choreography.
+              </p>
+            </div>
+            <div class="flex items-center gap-4 mt-6 pt-6 border-t border-white/[0.06]">
+              <a href="#contact" class="text-xs font-medium text-white hover:text-amber-400 transition-colors flex items-center gap-1.5">
+                <span>View Film</span>
+                <i data-lucide="play" class="w-3.5 h-3.5"></i>
+              </a>
+              <a href="#contact" class="text-xs font-medium text-slate-400 hover:text-white transition-colors flex items-center gap-1.5">
+                <i data-lucide="image" class="w-3.5 h-3.5"></i>
+                <span>Breakdowns</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 3: Pulse Dynamics -->
+        <div class="project-card spotlight-card rounded-3xl overflow-hidden flex flex-col group" data-category="branding">
+          <div class="h-64 sm:h-72 bg-gradient-to-br from-cyan-950/40 via-slate-900 to-black p-6 relative overflow-hidden flex items-center justify-center border-b border-white/[0.06]">
+            <div class="w-full h-full rounded-2xl bg-[#09151c] border border-white/10 p-4 shadow-2xl relative transform group-hover:scale-[1.02] transition-transform duration-500 flex flex-col justify-between">
+              <div class="flex items-center justify-between pb-3 border-b border-white/10">
+                <div class="flex items-center gap-1.5">
+                  <span class="w-2.5 h-2.5 rounded-full bg-red-500/70"></span>
+                  <span class="w-2.5 h-2.5 rounded-full bg-amber-500/70"></span>
+                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/70"></span>
+                </div>
+                <span class="text-[11px] font-mono text-slate-500">pulse.brand • Motion System</span>
+              </div>
+              <div class="py-6 flex flex-col items-center justify-center text-center">
+                <div class="p-3 rounded-2xl bg-cyan-500/10 text-cyan-400 mb-2">
+                  <i data-lucide="activity" class="w-8 h-8"></i>
+                </div>
+                <span class="font-heading font-bold text-base text-white">Pulse Kinetic Identity</span>
+                <span class="text-xs text-slate-400">Global FinTech Motion Design System</span>
+              </div>
+              <div class="flex items-center justify-between text-[11px] font-mono text-slate-400">
+                <span>Assets: 50+</span>
+                <span class="text-cyan-400">Lottie & 3D</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-8 flex flex-col justify-between flex-1">
+            <div>
+              <div class="flex items-center gap-2 mb-3">
+                <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 text-[11px] font-mono">After Effects</span>
+                <span class="px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-400 text-[11px] font-mono">Cinema 4D</span>
+                <span class="px-2.5 py-0.5 rounded-full bg-purple-500/10 text-purple-400 text-[11px] font-mono">Lottie</span>
+              </div>
+              <h3 class="text-xl font-bold font-heading text-white group-hover:text-cyan-400 transition-colors">Pulse Dynamics — Fintech Kinetic Identity</h3>
+              <p class="text-slate-400 text-xs sm:text-sm mt-2 leading-relaxed">
+                Full kinetic brand design system for a digital banking unicorn: 3D logo stings, UI micro-interactions, broadcast idents, and responsive web animations.
+              </p>
+            </div>
+            <div class="flex items-center gap-4 mt-6 pt-6 border-t border-white/[0.06]">
+              <a href="#contact" class="text-xs font-medium text-white hover:text-cyan-400 transition-colors flex items-center gap-1.5">
+                <span>Brand Reel</span>
+                <i data-lucide="play" class="w-3.5 h-3.5"></i>
+              </a>
+              <a href="#contact" class="text-xs font-medium text-slate-400 hover:text-white transition-colors flex items-center gap-1.5">
+                <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+                <span>Guidelines</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 4: CyberFlora -->
+        <div class="project-card spotlight-card rounded-3xl overflow-hidden flex flex-col group" data-category="3dcgi">
+          <div class="h-64 sm:h-72 bg-gradient-to-br from-emerald-950/40 via-slate-900 to-black p-6 relative overflow-hidden flex items-center justify-center border-b border-white/[0.06]">
+            <div class="w-full h-full rounded-2xl bg-[#0a1713] border border-white/10 p-4 shadow-2xl relative transform group-hover:scale-[1.02] transition-transform duration-500 flex flex-col justify-between">
+              <div class="flex items-center justify-between pb-3 border-b border-white/10">
+                <div class="flex items-center gap-1.5">
+                  <span class="w-2.5 h-2.5 rounded-full bg-red-500/70"></span>
+                  <span class="w-2.5 h-2.5 rounded-full bg-amber-500/70"></span>
+                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/70"></span>
+                </div>
+                <span class="text-[11px] font-mono text-slate-500">cyberflora.art • Houdini Sim</span>
+              </div>
+              <div class="py-6 flex flex-col items-center justify-center text-center">
+                <div class="p-3 rounded-2xl bg-emerald-500/10 text-emerald-400 mb-2">
+                  <i data-lucide="sparkles" class="w-8 h-8"></i>
+                </div>
+                <span class="font-heading font-bold text-base text-white">CyberFlora 3D Installation</span>
+                <span class="text-xs text-slate-400">Procedural Organic Growth Simulation</span>
+              </div>
+              <div class="flex items-center justify-between text-[11px] font-mono text-slate-400">
+                <span>Particles: 4.2M</span>
+                <span class="text-emerald-400">8K Render</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-8 flex flex-col justify-between flex-1">
+            <div>
+              <div class="flex items-center gap-2 mb-3">
+                <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 text-[11px] font-mono">Houdini FX</span>
+                <span class="px-2.5 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 text-[11px] font-mono">Cinema 4D</span>
+                <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 text-[11px] font-mono">Octane</span>
+              </div>
+              <h3 class="text-xl font-bold font-heading text-white group-hover:text-emerald-400 transition-colors">CyberFlora — Procedural 3D Art</h3>
+              <p class="text-slate-400 text-xs sm:text-sm mt-2 leading-relaxed">
+                Procedural growth simulation of bioluminescent botanical structures designed for large-scale immersive LED digital art exhibitions and music festival visualizers.
+              </p>
+            </div>
+            <div class="flex items-center gap-4 mt-6 pt-6 border-t border-white/[0.06]">
+              <a href="#contact" class="text-xs font-medium text-white hover:text-emerald-400 transition-colors flex items-center gap-1.5">
+                <span>Installation Film</span>
+                <i data-lucide="play" class="w-3.5 h-3.5"></i>
+              </a>
+              <a href="#contact" class="text-xs font-medium text-slate-400 hover:text-white transition-colors flex items-center gap-1.5">
+                <i data-lucide="layers" class="w-3.5 h-3.5"></i>
+                <span>Sim Breakdown</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 6. Career & Experience Timeline -->
+    <section id="experience" class="py-24 px-4 max-w-4xl mx-auto">
+      <div class="flex flex-col items-center text-center mb-16">
+        <span class="text-xs font-mono uppercase tracking-widest text-indigo-400 mb-2">Milestones</span>
+        <h2 class="text-3xl sm:text-4xl font-bold font-heading">Creative Journey</h2>
+        <p class="text-slate-400 text-sm sm:text-base max-w-lg mt-3">A chronological record of creative direction, 3D artistry, and commercial motion production.</p>
+      </div>
+
+      <div class="relative border-l border-white/10 ml-4 sm:ml-8 pl-6 sm:pl-10 space-y-12">
+        
+        <!-- Timeline Item 1 -->
+        <div class="relative group">
+          <div class="absolute -left-[31px] sm:-left-[47px] top-1.5 w-4 h-4 rounded-full bg-[#08090a] border-2 border-indigo-500 group-hover:scale-125 group-hover:bg-indigo-500 transition-all"></div>
+          <span class="text-xs font-mono text-indigo-400 uppercase tracking-wide">2023 - Present</span>
+          <h3 class="text-lg font-bold text-white mt-1">Lead Motion Designer & 3D Visual Artist</h3>
+          <span class="text-xs text-slate-400 block mb-3">Apex Creative Studio • Remote Global</span>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Directed and produced 3D CGI commercial spots, broadcast idents, and kinetic brand packages. Supervised lookdev, Redshift lighting pipelines, and multi-GPU render workflows.
+          </p>
+        </div>
+
+        <!-- Timeline Item 2 -->
+        <div class="relative group">
+          <div class="absolute -left-[31px] sm:-left-[47px] top-1.5 w-4 h-4 rounded-full bg-[#08090a] border-2 border-cyan-500 group-hover:scale-125 group-hover:bg-cyan-500 transition-all"></div>
+          <span class="text-xs font-mono text-cyan-400 uppercase tracking-wide">2021 - 2023</span>
+          <h3 class="text-lg font-bold text-white mt-1">Senior 3D Motion Specialist</h3>
+          <span class="text-xs text-slate-400 block mb-3">Nova Visuals & Broadcast</span>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Crafted title sequences, high-detail product animations, and procedural particle graphics for Fortune 500 tech clients and international advertising agencies.
+          </p>
+        </div>
+
+        <!-- Timeline Item 3 -->
+        <div class="relative group">
+          <div class="absolute -left-[31px] sm:-left-[47px] top-1.5 w-4 h-4 rounded-full bg-[#08090a] border-2 border-purple-500 group-hover:scale-125 group-hover:bg-purple-500 transition-all"></div>
+          <span class="text-xs font-mono text-purple-400 uppercase tracking-wide">2019 - 2021</span>
+          <h3 class="text-lg font-bold text-white mt-1">Visual & Motion Designer</h3>
+          <span class="text-xs text-slate-400 block mb-3">Freelance Studio</span>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Partnered with 25+ global brands and music labels to deliver high-octane 2D/3D kinetic typography, logo stings, and promotional launch trailers.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 7. Client Testimonials -->
+    <section id="testimonials" class="py-24 px-4 max-w-6xl mx-auto">
+      <div class="flex flex-col items-center text-center mb-16">
+        <span class="text-xs font-mono uppercase tracking-widest text-indigo-400 mb-2">Endorsements</span>
+        <h2 class="text-3xl sm:text-4xl font-bold font-heading">What Directors & Clients Say</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Testimonial 1 -->
+        <div class="spotlight-card rounded-3xl p-8 flex flex-col justify-between">
+          <div class="flex items-center gap-1 text-amber-400 mb-6">
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+          </div>
+          <p class="text-slate-300 text-sm leading-relaxed italic mb-6">
+            "Pranto has an uncanny instinct for pacing, physics, and cinematic lighting. He transformed our concept pitch into a breathtaking 3D commercial that stunned our client."
+          </p>
+          <div class="flex items-center gap-3 pt-6 border-t border-white/[0.06]">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-600 to-cyan-400 flex items-center justify-center font-bold text-white text-xs">
+              DM
+            </div>
+            <div>
+              <h4 class="text-sm font-semibold text-white">David Miller</h4>
+              <span class="text-xs text-slate-400">Executive Creative Director, Horizon Studios</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial 2 -->
+        <div class="spotlight-card rounded-3xl p-8 flex flex-col justify-between">
+          <div class="flex items-center gap-1 text-amber-400 mb-6">
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+          </div>
+          <p class="text-slate-300 text-sm leading-relaxed italic mb-6">
+            "Delivered our brand sizzle reel days before deadline. The motion timing, sound synchronization, and attention to micro-details are world class."
+          </p>
+          <div class="flex items-center gap-3 pt-6 border-t border-white/[0.06]">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-600 to-pink-400 flex items-center justify-center font-bold text-white text-xs">
+              SL
+            </div>
+            <div>
+              <h4 class="text-sm font-semibold text-white">Sarah Lin</h4>
+              <span class="text-xs text-slate-400">Brand Director, HyperFlow</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial 3 -->
+        <div class="spotlight-card rounded-3xl p-8 flex flex-col justify-between">
+          <div class="flex items-center gap-1 text-amber-400 mb-6">
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+          </div>
+          <p class="text-slate-300 text-sm leading-relaxed italic mb-6">
+            "The 3D motion design system Pranto built gave our product launch an undeniable luxury feel. A master of Cinema 4D, lighting, and After Effects."
+          </p>
+          <div class="flex items-center gap-3 pt-6 border-t border-white/[0.06]">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center font-bold text-white text-xs">
+              EK
+            </div>
+            <div>
+              <h4 class="text-sm font-semibold text-white">Elena Rostova</h4>
+              <span class="text-xs text-slate-400">Head of Production, FinVerse</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7.5 Engineering Methodology & Work Process -->
+    <section id="process" class="py-20 px-4 max-w-4xl mx-auto">
+      <div class="flex flex-col items-center text-center mb-16">
+        <span class="text-xs font-mono uppercase tracking-widest text-indigo-400 mb-2">Process</span>
+        <h2 class="text-3xl sm:text-4xl font-bold font-heading">How I Direct & Ship High-Impact Motion</h2>
+        <p class="text-slate-400 text-sm sm:text-base max-w-md mt-3">A refined 4-stage pipeline taking raw concepts into polished 4K cinematic animations.</p>
+      </div>
+
+      <div class="space-y-4">
+        <!-- Step 1 -->
+        <div class="accordion-item spotlight-card rounded-2xl border border-white/10 p-6 is-open cursor-pointer transition-all">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-4">
+              <span class="text-xs font-mono px-2.5 py-1 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-bold">01</span>
+              <h3 class="font-heading font-semibold text-white text-base">Creative Direction, Moodboards & Styleframes</h3>
+            </div>
+            <i data-lucide="chevron-down" class="accordion-icon w-4 h-4 text-slate-400 transition-transform duration-300"></i>
+          </div>
+          <div class="accordion-content pt-4 text-slate-400 text-xs sm:text-sm leading-relaxed border-t border-white/[0.06] mt-4">
+            Before animating, I establish the visual grammar: moodboards, cinematic lighting references, color scripts, and high-fidelity styleframes in Photoshop/Cinema 4D to align on creative vision.
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="accordion-item spotlight-card rounded-2xl border border-white/10 p-6 cursor-pointer transition-all">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-4">
+              <span class="text-xs font-mono px-2.5 py-1 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 font-bold">02</span>
+              <h3 class="font-heading font-semibold text-white text-base">3D World-Building & Look Development</h3>
+            </div>
+            <i data-lucide="chevron-down" class="accordion-icon w-4 h-4 text-slate-400 transition-transform duration-300"></i>
+          </div>
+          <div class="accordion-content pt-4 text-slate-400 text-xs sm:text-sm leading-relaxed border-t border-white/[0.06] mt-4">
+            Sculpting, procedural geometry nodes, and asset lookdev. Applying photorealistic PBR materials, custom procedural textures, and cinematic volumetric lighting rigs.
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="accordion-item spotlight-card rounded-2xl border border-white/10 p-6 cursor-pointer transition-all">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-4">
+              <span class="text-xs font-mono px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold">03</span>
+              <h3 class="font-heading font-semibold text-white text-base">Fluid Keyframing, Dynamics & Camera Choreography</h3>
+            </div>
+            <i data-lucide="chevron-down" class="accordion-icon w-4 h-4 text-slate-400 transition-transform duration-300"></i>
+          </div>
+          <div class="accordion-content pt-4 text-slate-400 text-xs sm:text-sm leading-relaxed border-t border-white/[0.06] mt-4">
+            Breathing life into the scene with mathematical easing curves, dynamic camera lenses, cloth/particle simulations, and rhythmic audio synchronization.
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="accordion-item spotlight-card rounded-2xl border border-white/10 p-6 cursor-pointer transition-all">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-4">
+              <span class="text-xs font-mono px-2.5 py-1 rounded-lg bg-purple-500/10 text-purple-400 border border-purple-500/20 font-bold">04</span>
+              <h3 class="font-heading font-semibold text-white text-base">4K Octane/Redshift Rendering & Master Color Grade</h3>
+            </div>
+            <i data-lucide="chevron-down" class="accordion-icon w-4 h-4 text-slate-400 transition-transform duration-300"></i>
+          </div>
+          <div class="accordion-content pt-4 text-slate-400 text-xs sm:text-sm leading-relaxed border-t border-white/[0.06] mt-4">
+            Multi-pass AOVs rendered via GPU engines (Redshift/Octane), composited in After Effects with optical lens flares and grain, and master color graded in DaVinci Resolve.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. Interactive Contact & Booking Section -->
+    <section id="contact" class="py-24 px-4 max-w-5xl mx-auto">
+      <div class="spotlight-card rounded-3xl p-8 sm:p-12 border border-white/10 relative overflow-hidden">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          
+          <!-- Contact Left Info -->
+          <div class="flex flex-col justify-between">
+            <div>
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-400 text-xs font-mono mb-4">
+                <i data-lucide="mail" class="w-3.5 h-3.5"></i>
+                <span>Direct Inquiries</span>
+              </div>
+              <h2 class="text-3xl sm:text-4xl font-bold font-heading text-white mb-4">Let's create something extraordinary in motion.</h2>
+              <p class="text-slate-400 text-sm leading-relaxed mb-8">
+                Have an upcoming commercial, a 3D product launch, or looking for a lead motion artist? Reach out and let's craft something unforgettable.
+              </p>
+            </div>
+
+            <div class="space-y-4">
+              <div class="flex items-center gap-3 text-slate-300 text-xs sm:text-sm">
+                <div class="w-9 h-9 rounded-xl bg-white/[0.04] flex items-center justify-center text-indigo-400">
+                  <i data-lucide="send" class="w-4 h-4"></i>
+                </div>
+                <span>prantosarkar32@gmail.com</span>
+              </div>
+              <div class="flex items-center gap-3 text-slate-300 text-xs sm:text-sm">
+                <div class="w-9 h-9 rounded-xl bg-white/[0.04] flex items-center justify-center text-emerald-400">
+                  <i data-lucide="clock" class="w-4 h-4"></i>
+                </div>
+                <span>Fast turnaround • 24h Response Guarantee</span>
+              </div>
+              <div class="flex items-center gap-3 text-slate-300 text-xs sm:text-sm">
+                <div class="w-9 h-9 rounded-xl bg-white/[0.04] flex items-center justify-center text-cyan-400">
+                  <i data-lucide="map-pin" class="w-4 h-4"></i>
+                </div>
+                <span>Remote Worldwide Availability</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact Right Form -->
+          <form id="contact-form" class="space-y-4">
+            <div>
+              <label class="block text-xs font-mono text-slate-300 uppercase mb-2">Your Name</label>
+              <input type="text" required placeholder="Jane Doe" class="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 transition-colors" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-mono text-slate-300 uppercase mb-2">Email Address</label>
+              <input type="email" required placeholder="jane@company.com" class="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 transition-colors" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-mono text-slate-300 uppercase mb-2">Project Type</label>
+              <select class="w-full px-4 py-3 rounded-xl bg-[#111317] border border-white/10 text-slate-300 text-sm focus:outline-none focus:border-indigo-500 transition-colors">
+                <option>3D Commercial Animation</option>
+                <option>Brand Motion Identity & Logo Sting</option>
+                <option>CGI Product Visualization</option>
+                <option>Broadcast & Title Sequences</option>
+                <option>Full-Time / Contract Lead Role</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-mono text-slate-300 uppercase mb-2">Message</label>
+              <textarea required rows="4" placeholder="Tell me about your goals, timeline, and vision..." class="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 transition-colors resize-none"></textarea>
+            </div>
+
+            <button type="submit" class="w-full py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-sm transition-all shadow-lg shadow-indigo-600/30 hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2">
+              <span>Send Message</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+          </form>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 9. Modern Footer -->
+  <footer class="border-t border-white/[0.06] bg-[#050607] py-12 px-4 relative z-10 text-slate-400 text-xs">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-indigo-600 to-cyan-400 flex items-center justify-center font-bold text-white text-xs">
+          PS
+        </div>
+        <span>© <span id="current-year"></span> Pranto Sarkar. All rights reserved. Built with precision and passion.</span>
+      </div>
+
+      <div class="flex items-center gap-6">
+        <a href="#hero" class="hover:text-white transition-colors">Top</a>
+        <a href="#projects" class="hover:text-white transition-colors">Projects</a>
+        <a href="#contact" class="hover:text-white transition-colors">Contact</a>
+        <a href="https://github.com" target="_blank" rel="noreferrer" class="hover:text-white transition-colors">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification Feedback Container -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 pointer-events-none transition-all duration-300">
+    <div class="glass-panel px-5 py-3.5 rounded-2xl border border-emerald-500/30 shadow-2xl flex items-center gap-3 bg-[#0c1313]/90">
+      <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+        <i data-lucide="check" class="w-4 h-4"></i>
+      </div>
+      <div>
+        <h4 class="text-xs font-semibold text-white">Message Sent Successfully!</h4>
+        <p class="text-[11px] text-slate-400">Thank you. I'll get back to you within 24 hours.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main JavaScript File -->
+  <script src="js/main.js"></script>
+</body>
+</html>
