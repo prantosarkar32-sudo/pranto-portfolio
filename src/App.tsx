@@ -203,7 +203,7 @@ export default function App() {
       <video
         ref={videoRef}
         src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260826_041744_63efcd78-bf7d-4039-99e2-2461e8a61903.mp4"
-        className="fixed inset-0 z-0 w-full h-full object-cover pointer-events-none select-none scale-105 transition-transform duration-700 ease-out"
+        className="fixed inset-0 z-0 w-full h-full object-cover pointer-events-none select-none"
         style={{ objectPosition: '70% center' }}
         muted
         playsInline
@@ -211,8 +211,6 @@ export default function App() {
         onSeeked={handleSeeked}
       />
 
-      {/* Cinematic Vignette Overlay for Ultra Contrast */}
-      <div className="fixed inset-0 z-[1] video-vignette pointer-events-none" />
 
       {/* Interactive mouse-scrub hint pill (bottom-left) */}
       <div className="fixed bottom-6 left-6 z-10 hidden sm:flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/[0.06] border border-white/10 backdrop-blur-md text-[11px] font-mono tracking-wider text-white/50 pointer-events-none select-none">
@@ -221,17 +219,17 @@ export default function App() {
       </div>
 
       {/* Navbar (fixed, z-index: 20) */}
-      <header className="fixed top-0 inset-x-0 z-20 w-full px-5 sm:px-10 py-5 sm:py-6 flex justify-between items-center backdrop-blur-sm bg-gradient-to-b from-black/60 to-transparent">
+      <header className="fixed top-0 inset-x-0 z-20 w-full px-5 sm:px-8 py-4 sm:py-5 flex justify-between items-center backdrop-blur-[2px]">
         {/* Logo (left) */}
-        <div className="flex items-center gap-3.5 group cursor-pointer" onClick={() => setActiveModal(null)}>
+        <div className="flex items-center gap-3 cursor-pointer" onClick={() => setActiveModal(null)}>
           <span
-            className="text-[22px] sm:text-[27px] tracking-tight font-medium text-white select-none transition-colors duration-200 group-hover:text-cyan-300"
+            className="text-[21px] sm:text-[26px] tracking-tight font-medium text-white select-none"
             style={{ fontFamily: 'var(--font-heading)' }}
           >
             Pranto Sarkar®
           </span>
           <span
-            className="text-[24px] sm:text-[28px] text-cyan-400 select-none leading-none animate-pulse-subtle"
+            className="text-[25px] sm:text-[30px] text-white select-none leading-none"
             style={{ letterSpacing: '-0.02em' }}
           >
             ✳︎
@@ -243,7 +241,7 @@ export default function App() {
 
         {/* Desktop nav links (center, hidden below md) */}
         <nav 
-          className="hidden md:flex items-center text-[20px] lg:text-[22px] text-white tracking-tight font-normal"
+          className="hidden md:flex items-center text-[21px] lg:text-[23px] text-white tracking-tight font-normal"
           style={{ fontFamily: 'var(--font-heading)' }}
         >
           {navLinks.map((item, idx) => (
@@ -251,11 +249,11 @@ export default function App() {
               <button
                 type="button"
                 onClick={() => setActiveModal(item.id)}
-                className="hover:text-cyan-300 transition-colors duration-200 cursor-pointer"
+                className="hover:opacity-60 transition-opacity duration-200 cursor-pointer text-white"
               >
                 {item.label}
               </button>
-              {idx < navLinks.length - 1 && <span className="text-white/30 select-none">,&nbsp;</span>}
+              {idx < navLinks.length - 1 && <span className="text-white/40 select-none">,&nbsp;</span>}
             </React.Fragment>
           ))}
         </nav>
@@ -264,26 +262,25 @@ export default function App() {
         <a
           href="/Pranto_Sarkar_CV.pdf"
           download="Pranto_Sarkar_CV.pdf"
-          className="hidden md:inline-flex items-center gap-2 text-[19px] lg:text-[21px] text-white tracking-tight underline underline-offset-4 hover:text-cyan-300 transition-colors group"
+          className="hidden md:inline-flex items-center gap-2 text-[20px] lg:text-[22px] text-white tracking-tight underline underline-offset-4 hover:opacity-75 transition-opacity group"
           style={{ fontFamily: 'var(--font-heading)' }}
         >
           <span>download cv</span>
-          <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center transition-transform duration-200 group-hover:translate-y-0.5 group-hover:bg-cyan-400 group-hover:text-black">
-            <svg
-              width="12"
-              height="12"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-              <polyline points="7 10 12 15 17 10" />
-              <line x1="12" y1="15" x2="12" y2="3" />
-            </svg>
-          </div>
+          <svg
+            width="17"
+            height="17"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="transition-transform duration-200 group-hover:translate-y-0.5"
+          >
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
         </a>
 
         {/* Mobile hamburger (visible below md) */}
@@ -291,20 +288,20 @@ export default function App() {
           type="button"
           aria-label="Toggle navigation menu"
           onClick={() => setIsMenuOpen((prev) => !prev)}
-          className="flex flex-col justify-center items-center gap-[5px] md:hidden z-30 cursor-pointer p-2 rounded-full bg-white/10 backdrop-blur-md"
+          className="flex flex-col justify-center items-center gap-[5px] md:hidden z-30 cursor-pointer p-1"
         >
           <span
-            className={`w-5 h-[2px] bg-white transition-all duration-300 origin-center ${
+            className={`w-6 h-[2px] bg-white transition-all duration-300 origin-center ${
               isMenuOpen ? 'rotate-45 translate-y-[7px]' : ''
             }`}
           />
           <span
-            className={`w-5 h-[2px] bg-white transition-all duration-300 ${
+            className={`w-6 h-[2px] bg-white transition-all duration-300 ${
               isMenuOpen ? 'opacity-0' : 'opacity-100'
             }`}
           />
           <span
-            className={`w-5 h-[2px] bg-white transition-all duration-300 origin-center ${
+            className={`w-6 h-[2px] bg-white transition-all duration-300 origin-center ${
               isMenuOpen ? '-rotate-45 -translate-y-[7px]' : ''
             }`}
           />
@@ -313,7 +310,7 @@ export default function App() {
 
       {/* Mobile overlay */}
       <div
-        className={`fixed inset-0 bg-black/95 backdrop-blur-2xl z-20 flex flex-col justify-center px-8 gap-8 transition-opacity duration-300 md:hidden ${
+        className={`fixed inset-0 bg-black/90 backdrop-blur-md z-20 flex flex-col justify-center px-8 gap-8 transition-opacity duration-300 md:hidden ${
           isMenuOpen
             ? 'opacity-100 pointer-events-auto'
             : 'opacity-0 pointer-events-none'
@@ -327,7 +324,7 @@ export default function App() {
               setIsMenuOpen(false);
               setActiveModal(item.id);
             }}
-            className="text-left text-[32px] font-normal text-white hover:text-cyan-300 transition-colors tracking-tight"
+            className="text-left text-[32px] font-normal text-white hover:opacity-60 transition-opacity tracking-tight"
             style={{ fontFamily: 'var(--font-heading)' }}
           >
             {item.label}
@@ -337,13 +334,13 @@ export default function App() {
           href="/Pranto_Sarkar_CV.pdf"
           download="Pranto_Sarkar_CV.pdf"
           onClick={() => setIsMenuOpen(false)}
-          className="inline-flex items-center gap-3 text-[28px] font-normal text-white underline underline-offset-4 hover:text-cyan-300 transition-colors tracking-tight"
+          className="inline-flex items-center gap-3 text-[30px] font-normal text-white underline underline-offset-4 hover:opacity-60 transition-opacity tracking-tight"
           style={{ fontFamily: 'var(--font-heading)' }}
         >
           <span>download cv</span>
           <svg
-            width="20"
-            height="20"
+            width="22"
+            height="22"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -359,17 +356,11 @@ export default function App() {
       </div>
 
       {/* Hero Section (z-index: 5) */}
-      <main className="relative z-[5] w-full h-screen flex flex-col justify-end pb-24 md:justify-center md:pb-0 px-6 sm:px-12 md:px-16">
+      <main className="relative z-[5] w-full h-screen flex flex-col justify-end pb-16 md:justify-center md:pb-0 px-5 sm:px-8 md:px-10 overflow-hidden">
         {/* Content container (Left) */}
-        <div className="max-w-2xl relative">
-          {/* Status badge */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 mb-5 rounded-full bg-emerald-500/10 border border-emerald-500/30 backdrop-blur-md select-none">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-            <span className="text-[11px] font-mono tracking-wider text-emerald-300 uppercase">Available for freelance &amp; contracts</span>
-          </div>
-
+        <div className="max-w-xl relative z-10">
           {/* 1. Blurred intro label */}
-          <div className="pointer-events-none select-none mb-4 text-[clamp(19px,3.8vw,28px)] leading-[1.3] font-normal text-white/50 blur-[3px]">
+          <div className="pointer-events-none select-none mb-4 text-[clamp(18px,4vw,26px)] leading-[1.3] font-normal text-white blur-[3px]">
             hey there, i'm pranto sarkar,
             <br />
             motion designer &amp; ai artist
@@ -377,21 +368,21 @@ export default function App() {
 
           {/* 2. Typewriter text */}
           <p 
-            className="text-white mb-6 text-[clamp(19px,4vw,27px)] leading-[1.38] font-normal min-h-[64px] tracking-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]"
+            className="text-white mb-5 sm:mb-6 text-[clamp(18px,4vw,26px)] leading-[1.35] font-normal min-h-[54px] tracking-tight"
             style={{ fontFamily: 'var(--font-body)' }}
           >
             {displayed}
             {!done && (
-              <span className="inline-block w-[2px] h-[1.15em] bg-cyan-400 align-middle ml-[3px] animate-blink shadow-[0_0_8px_#22d3ee]" />
+              <span className="inline-block w-[2px] h-[1.1em] bg-white align-middle ml-[2px] animate-blink" />
             )}
           </p>
 
-          {/* 3. Action pill buttons */}
+          {/* 3. Action pill buttons (Pure Clean Original Style) */}
           <div
-            className={`flex flex-wrap items-center gap-2 sm:gap-2.5 transition-all duration-500 ease-out ${
+            className={`flex flex-wrap gap-y-1 transition-all duration-400 ease-out ${
               pillsVisible
                 ? 'opacity-100 translate-y-0'
-                : 'opacity-0 translate-y-3'
+                : 'opacity-0 translate-y-2'
             }`}
           >
             {heroPills.map((pill) => (
@@ -399,39 +390,36 @@ export default function App() {
                 key={pill.label}
                 type="button"
                 onClick={pill.action}
-                className="glass-pill text-white text-[13px] sm:text-[14px] font-medium px-4 sm:px-5 py-2 rounded-full cursor-pointer tracking-tight"
-                style={{ fontFamily: 'var(--font-heading)' }}
+                className="inline-flex items-center justify-center bg-white text-black border border-black/10 rounded-full text-[13px] sm:text-[15px] px-4 sm:px-5 py-[0.3em] mx-[0.2em] mb-[0.4em] whitespace-nowrap cursor-pointer hover:bg-black hover:text-white transition-colors duration-200"
               >
                 {pill.label}
               </button>
             ))}
 
-            {/* Email copy button with instant feedback */}
+            {/* Email copy button */}
             <button
               type="button"
               onClick={handleCopyEmail}
-              className="inline-flex items-center text-white bg-white/5 border border-white/20 backdrop-blur-md rounded-full text-[13px] sm:text-[14px] px-4 sm:px-5 py-2 hover:bg-white hover:text-black transition-all duration-200 gap-2 cursor-pointer group shadow-lg"
+              className="inline-flex items-center justify-center text-white bg-transparent border border-white rounded-full text-[13px] sm:text-[15px] px-4 sm:px-5 py-[0.3em] mx-[0.2em] mb-[0.4em] whitespace-nowrap cursor-pointer hover:bg-white hover:text-black transition-colors duration-200 gap-2 sm:gap-3 group"
               title="Click to copy email address"
             >
               <span>
                 reach me:{' '}
-                <span className="underline underline-offset-2 font-mono text-[12px] sm:text-[13px]">
+                <span className="underline underline-offset-1">
                   prantosarkar32@gmail.com
                 </span>
               </span>
               {copied ? (
-                <span className="text-[11px] font-mono font-bold text-emerald-400 bg-emerald-950/80 px-1.5 py-0.5 rounded">
-                  copied!
-                </span>
+                <span className="text-[11px] font-mono text-emerald-400">copied!</span>
               ) : (
                 <svg
-                  width="13"
-                  height="13"
+                  width="12"
+                  height="12"
                   viewBox="0 0 14 14"
                   fill="none"
                   stroke="currentColor"
-                  strokeWidth="1.3"
-                  className="inline-block shrink-0 transition-transform group-hover:scale-110"
+                  strokeWidth="1.2"
+                  className="inline-block shrink-0"
                   aria-hidden="true"
                 >
                   <rect x="4.5" y="1.5" width="8" height="8" rx="1" />
