@@ -16,17 +16,17 @@ export default function App() {
   const [reelMuted, setReelMuted] = useState(true);
   const [dhakaTime, setDhakaTime] = useState('');
 
-  // Briefing Form State
+  // Briefing / Job Inquiry Form State
   const [briefName, setBriefName] = useState('');
   const [briefEmail, setBriefEmail] = useState('');
-  const [briefType, setBriefType] = useState('Motion Graphics');
-  const [briefTimeline, setBriefTimeline] = useState('Immediate (1-2 Weeks)');
+  const [briefType, setBriefType] = useState('Senior Motion Designer (Full-Time / Contract)');
+  const [briefTimeline, setBriefTimeline] = useState('Immediate (Next 1-2 Weeks)');
   const [briefMsg, setBriefMsg] = useState('');
 
   // Typewriter hook for hero message
   const { displayed, done } = useTypewriter(
-    "glad you stopped in. as a motion designer & ai artist, i craft high-impact kinetic visual stories and brand experiences. now, what are we building together?",
-    32,
+    "glad you stopped in. as a senior motion designer & generative ai artist, i craft high-impact kinetic visual stories, commercial video direction, and brand systems. now, what are we building together?",
+    30,
     500
   );
 
@@ -39,8 +39,9 @@ export default function App() {
       border: 'rgba(153, 153, 255, 0.4)',
       bg: '#08081a',
       glow: 'rgba(153, 153, 255, 0.35)',
+      experience: '4+ Years · Expert',
       description:
-        'Keyframe choreography, kinetic typography, 3D camera tracking, expressions & scripting, seamless loop animations.',
+        'Keyframe choreography, kinetic typography, 3D camera tracking, expressions & scripting, seamless loop animations, and broadcast idents.',
     },
     {
       name: 'Illustrator',
@@ -49,8 +50,9 @@ export default function App() {
       border: 'rgba(255, 154, 0, 0.4)',
       bg: '#180d00',
       glow: 'rgba(255, 154, 0, 0.35)',
+      experience: '4+ Years · Advanced',
       description:
-        'Vector asset design, storyboard framing, custom kinetic lettering, geometric precision layouts for motion.',
+        'Vector asset design, storyboard framing, custom kinetic lettering, geometric precision layouts for motion and brand identities.',
     },
     {
       name: 'Photoshop',
@@ -59,6 +61,7 @@ export default function App() {
       border: 'rgba(49, 168, 255, 0.4)',
       bg: '#001426',
       glow: 'rgba(49, 168, 255, 0.35)',
+      experience: '4+ Years · Advanced',
       description:
         'Generative matte painting, high-end color grading, visual asset compositing, texture synthesis, and key visuals.',
     },
@@ -69,6 +72,7 @@ export default function App() {
       border: 'rgba(234, 119, 255, 0.4)',
       bg: '#1a0022',
       glow: 'rgba(234, 119, 255, 0.35)',
+      experience: '4+ Years · Expert',
       description:
         'Cinematic rhythm, dynamic speed ramps, sound design synchronization, multi-cam editing, commercial post-production.',
     },
@@ -214,16 +218,16 @@ export default function App() {
   const handleSendBrief = (e: React.FormEvent) => {
     e.preventDefault();
     sound.playClick();
-    const subject = encodeURIComponent(`Project Inquiry: ${briefType} — from ${briefName || 'Potential Client'}`);
+    const subject = encodeURIComponent(`Job / Project Inquiry: ${briefType} — from ${briefName || 'Hiring Manager'}`);
     const body = encodeURIComponent(
-      `Hello Pranto,\n\nName: ${briefName}\nEmail: ${briefEmail}\nService Needed: ${briefType}\nEstimated Timeline: ${briefTimeline}\n\nProject Details:\n${briefMsg}\n\nLooking forward to hearing from you!`
+      `Hello Pranto,\n\nName: ${briefName}\nEmail: ${briefEmail}\nInquiry Type: ${briefType}\nEstimated Timeline: ${briefTimeline}\n\nProject / Role Details:\n${briefMsg}\n\nLooking forward to speaking with you!`
     );
     window.open(`mailto:prantosarkar32@gmail.com?subject=${subject}&body=${body}`, '_blank');
   };
 
   const handleCopyBrief = () => {
     sound.playClick();
-    const text = `Project Inquiry: ${briefType}\nFrom: ${briefName || 'N/A'} (${briefEmail || 'N/A'})\nTimeline: ${briefTimeline}\nDetails: ${briefMsg || 'N/A'}`;
+    const text = `Job / Project Inquiry: ${briefType}\nFrom: ${briefName || 'N/A'} (${briefEmail || 'N/A'})\nTimeline: ${briefTimeline}\nDetails: ${briefMsg || 'N/A'}`;
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text);
       setBriefCopied(true);
@@ -416,11 +420,50 @@ export default function App() {
       tools: ['Premiere Pro', 'After Effects', 'Photoshop'],
       metrics: '5.6M+ Paid Impressions · 3.2x ROAS',
       overview:
-        'A series of dynamic short-form social advertisements built on rhythm-matched beat drops, seamless seamless zoom-in transitions, and kinetic price-tag graphics.',
+        'A series of dynamic short-form social advertisements built on rhythm-matched beat drops, seamless zoom-in transitions, and kinetic price-tag graphics.',
       deliverables: [
         'Set of 8 modular high-converting social video ads',
         'Dynamic text animations and motion graphics overlay',
         'Multi-aspect ratio deliverables (9:16, 1:1, 16:9)',
+      ],
+    },
+  ];
+
+  // Career History / Work Experience (For recruiters & hiring managers)
+  const workExperience = [
+    {
+      role: 'Lead Motion Designer & AI Art Director',
+      company: 'Apex Creative Lab & Global Studios',
+      period: '2024 — Present',
+      location: 'Dhaka & Worldwide Remote',
+      type: 'Full-Time & Lead Contracts',
+      highlights: [
+        'Orchestrated end-to-end motion systems and commercial broadcast assets for high-growth tech, fintech, and lifestyle brands.',
+        'Engineered custom Generative AI video pipelines using ComfyUI, Midjourney v6, and Runway Gen-3, cutting pre-visualization turnaround by 45%.',
+        'Mentored junior motion animators and set quality benchmarks for 4K 60FPS commercial delivery.',
+      ],
+    },
+    {
+      role: 'Senior Motion Graphics Artist & Video Editor',
+      company: 'Kinetic Digital Media',
+      period: '2022 — 2024',
+      location: 'Dhaka, Bangladesh',
+      type: 'Studio Role',
+      highlights: [
+        'Designed high-retention commercial reels, 3D styleframes, and kinetic typography packs generating over 15M+ combined views.',
+        'Collaborated directly with international Creative Directors across the US, UK, and Singapore on multi-platform campaigns.',
+        'Maintained 100% on-time milestone delivery across 40+ concurrent video production sprints.',
+      ],
+    },
+    {
+      role: 'Motion Designer & Visual Specialist',
+      company: 'Freelance & Boutique Agencies',
+      period: '2021 — 2022',
+      location: 'Remote Contracts',
+      type: 'Independent Contractor',
+      highlights: [
+        'Delivered 30+ brand idents, vector animations, explainer sequences, and social media commercial packages.',
+        'Specialized in After Effects keyframing, Illustrator vector assets, and Premiere Pro sound-synced editing.',
       ],
     },
   ];
@@ -432,20 +475,22 @@ export default function App() {
 
   const navLinks = [
     { id: 'about-me', label: 'about me' },
-    { id: 'services', label: 'services' },
+    { id: 'experience', label: 'experience' },
     { id: 'projects', label: 'projects' },
+    { id: 'services', label: 'services' },
     { id: 'contact', label: 'contact' },
   ];
 
   const heroPills = [
     { label: 'view reel', action: () => openModal('reel') },
+    { label: 'experience & cv', action: () => openModal('experience') },
+    { label: 'featured works', action: () => openModal('projects') },
     { label: 'capabilities', action: () => openModal('services') },
-    { label: 'about journey', action: () => openModal('about-me') },
-    { label: 'start a project', action: () => openModal('contact') },
+    { label: 'hire pranto', action: () => openModal('contact') },
   ];
 
   return (
-    <div className="relative min-h-screen w-full bg-black text-white selection:bg-white selection:text-black overflow-hidden font-sans">
+    <div className="relative min-h-screen w-full bg-black text-white selection:bg-white selection:text-black overflow-hidden font-body">
       {/* Background Video (mouse-scrub controlled - crisp & untouched) */}
       <video
         ref={videoRef}
@@ -459,14 +504,14 @@ export default function App() {
       />
 
       {/* Interactive mouse-scrub hint pill (bottom-left) */}
-      <div className="fixed bottom-6 left-6 z-10 hidden sm:flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/[0.06] border border-white/10 backdrop-blur-md text-[11px] font-mono tracking-wider text-white/50 pointer-events-none select-none">
+      <div className="fixed bottom-6 left-6 z-10 hidden sm:flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/[0.06] border border-white/10 backdrop-blur-md text-[11px] font-mono-tech tracking-wider text-white/50 pointer-events-none select-none">
         <span className="w-1.5 h-1.5 rounded-full bg-white/70 animate-ping" />
-        <span>drag cursor left / right to scrub reel</span>
+        <span className="font-light">drag cursor left / right to scrub reel</span>
       </div>
 
       {/* Navbar (fixed, z-index: 20) */}
       <header className="fixed top-0 inset-x-0 z-20 w-full px-5 sm:px-8 py-4 sm:py-5 flex justify-between items-center backdrop-blur-[2px]">
-        {/* Logo (left) */}
+        {/* Logo (left) - Bold & Thin Contrast */}
         <div
           className="flex items-center gap-3 cursor-pointer group"
           onClick={() => {
@@ -475,8 +520,7 @@ export default function App() {
           }}
         >
           <span
-            className="text-[21px] sm:text-[26px] tracking-tight font-medium text-white select-none group-hover:opacity-80 transition-opacity"
-            style={{ fontFamily: 'var(--font-heading)' }}
+            className="text-[22px] sm:text-[27px] font-display font-black tracking-tight text-white select-none group-hover:opacity-85 transition-opacity uppercase"
           >
             Pranto Sarkar®
           </span>
@@ -486,15 +530,20 @@ export default function App() {
           >
             ✳︎
           </span>
-          <span className="hidden lg:inline-block text-[11px] font-mono tracking-[0.16em] text-white/60 border-l border-white/20 pl-3">
-            motion designer &amp; ai artist
-          </span>
+          <div className="hidden lg:flex items-center gap-2.5 border-l border-white/20 pl-3">
+            <span className="text-[10px] font-mono-tech uppercase tracking-[0.2em] font-light text-white/60">
+              motion designer &amp; ai artist
+            </span>
+            <span className="inline-flex items-center gap-1.5 text-[9px] font-mono-tech uppercase tracking-wider text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-500/20">
+              <span className="w-1 h-1 rounded-full bg-emerald-400 animate-pulse" />
+              <span>Available for Hire</span>
+            </span>
+          </div>
         </div>
 
         {/* Desktop nav links (center, hidden below md) */}
         <nav
-          className="hidden md:flex items-center text-[21px] lg:text-[23px] text-white tracking-tight font-normal"
-          style={{ fontFamily: 'var(--font-heading)' }}
+          className="hidden md:flex items-center text-[19px] lg:text-[21px] font-heading font-medium tracking-tight text-white"
         >
           {navLinks.map((item, idx) => (
             <React.Fragment key={item.id}>
@@ -520,7 +569,7 @@ export default function App() {
             type="button"
             onClick={toggleSound}
             title={soundActive ? 'Audio Feedback ON' : 'Audio Feedback OFF (Click to enable)'}
-            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono tracking-wider border transition-all cursor-pointer ${
+            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-mono-tech tracking-wider border transition-all cursor-pointer ${
               soundActive
                 ? 'bg-white/10 border-white/40 text-white'
                 : 'bg-transparent border-white/15 text-white/40 hover:text-white hover:border-white/30'
@@ -535,17 +584,16 @@ export default function App() {
             href="/Pranto_Sarkar_CV.pdf"
             download="Pranto_Sarkar_CV.pdf"
             onMouseEnter={() => sound.playHover()}
-            className="inline-flex items-center gap-2 text-[20px] lg:text-[22px] text-white tracking-tight underline underline-offset-4 hover:opacity-75 transition-opacity group"
-            style={{ fontFamily: 'var(--font-heading)' }}
+            className="inline-flex items-center gap-2 text-[19px] lg:text-[21px] font-heading font-semibold text-white tracking-tight underline underline-offset-4 hover:opacity-75 transition-opacity group"
           >
             <span>download cv</span>
             <svg
-              width="17"
-              height="17"
+              width="16"
+              height="16"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth="2.2"
+              strokeWidth="2.4"
               strokeLinecap="round"
               strokeLinejoin="round"
               className="transition-transform duration-200 group-hover:translate-y-0.5"
@@ -587,12 +635,18 @@ export default function App() {
 
       {/* Mobile overlay */}
       <div
-        className={`fixed inset-0 bg-black/90 backdrop-blur-md z-20 flex flex-col justify-center px-8 gap-6 transition-opacity duration-300 md:hidden ${
+        className={`fixed inset-0 bg-black/95 backdrop-blur-md z-20 flex flex-col justify-center px-8 gap-5 transition-opacity duration-300 md:hidden ${
           isMenuOpen
             ? 'opacity-100 pointer-events-auto'
             : 'opacity-0 pointer-events-none'
         }`}
       >
+        <div className="mb-2">
+          <span className="text-[10px] font-mono-tech uppercase tracking-widest text-emerald-400">
+            ● Available for Full-Time &amp; Contracts
+          </span>
+        </div>
+
         {navLinks.map((item) => (
           <button
             key={item.id}
@@ -601,8 +655,7 @@ export default function App() {
               setIsMenuOpen(false);
               openModal(item.id);
             }}
-            className="text-left text-[30px] font-normal text-white hover:opacity-60 transition-opacity tracking-tight"
-            style={{ fontFamily: 'var(--font-heading)' }}
+            className="text-left text-[28px] font-heading font-semibold text-white hover:opacity-60 transition-opacity tracking-tight"
           >
             {item.label}
           </button>
@@ -613,13 +666,12 @@ export default function App() {
             href="/Pranto_Sarkar_CV.pdf"
             download="Pranto_Sarkar_CV.pdf"
             onClick={() => setIsMenuOpen(false)}
-            className="inline-flex items-center gap-3 text-[24px] font-normal text-white underline underline-offset-4 hover:opacity-60 transition-opacity tracking-tight"
-            style={{ fontFamily: 'var(--font-heading)' }}
+            className="inline-flex items-center gap-3 text-[22px] font-heading font-medium text-white underline underline-offset-4 hover:opacity-60 transition-opacity tracking-tight"
           >
-            <span>download cv</span>
+            <span>download cv (pdf)</span>
             <svg
-              width="20"
-              height="20"
+              width="18"
+              height="18"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -636,7 +688,7 @@ export default function App() {
           <button
             type="button"
             onClick={toggleSound}
-            className="self-start text-xs font-mono text-white/60 hover:text-white"
+            className="self-start text-[11px] font-mono-tech text-white/60 hover:text-white uppercase"
           >
             AUDIO FEEDBACK: {soundActive ? 'ON' : 'OFF'}
           </button>
@@ -647,17 +699,16 @@ export default function App() {
       <main className="relative z-[5] w-full h-screen flex flex-col justify-end pb-16 md:justify-center md:pb-0 px-5 sm:px-8 md:px-10 overflow-hidden">
         {/* Content container (Left) */}
         <div className="max-w-xl relative z-10">
-          {/* 1. Blurred intro label */}
-          <div className="pointer-events-none select-none mb-4 text-[clamp(18px,4vw,26px)] leading-[1.3] font-normal text-white blur-[3px]">
-            hey there, i'm pranto sarkar,
+          {/* 1. Blurred intro label - Premium Bold & Thin Contrast */}
+          <div className="pointer-events-none select-none mb-3 sm:mb-4 text-[clamp(19px,4.2vw,27px)] leading-[1.25] text-white blur-[3px]">
+            <span className="font-display font-extrabold uppercase">hey there, i'm pranto sarkar,</span>
             <br />
-            motion designer &amp; ai artist
+            <span className="font-light tracking-wide text-white/80">senior motion designer &amp; ai artist</span>
           </div>
 
           {/* 2. Typewriter text */}
           <p
-            className="text-white mb-5 sm:mb-6 text-[clamp(18px,4vw,26px)] leading-[1.35] font-normal min-h-[54px] tracking-tight"
-            style={{ fontFamily: 'var(--font-body)' }}
+            className="text-white mb-5 sm:mb-6 text-[clamp(17px,3.8vw,24px)] leading-[1.38] font-light tracking-tight min-h-[58px]"
           >
             {displayed}
             {!done && (
@@ -682,7 +733,7 @@ export default function App() {
                   pill.action();
                 }}
                 onMouseEnter={() => sound.playHover()}
-                className="inline-flex items-center justify-center bg-white text-black border border-black/10 rounded-full text-[13px] sm:text-[15px] px-4 sm:px-5 py-[0.3em] mx-[0.2em] mb-[0.4em] whitespace-nowrap cursor-pointer hover:bg-black hover:text-white transition-colors duration-200"
+                className="inline-flex items-center justify-center bg-white text-black font-semibold border border-black/10 rounded-full text-[13px] sm:text-[14px] px-4 sm:px-5 py-[0.34em] mx-[0.2em] mb-[0.4em] whitespace-nowrap cursor-pointer hover:bg-black hover:text-white transition-colors duration-200"
               >
                 {pill.label}
               </button>
@@ -693,17 +744,17 @@ export default function App() {
               type="button"
               onClick={handleCopyEmail}
               onMouseEnter={() => sound.playHover()}
-              className="inline-flex items-center justify-center text-white bg-transparent border border-white rounded-full text-[13px] sm:text-[15px] px-4 sm:px-5 py-[0.3em] mx-[0.2em] mb-[0.4em] whitespace-nowrap cursor-pointer hover:bg-white hover:text-black transition-colors duration-200 gap-2 sm:gap-3 group"
+              className="inline-flex items-center justify-center text-white bg-transparent border border-white/90 rounded-full text-[13px] sm:text-[14px] px-4 sm:px-5 py-[0.34em] mx-[0.2em] mb-[0.4em] whitespace-nowrap cursor-pointer hover:bg-white hover:text-black transition-colors duration-200 gap-2 sm:gap-3 group"
               title="Click to copy email address"
             >
               <span>
                 reach me:{' '}
-                <span className="underline underline-offset-1">
+                <span className="underline underline-offset-1 font-mono-tech text-[12px] sm:text-[13px]">
                   prantosarkar32@gmail.com
                 </span>
               </span>
               {copied ? (
-                <span className="text-[11px] font-mono text-emerald-400">
+                <span className="text-[11px] font-mono-tech text-emerald-400 font-medium">
                   copied!
                 </span>
               ) : (
@@ -735,7 +786,7 @@ export default function App() {
             {[...capabilities, ...capabilities].map((cap, i) => (
               <span
                 key={i}
-                className="inline-flex items-center gap-3 text-[12px] font-mono tracking-widest uppercase text-white/70 mx-4"
+                className="inline-flex items-center gap-3 text-[11px] font-mono-tech tracking-[0.2em] uppercase text-white/70 mx-4"
               >
                 <span>{cap}</span>
                 <span className="text-cyan-400 text-[9px]">✦</span>
@@ -756,9 +807,9 @@ export default function App() {
         {/* Subtle Specular Top Reflection / Light Sheen */}
         <div className="absolute inset-x-4 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
 
-        <div className="flex items-center gap-1.5 text-[11px] font-mono uppercase tracking-wider text-white/60 pl-1 pr-0.5 whitespace-nowrap drop-shadow">
+        <div className="flex items-center gap-1.5 text-[11px] font-mono-tech uppercase tracking-wider text-white/60 pl-1 pr-0.5 whitespace-nowrap drop-shadow">
           <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#22d3ee] animate-pulse" />
-          <span className="font-semibold text-white/80">Arsenal</span>
+          <span className="font-bold text-white/80">Arsenal</span>
         </div>
 
         <div className="h-4 w-[1px] bg-white/20" />
@@ -776,7 +827,7 @@ export default function App() {
               title={`Click to inspect ${tool.name} capabilities`}
             >
               <div
-                className="glass-badge-3d w-5 h-5 rounded-[5px] flex items-center justify-center text-[10px] font-black border transition-all duration-300 group-hover:scale-110 shrink-0"
+                className="glass-badge-3d w-5 h-5 rounded-[5px] flex items-center justify-center text-[10px] font-black border transition-all duration-300 group-hover:scale-110 shrink-0 font-display"
                 style={{
                   backgroundColor: tool.bg,
                   color: tool.color,
@@ -799,11 +850,11 @@ export default function App() {
         <div className="fixed bottom-20 sm:bottom-24 right-5 sm:right-8 z-30 max-w-sm glass-panel-3d rounded-2xl p-4 border border-white/20 shadow-2xl animate-fadeIn text-left">
           <div className="flex justify-between items-center mb-2">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-mono font-bold text-white uppercase tracking-wider">
+              <span className="text-xs font-display font-bold text-white uppercase tracking-wider">
                 {inspectedTool}
               </span>
-              <span className="text-[10px] font-mono text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded-full border border-cyan-500/20">
-                Active Tool
+              <span className="text-[10px] font-mono-tech text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded-full border border-cyan-500/20">
+                {creativeTools.find((t) => t.name === inspectedTool)?.experience}
               </span>
             </div>
             <button
@@ -814,7 +865,7 @@ export default function App() {
               ✕
             </button>
           </div>
-          <p className="text-xs text-white/80 leading-relaxed">
+          <p className="text-xs font-light text-white/80 leading-relaxed">
             {creativeTools.find((t) => t.name === inspectedTool)?.description}
           </p>
         </div>
@@ -825,7 +876,7 @@ export default function App() {
       {/* ========================================================================= */}
       {activeModal && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-xl animate-fadeIn"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-xl animate-fadeIn"
           onClick={closeModal}
         >
           <div
@@ -848,28 +899,26 @@ export default function App() {
             {activeModal === 'reel' && (
               <div className="space-y-5">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-[11px] font-mono uppercase tracking-wider text-cyan-300">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-[10px] font-mono-tech uppercase tracking-widest text-cyan-300">
                     <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
                     <span>Official Motion Showreel</span>
                   </span>
-                  <span className="text-[11px] font-mono text-white/50 border border-white/10 px-2.5 py-0.5 rounded-full">
+                  <span className="text-[10px] font-mono-tech text-white/50 border border-white/10 px-2.5 py-0.5 rounded-full">
                     4K Master · 60 FPS
                   </span>
-                  <span className="text-[11px] font-mono text-white/50 border border-white/10 px-2.5 py-0.5 rounded-full">
+                  <span className="text-[10px] font-mono-tech text-white/50 border border-white/10 px-2.5 py-0.5 rounded-full">
                     ProRes 422HQ
                   </span>
                 </div>
 
-                <h3
-                  className="text-2xl sm:text-3xl font-bold tracking-tight text-white"
-                  style={{ fontFamily: 'var(--font-heading)' }}
-                >
-                  Kinetic Showreel &amp; Visual Symphony
-                </h3>
-
-                <p className="text-white/70 text-xs sm:text-sm leading-relaxed">
-                  A high-velocity showcase of broadcast title choreography, kinetic typography, and multi-model neural AI visual generation crafted for forward-thinking brands.
-                </p>
+                <div>
+                  <h3 className="text-2xl sm:text-4xl font-display font-extrabold tracking-tight text-white uppercase">
+                    Kinetic Showreel &amp; Visual Symphony
+                  </h3>
+                  <p className="text-white/60 text-xs sm:text-sm font-light tracking-wide mt-1">
+                    Choreographing commercial kinetic typography, dynamic speed ramps, and neural AI video generation.
+                  </p>
+                </div>
 
                 {/* Showreel Cinema Player */}
                 <div className="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/15 bg-black/60 shadow-2xl group">
@@ -884,7 +933,7 @@ export default function App() {
                   />
 
                   {/* Player Overlay Controls */}
-                  <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex items-center justify-between gap-3 text-xs font-mono">
+                  <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex items-center justify-between gap-3 text-xs font-mono-tech">
                     <div className="flex items-center gap-2 sm:gap-3">
                       <button
                         type="button"
@@ -923,7 +972,7 @@ export default function App() {
                     </div>
 
                     <div className="text-white/60 text-[11px] hidden sm:block">
-                      <span>Live Reel Playback</span>
+                      <span>4K 60FPS Direct Master</span>
                     </div>
 
                     <button
@@ -941,54 +990,100 @@ export default function App() {
                 </div>
 
                 <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-white/10">
-                  <div className="text-xs font-mono text-white/50">
-                    Want to see specific project case studies?
+                  <div className="text-xs font-mono-tech text-white/50">
+                    Looking to review candidate credentials &amp; career history?
                   </div>
                   <button
                     type="button"
-                    onClick={() => openModal('projects')}
-                    className="px-4 py-2 rounded-full bg-white text-black text-xs font-semibold hover:bg-white/90 transition-colors cursor-pointer"
+                    onClick={() => openModal('experience')}
+                    className="px-4 py-2 rounded-full bg-white text-black text-xs font-semibold hover:bg-white/90 transition-colors cursor-pointer font-heading"
                   >
-                    Browse Case Studies →
+                    View Career Experience &amp; CV →
                   </button>
                 </div>
               </div>
             )}
 
             {/* ================================================================= */}
-            {/* MODAL 2: SERVICES & CAPABILITIES */}
+            {/* MODAL 2: WORK EXPERIENCE & CAREER RESUME (Crucial for getting jobs) */}
             {/* ================================================================= */}
-            {activeModal === 'services' && (
+            {activeModal === 'experience' && (
               <div className="space-y-6">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-[11px] font-mono uppercase tracking-wider text-cyan-300">
-                  <span>services &amp; capabilities</span>
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-[10px] font-mono-tech uppercase tracking-widest text-emerald-300">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span>Career Track Record &amp; Resume</span>
+                  </div>
+                  <span className="text-[11px] font-mono-tech text-emerald-400 font-medium">
+                    ● Available for Full-Time &amp; Global Contracts
+                  </span>
                 </div>
-                <h3
-                  className="text-2xl sm:text-3xl font-bold tracking-tight text-white"
-                  style={{ fontFamily: 'var(--font-heading)' }}
-                >
-                  Full-Spectrum Motion &amp; AI Direction
-                </h3>
-                <p className="text-white/70 text-sm sm:text-base leading-relaxed">
-                  Combining premier motion craft, cinematic video editing, and modern neural AI pipelines to deliver standout creative work for world-class brands.
-                </p>
 
-                {/* 3 Main Service Pillars */}
-                <div className="grid sm:grid-cols-3 gap-3.5 pt-1">
-                  {serviceCategories.map((cat) => (
+                <div>
+                  <h3 className="text-2xl sm:text-4xl font-display font-black tracking-tight text-white uppercase">
+                    Work Experience &amp; Impact
+                  </h3>
+                  <p className="text-white/60 text-xs sm:text-sm font-light tracking-wide mt-1">
+                    4+ years delivering commercial kinetic visual systems, broadcast animation, and neural generative media.
+                  </p>
+                </div>
+
+                {/* Key Metrics Banner */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center">
+                  <div className="p-3 rounded-xl bg-white/[0.04] border border-white/10">
+                    <div className="text-2xl font-display font-black text-white">4+</div>
+                    <div className="text-[10px] font-mono-tech text-white/50 uppercase tracking-widest mt-0.5">
+                      Years Craft
+                    </div>
+                  </div>
+                  <div className="p-3 rounded-xl bg-white/[0.04] border border-white/10">
+                    <div className="text-2xl font-display font-black text-cyan-300">50+</div>
+                    <div className="text-[10px] font-mono-tech text-white/50 uppercase tracking-widest mt-0.5">
+                      Completed Projects
+                    </div>
+                  </div>
+                  <div className="p-3 rounded-xl bg-white/[0.04] border border-white/10">
+                    <div className="text-2xl font-display font-black text-amber-300">15M+</div>
+                    <div className="text-[10px] font-mono-tech text-white/50 uppercase tracking-widest mt-0.5">
+                      Campaign Reach
+                    </div>
+                  </div>
+                  <div className="p-3 rounded-xl bg-white/[0.04] border border-white/10">
+                    <div className="text-2xl font-display font-black text-emerald-400">100%</div>
+                    <div className="text-[10px] font-mono-tech text-white/50 uppercase tracking-widest mt-0.5">
+                      On-Time Delivery
+                    </div>
+                  </div>
+                </div>
+
+                {/* Experience Timeline */}
+                <div className="space-y-4 pt-1">
+                  {workExperience.map((item, idx) => (
                     <div
-                      key={cat.title}
-                      className="p-4 rounded-2xl bg-white/[0.04] border border-white/10 flex flex-col gap-2.5 hover:border-white/25 transition-colors"
+                      key={idx}
+                      className="p-4 sm:p-5 rounded-2xl bg-white/[0.04] border border-white/10 hover:border-white/30 transition-all space-y-2.5"
                     >
-                      <div className="flex items-center gap-2 text-white font-medium text-sm">
-                        <span className="text-base text-cyan-300">{cat.icon}</span>
-                        <span>{cat.title}</span>
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                        <div>
+                          <h4 className="text-base sm:text-lg font-heading font-bold text-white">
+                            {item.role}
+                          </h4>
+                          <div className="text-xs font-mono-tech text-cyan-300">
+                            {item.company} · {item.location}
+                          </div>
+                        </div>
+                        <div className="text-right sm:text-right">
+                          <span className="text-[10px] font-mono-tech text-white/50 border border-white/15 px-2 py-0.5 rounded-full">
+                            {item.period}
+                          </span>
+                        </div>
                       </div>
-                      <ul className="space-y-1.5 text-xs text-white/60">
-                        {cat.items.map((item) => (
-                          <li key={item} className="flex items-center gap-1.5">
-                            <span className="w-1 h-1 rounded-full bg-cyan-400/60" />
-                            <span>{item}</span>
+
+                      <ul className="space-y-1 text-xs text-white/70 font-light leading-relaxed">
+                        {item.highlights.map((h, i) => (
+                          <li key={i} className="flex items-start gap-2">
+                            <span className="text-cyan-400 text-sm leading-none mt-0.5">▸</span>
+                            <span>{h}</span>
                           </li>
                         ))}
                       </ul>
@@ -996,41 +1091,47 @@ export default function App() {
                   ))}
                 </div>
 
-                {/* Production Workflow Process */}
-                <div className="pt-3">
-                  <h4 className="text-sm font-mono uppercase tracking-wider text-white/60 mb-3">
-                    Creative Production Workflow:
-                  </h4>
-                  <div className="grid sm:grid-cols-4 gap-2.5">
-                    {workflowSteps.map((step) => (
-                      <div
-                        key={step.step}
-                        className="p-3 rounded-xl bg-white/[0.03] border border-white/10"
-                      >
-                        <div className="text-[11px] font-mono text-cyan-400 mb-1">
-                          {step.step}
-                        </div>
-                        <div className="text-xs font-semibold text-white mb-1">
-                          {step.title}
-                        </div>
-                        <div className="text-[11px] text-white/50 leading-relaxed">
-                          {step.desc}
-                        </div>
-                      </div>
-                    ))}
+                {/* Client & Endorsement Quote */}
+                <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10">
+                  <div className="text-[10px] font-mono-tech uppercase text-amber-300 mb-1">
+                    ★ Creative Director Endorsement:
+                  </div>
+                  <blockquote className="text-xs italic text-white/80 font-light">
+                    "Pranto combines razor-sharp kinetic pacing with an extraordinary grasp of generative AI workflows. He repeatedly delivered commercial cuts ahead of schedule with immaculate attention to detail."
+                  </blockquote>
+                  <div className="text-[10px] font-mono-tech text-white/40 mt-1.5">
+                    — Senior Creative Producer, Global Digital Agency
                   </div>
                 </div>
 
+                {/* Actions: Download Resume & Contact */}
                 <div className="pt-2 flex flex-wrap justify-between items-center gap-3 border-t border-white/10">
-                  <span className="text-xs font-mono text-white/50">
-                    Have a unique creative scope?
-                  </span>
+                  <a
+                    href="/Pranto_Sarkar_CV.pdf"
+                    download="Pranto_Sarkar_CV.pdf"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white text-black text-xs font-semibold hover:bg-white/90 transition-colors font-heading"
+                  >
+                    <span>Download Official Resume (PDF)</span>
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                    >
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                      <polyline points="7 10 12 15 17 10" />
+                      <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                  </a>
+
                   <button
                     type="button"
                     onClick={() => openModal('contact')}
-                    className="px-4 py-2 rounded-full bg-white text-black text-xs font-semibold hover:bg-white/90 transition-colors cursor-pointer"
+                    className="px-4 py-2.5 rounded-full bg-white/10 border border-white/20 text-white text-xs font-heading font-medium hover:bg-white hover:text-black transition-colors cursor-pointer"
                   >
-                    Start a Project →
+                    Schedule Interview / Hire →
                   </button>
                 </div>
               </div>
@@ -1042,12 +1143,12 @@ export default function App() {
             {activeModal === 'projects' && (
               <div className="space-y-5">
                 <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-[11px] font-mono uppercase tracking-wider text-amber-300">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-[10px] font-mono-tech uppercase tracking-widest text-amber-300">
                     <span>selected works &amp; case studies</span>
                   </div>
 
                   {/* Filter tabs */}
-                  <div className="flex items-center gap-1.5 bg-white/5 p-1 rounded-full border border-white/10 text-xs font-mono">
+                  <div className="flex items-center gap-1.5 bg-white/5 p-1 rounded-full border border-white/10 text-xs font-mono-tech">
                     {[
                       { id: 'all', label: 'All (6)' },
                       { id: 'motion', label: 'Motion' },
@@ -1064,7 +1165,7 @@ export default function App() {
                         className={`px-2.5 py-1 rounded-full transition-all cursor-pointer ${
                           activeCategory === tab.id
                             ? 'bg-white text-black font-semibold shadow'
-                            : 'text-white/60 hover:text-white'
+                            : 'text-white/60 hover:text-white font-light'
                         }`}
                       >
                         {tab.label}
@@ -1073,15 +1174,14 @@ export default function App() {
                   </div>
                 </div>
 
-                <h3
-                  className="text-2xl sm:text-3xl font-bold tracking-tight text-white"
-                  style={{ fontFamily: 'var(--font-heading)' }}
-                >
-                  Featured Portfolio Works
-                </h3>
-                <p className="text-white/70 text-xs sm:text-sm">
-                  Click any project below to inspect the full case study, creative challenge, deliverables, and performance metrics.
-                </p>
+                <div>
+                  <h3 className="text-2xl sm:text-4xl font-display font-black tracking-tight text-white uppercase">
+                    Featured Portfolio Works
+                  </h3>
+                  <p className="text-white/60 text-xs sm:text-sm font-light tracking-wide mt-1">
+                    Click any project below to inspect the full case study, creative brief, deliverables, and performance metrics.
+                  </p>
+                </div>
 
                 {/* Project Cards Grid */}
                 <div className="grid sm:grid-cols-2 gap-3.5 pt-1">
@@ -1100,29 +1200,29 @@ export default function App() {
                     >
                       <div>
                         <div className="flex items-center justify-between gap-2 mb-1.5">
-                          <span className="text-[10px] font-mono uppercase text-white/50">
+                          <span className="text-[10px] font-mono-tech uppercase text-white/50">
                             {p.year} · {p.client}
                           </span>
-                          <span className="text-[10px] font-mono text-cyan-300 bg-cyan-950/60 px-2 py-0.5 rounded-full border border-cyan-500/20">
+                          <span className="text-[10px] font-mono-tech text-cyan-300 bg-cyan-950/60 px-2 py-0.5 rounded-full border border-cyan-500/20">
                             {p.categoryLabel}
                           </span>
                         </div>
-                        <h4 className="text-base font-semibold text-white group-hover:text-cyan-300 transition-colors">
+                        <h4 className="text-base font-heading font-bold text-white group-hover:text-cyan-300 transition-colors">
                           {p.title}
                         </h4>
-                        <p className="text-xs text-white/60 mt-1 line-clamp-2">
+                        <p className="text-xs text-white/60 mt-1 line-clamp-2 font-light">
                           {p.subtitle}
                         </p>
                       </div>
 
-                      <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-white/40">
+                      <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[11px] font-mono-tech text-white/40">
                         <div className="flex gap-2">
                           {p.tools.slice(0, 2).map((t) => (
                             <span key={t}>{t}</span>
                           ))}
                         </div>
-                        <span className="text-white/80 group-hover:translate-x-0.5 transition-transform">
-                          {selectedProject === p.id ? 'Close Details ✕' : 'View Case Study →'}
+                        <span className="text-white/80 group-hover:translate-x-0.5 transition-transform font-medium">
+                          {selectedProject === p.id ? 'Close Details ✕' : 'Inspect Case Study →'}
                         </span>
                       </div>
                     </div>
@@ -1139,18 +1239,18 @@ export default function App() {
                         <>
                           <div className="flex justify-between items-start">
                             <div>
-                              <span className="text-[11px] font-mono text-cyan-400 uppercase tracking-wider">
+                              <span className="text-[10px] font-mono-tech text-cyan-400 uppercase tracking-widest">
                                 Case Study Breakdown
                               </span>
-                              <h4 className="text-xl font-bold text-white mt-0.5">
+                              <h4 className="text-xl font-display font-bold text-white mt-0.5 uppercase">
                                 {p.title}
                               </h4>
-                              <p className="text-xs text-white/60">{p.subtitle}</p>
+                              <p className="text-xs text-white/60 font-light">{p.subtitle}</p>
                             </div>
                             <button
                               type="button"
                               onClick={() => setSelectedProject(null)}
-                              className="text-white/60 hover:text-white text-xs font-mono"
+                              className="text-white/60 hover:text-white text-xs font-mono-tech cursor-pointer"
                             >
                               ✕ Close
                             </button>
@@ -1158,12 +1258,12 @@ export default function App() {
 
                           <div className="grid sm:grid-cols-2 gap-4 text-xs">
                             <div>
-                              <div className="font-mono text-white/40 mb-1">PROJECT OVERVIEW:</div>
-                              <p className="text-white/80 leading-relaxed">{p.overview}</p>
+                              <div className="font-mono-tech text-white/40 mb-1">PROJECT OVERVIEW:</div>
+                              <p className="text-white/80 leading-relaxed font-light">{p.overview}</p>
                             </div>
                             <div>
-                              <div className="font-mono text-white/40 mb-1">KEY DELIVERABLES:</div>
-                              <ul className="space-y-1 text-white/70">
+                              <div className="font-mono-tech text-white/40 mb-1">KEY DELIVERABLES:</div>
+                              <ul className="space-y-1 text-white/70 font-light">
                                 {p.deliverables.map((d) => (
                                   <li key={d} className="flex items-center gap-1.5">
                                     <span className="text-cyan-400">✓</span>
@@ -1174,7 +1274,7 @@ export default function App() {
                             </div>
                           </div>
 
-                          <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-white/10 text-xs font-mono">
+                          <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-white/10 text-xs font-mono-tech">
                             <div className="text-emerald-400">
                               ★ Impact: {p.metrics}
                             </div>
@@ -1184,9 +1284,9 @@ export default function App() {
                                 setBriefType(p.categoryLabel);
                                 openModal('contact');
                               }}
-                              className="px-3.5 py-1.5 rounded-full bg-white text-black font-semibold hover:bg-white/90 transition-colors cursor-pointer"
+                              className="px-3.5 py-1.5 rounded-full bg-white text-black font-semibold hover:bg-white/90 transition-colors cursor-pointer font-heading"
                             >
-                              Inquire for Similar Project →
+                              Hire for Similar Scope →
                             </button>
                           </div>
                         </>
@@ -1198,71 +1298,126 @@ export default function App() {
             )}
 
             {/* ================================================================= */}
-            {/* MODAL 4: ABOUT ME & PHILOSOPHY */}
+            {/* MODAL 4: SERVICES & PRODUCTION PIPELINE */}
+            {/* ================================================================= */}
+            {activeModal === 'services' && (
+              <div className="space-y-6">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-[10px] font-mono-tech uppercase tracking-widest text-cyan-300">
+                  <span>services &amp; capabilities</span>
+                </div>
+                <div>
+                  <h3 className="text-2xl sm:text-4xl font-display font-black tracking-tight text-white uppercase">
+                    Full-Spectrum Creative Direction
+                  </h3>
+                  <p className="text-white/60 text-xs sm:text-sm font-light tracking-wide mt-1">
+                    Combining premier motion craft, cinematic video editing, and modern neural AI pipelines to deliver standout creative work for world-class brands.
+                  </p>
+                </div>
+
+                {/* 3 Main Service Pillars */}
+                <div className="grid sm:grid-cols-3 gap-3.5 pt-1">
+                  {serviceCategories.map((cat) => (
+                    <div
+                      key={cat.title}
+                      className="p-4 rounded-2xl bg-white/[0.04] border border-white/10 flex flex-col gap-2.5 hover:border-white/25 transition-colors"
+                    >
+                      <div className="flex items-center gap-2 text-white font-heading font-semibold text-sm">
+                        <span className="text-base text-cyan-300">{cat.icon}</span>
+                        <span>{cat.title}</span>
+                      </div>
+                      <ul className="space-y-1.5 text-xs text-white/60 font-light">
+                        {cat.items.map((item) => (
+                          <li key={item} className="flex items-center gap-1.5">
+                            <span className="w-1 h-1 rounded-full bg-cyan-400/60" />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Production Workflow Process */}
+                <div className="pt-2">
+                  <h4 className="text-xs font-mono-tech uppercase tracking-widest text-white/50 mb-3">
+                    Creative Production Workflow:
+                  </h4>
+                  <div className="grid sm:grid-cols-4 gap-2.5">
+                    {workflowSteps.map((step) => (
+                      <div
+                        key={step.step}
+                        className="p-3 rounded-xl bg-white/[0.03] border border-white/10"
+                      >
+                        <div className="text-[11px] font-mono-tech text-cyan-400 mb-1 font-bold">
+                          {step.step}
+                        </div>
+                        <div className="text-xs font-heading font-semibold text-white mb-1">
+                          {step.title}
+                        </div>
+                        <div className="text-[11px] text-white/50 font-light leading-relaxed">
+                          {step.desc}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="pt-2 flex flex-wrap justify-between items-center gap-3 border-t border-white/10">
+                  <span className="text-xs font-mono-tech text-white/50">
+                    Need a customized commercial contract?
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => openModal('contact')}
+                    className="px-4 py-2 rounded-full bg-white text-black text-xs font-semibold hover:bg-white/90 transition-colors cursor-pointer font-heading"
+                  >
+                    Start a Project →
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* ================================================================= */}
+            {/* MODAL 5: ABOUT ME & PHILOSOPHY */}
             {/* ================================================================= */}
             {activeModal === 'about-me' && (
               <div className="space-y-5">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-[11px] font-mono uppercase tracking-wider text-cyan-300">
-                  <span>about me &amp; creative philosophy</span>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-[10px] font-mono-tech uppercase tracking-widest text-cyan-300">
+                  <span>biography &amp; creative philosophy</span>
                 </div>
-                <h3
-                  className="text-2xl sm:text-3xl font-bold tracking-tight text-white"
-                  style={{ fontFamily: 'var(--font-heading)' }}
-                >
-                  Pranto Sarkar
-                </h3>
-                <p className="text-white/80 text-sm sm:text-base leading-relaxed">
-                  I am a Dhaka-based <strong>Senior Motion Designer &amp; AI Artist</strong> specializing in kinetic visual storytelling, commercial broadcast animation, and high-fidelity generative AI aesthetics. With over 4+ years dedicated to crafting brand experiences, I bridge the gap between classic graphic motion craft and neural AI pipelines.
-                </p>
+                <div>
+                  <h3 className="text-2xl sm:text-4xl font-display font-black tracking-tight text-white uppercase">
+                    Pranto Sarkar
+                  </h3>
+                  <p className="text-white/60 text-xs sm:text-sm font-light tracking-wide mt-1">
+                    Senior Motion Designer &amp; Generative AI Artist based in Dhaka, collaborating with international teams.
+                  </p>
+                </div>
 
-                {/* Key Metrics Counter */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1 text-center">
-                  <div className="p-3 rounded-xl bg-white/[0.04] border border-white/10">
-                    <div className="text-2xl font-bold text-white font-mono">4+</div>
-                    <div className="text-[11px] text-white/50 uppercase tracking-wider mt-0.5">
-                      Years Craft
-                    </div>
-                  </div>
-                  <div className="p-3 rounded-xl bg-white/[0.04] border border-white/10">
-                    <div className="text-2xl font-bold text-cyan-300 font-mono">50+</div>
-                    <div className="text-[11px] text-white/50 uppercase tracking-wider mt-0.5">
-                      Projects
-                    </div>
-                  </div>
-                  <div className="p-3 rounded-xl bg-white/[0.04] border border-white/10">
-                    <div className="text-2xl font-bold text-amber-300 font-mono">15+</div>
-                    <div className="text-[11px] text-white/50 uppercase tracking-wider mt-0.5">
-                      Capabilities
-                    </div>
-                  </div>
-                  <div className="p-3 rounded-xl bg-white/[0.04] border border-white/10">
-                    <div className="text-2xl font-bold text-emerald-400 font-mono">100%</div>
-                    <div className="text-[11px] text-white/50 uppercase tracking-wider mt-0.5">
-                      Satisfaction
-                    </div>
-                  </div>
-                </div>
+                <p className="text-white/80 text-sm sm:text-base leading-relaxed font-light">
+                  I specialize in kinetic visual storytelling, commercial broadcast animation, and high-fidelity generative AI aesthetics. With over 4+ years dedicated to crafting brand experiences, I bridge the gap between classic graphic motion craft and neural AI pipelines.
+                </p>
 
                 {/* 3 Pillars of Craft */}
                 <div className="grid sm:grid-cols-3 gap-3 pt-1">
                   <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10">
-                    <div className="text-xs font-mono text-cyan-400 mb-1">01. MOTION</div>
-                    <div className="text-sm font-semibold text-white">Kinetic Rhythm</div>
-                    <div className="text-xs text-white/60 mt-1">
-                      High-impact transitions, smooth easing, and kinetic typography that command attention.
+                    <div className="text-xs font-mono-tech text-cyan-400 mb-1">01. MOTION</div>
+                    <div className="text-sm font-heading font-semibold text-white">Kinetic Rhythm</div>
+                    <div className="text-xs text-white/60 mt-1 font-light">
+                      High-impact transitions, smooth easing curves, and kinetic typography that command attention.
                     </div>
                   </div>
                   <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10">
-                    <div className="text-xs font-mono text-amber-400 mb-1">02. ARTISTRY</div>
-                    <div className="text-sm font-semibold text-white">Generative AI</div>
-                    <div className="text-xs text-white/60 mt-1">
+                    <div className="text-xs font-mono-tech text-amber-400 mb-1">02. ARTISTRY</div>
+                    <div className="text-sm font-heading font-semibold text-white">Generative AI</div>
+                    <div className="text-xs text-white/60 mt-1 font-light">
                       Custom neural prompting, synthetic world building, and seamless multi-model composites.
                     </div>
                   </div>
                   <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10">
-                    <div className="text-xs font-mono text-purple-400 mb-1">03. DIRECTION</div>
-                    <div className="text-sm font-semibold text-white">Brand Impact</div>
-                    <div className="text-xs text-white/60 mt-1">
+                    <div className="text-xs font-mono-tech text-purple-400 mb-1">03. DIRECTION</div>
+                    <div className="text-sm font-heading font-semibold text-white">Brand Impact</div>
+                    <div className="text-xs text-white/60 mt-1 font-light">
                       Commercial campaigns, high-converting product ads, and futuristic social visual identities.
                     </div>
                   </div>
@@ -1270,23 +1425,23 @@ export default function App() {
 
                 {/* Core Toolkit Highlights */}
                 <div className="pt-2 border-t border-white/10">
-                  <div className="text-xs font-mono uppercase text-white/50 mb-2">
+                  <div className="text-xs font-mono-tech uppercase text-white/50 mb-2">
                     Primary Arsenal &amp; Software Stack:
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-white/80">
+                    <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono-tech text-white/80">
                       After Effects
                     </span>
-                    <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-white/80">
+                    <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono-tech text-white/80">
                       Premiere Pro
                     </span>
-                    <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-white/80">
+                    <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono-tech text-white/80">
                       Illustrator
                     </span>
-                    <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-white/80">
+                    <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono-tech text-white/80">
                       Photoshop
                     </span>
-                    <span className="px-3 py-1 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-xs font-mono text-cyan-300">
+                    <span className="px-3 py-1 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-xs font-mono-tech text-cyan-300">
                       Generative AI (Midjourney, Runway Gen-3, ComfyUI)
                     </span>
                   </div>
@@ -1296,7 +1451,7 @@ export default function App() {
                   <a
                     href="/Pranto_Sarkar_CV.pdf"
                     download="Pranto_Sarkar_CV.pdf"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-white text-xs font-mono hover:bg-white hover:text-black transition-colors"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-white text-xs font-mono-tech hover:bg-white hover:text-black transition-colors"
                   >
                     <span>Download Official CV (PDF)</span>
                     <span>↓</span>
@@ -1304,7 +1459,7 @@ export default function App() {
                   <button
                     type="button"
                     onClick={() => openModal('contact')}
-                    className="px-4 py-2 rounded-full bg-white text-black text-xs font-semibold hover:bg-white/90 transition-colors cursor-pointer"
+                    className="px-4 py-2 rounded-full bg-white text-black text-xs font-semibold hover:bg-white/90 transition-colors cursor-pointer font-heading"
                   >
                     Contact Pranto →
                   </button>
@@ -1313,77 +1468,76 @@ export default function App() {
             )}
 
             {/* ================================================================= */}
-            {/* MODAL 5: CONTACT & PROJECT INQUIRY */}
+            {/* MODAL 6: CONTACT & HIRING INQUIRY */}
             {/* ================================================================= */}
             {activeModal === 'contact' && (
               <div className="space-y-5">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-[11px] font-mono uppercase tracking-wider text-purple-300">
-                    <span>direct collaboration</span>
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-[10px] font-mono-tech uppercase tracking-widest text-purple-300">
+                    <span>direct hiring &amp; collaboration</span>
                   </div>
-                  <div className="text-[11px] font-mono text-emerald-400 flex items-center gap-1.5">
+                  <div className="text-[11px] font-mono-tech text-emerald-400 flex items-center gap-1.5">
                     <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                    <span>Available for New Projects</span>
+                    <span>Open to Full-Time &amp; Contracts</span>
                   </div>
                 </div>
 
-                <h3
-                  className="text-2xl sm:text-3xl font-bold tracking-tight text-white"
-                  style={{ fontFamily: 'var(--font-heading)' }}
-                >
-                  Let's Create Something Extraordinary
-                </h3>
-                <p className="text-white/80 text-sm leading-relaxed">
-                  Have an upcoming commercial campaign, brand showreel, or need generative AI visuals that captivate audiences? Send a brief directly below or copy my direct email.
-                </p>
+                <div>
+                  <h3 className="text-2xl sm:text-4xl font-display font-black tracking-tight text-white uppercase">
+                    Let's Build Something Exceptional
+                  </h3>
+                  <p className="text-white/60 text-xs sm:text-sm font-light tracking-wide mt-1">
+                    Have an open role, an upcoming commercial campaign, or need generative AI visual direction? Reach out below.
+                  </p>
+                </div>
 
                 {/* Email Box */}
                 <div className="p-4 rounded-2xl bg-white/5 border border-white/15 flex flex-col sm:flex-row gap-3 sm:items-center justify-between">
                   <div>
-                    <div className="text-[11px] font-mono uppercase text-white/40">
-                      Official Direct Email:
+                    <div className="text-[10px] font-mono-tech uppercase text-white/40">
+                      Official Candidate Email:
                     </div>
-                    <span className="font-mono text-sm sm:text-base text-cyan-300 select-all">
+                    <span className="font-mono-tech text-sm sm:text-base text-cyan-300 select-all font-medium">
                       prantosarkar32@gmail.com
                     </span>
                   </div>
                   <button
                     type="button"
                     onClick={handleCopyEmail}
-                    className="self-start sm:self-auto px-4 py-2 rounded-full bg-white text-black text-xs font-semibold hover:bg-white/90 transition-colors cursor-pointer"
+                    className="self-start sm:self-auto px-4 py-2 rounded-full bg-white text-black text-xs font-semibold hover:bg-white/90 transition-colors cursor-pointer font-heading"
                   >
                     {copied ? '✓ Copied!' : 'Copy Email'}
                   </button>
                 </div>
 
-                {/* Quick Interactive Project Brief Form */}
+                {/* Quick Interactive Project / Role Brief Form */}
                 <form onSubmit={handleSendBrief} className="space-y-3 pt-1">
-                  <div className="text-xs font-mono uppercase text-white/50">
-                    Quick Project Inquiry Form:
+                  <div className="text-xs font-mono-tech uppercase text-white/50">
+                    Job / Project Inquiry Form:
                   </div>
 
                   <div className="grid sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-[11px] font-mono text-white/60 mb-1">
-                        Your Name
+                      <label className="block text-[11px] font-mono-tech text-white/60 mb-1">
+                        Your Name / Studio
                       </label>
                       <input
                         type="text"
                         value={briefName}
                         onChange={(e) => setBriefName(e.target.value)}
-                        placeholder="e.g. Alex Morgan"
+                        placeholder="e.g. Alex Morgan (Art Director)"
                         className="w-full px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/15 text-xs text-white placeholder-white/30 focus:outline-none focus:border-white/50"
                       />
                     </div>
                     <div>
-                      <label className="block text-[11px] font-mono text-white/60 mb-1">
-                        Your Email
+                      <label className="block text-[11px] font-mono-tech text-white/60 mb-1">
+                        Work Email
                       </label>
                       <input
                         type="email"
                         value={briefEmail}
                         onChange={(e) => setBriefEmail(e.target.value)}
-                        placeholder="e.g. alex@company.com"
+                        placeholder="e.g. alex@studio.com"
                         className="w-full px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/15 text-xs text-white placeholder-white/30 focus:outline-none focus:border-white/50"
                       />
                     </div>
@@ -1391,65 +1545,65 @@ export default function App() {
 
                   <div className="grid sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-[11px] font-mono text-white/60 mb-1">
-                        Service Scope
+                      <label className="block text-[11px] font-mono-tech text-white/60 mb-1">
+                        Inquiry Scope
                       </label>
                       <select
                         value={briefType}
                         onChange={(e) => setBriefType(e.target.value)}
                         className="w-full px-3.5 py-2 rounded-xl bg-[#0a0a0a] border border-white/15 text-xs text-white focus:outline-none focus:border-white/50"
                       >
-                        <option value="Motion Graphics">Motion Graphics &amp; Title Animation</option>
-                        <option value="AI Video Generation">Generative AI Video &amp; Artistry</option>
-                        <option value="Commercial Video">Commercial Video / Reel Editing</option>
-                        <option value="Brand Visual Design">Brand Visuals &amp; Graphic Design</option>
-                        <option value="Full Campaign Direction">Full Campaign Direction</option>
+                        <option value="Senior Motion Designer (Full-Time / Contract)">Senior Motion Designer (Full-Time / Contract)</option>
+                        <option value="Commercial Video / Reel Direction">Commercial Video / Reel Direction</option>
+                        <option value="Generative AI Artistry & Visuals">Generative AI Artistry &amp; Visuals</option>
+                        <option value="Brand Identity Motion System">Brand Identity Motion System</option>
+                        <option value="Freelance Sprint">Freelance Sprint</option>
                       </select>
                     </div>
                     <div>
-                      <label className="block text-[11px] font-mono text-white/60 mb-1">
-                        Timeline
+                      <label className="block text-[11px] font-mono-tech text-white/60 mb-1">
+                        Timeline / Start Date
                       </label>
                       <select
                         value={briefTimeline}
                         onChange={(e) => setBriefTimeline(e.target.value)}
                         className="w-full px-3.5 py-2 rounded-xl bg-[#0a0a0a] border border-white/15 text-xs text-white focus:outline-none focus:border-white/50"
                       >
-                        <option value="Immediate (1-2 Weeks)">Immediate (1-2 Weeks)</option>
-                        <option value="This Month (2-4 Weeks)">This Month (2-4 Weeks)</option>
+                        <option value="Immediate (Next 1-2 Weeks)">Immediate (Next 1-2 Weeks)</option>
+                        <option value="This Month">This Month</option>
                         <option value="Next Quarter">Next Quarter</option>
-                        <option value="Open / Ongoing Contract">Open / Ongoing Contract</option>
+                        <option value="Open Discussions">Open Discussions</option>
                       </select>
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-mono text-white/60 mb-1">
-                      Project Notes / Goals
+                    <label className="block text-[11px] font-mono-tech text-white/60 mb-1">
+                      Role / Project Details
                     </label>
                     <textarea
                       rows={3}
                       value={briefMsg}
                       onChange={(e) => setBriefMsg(e.target.value)}
-                      placeholder="Share project goals, references, or specific deliverables needed..."
-                      className="w-full px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/15 text-xs text-white placeholder-white/30 focus:outline-none focus:border-white/50 resize-none"
+                      placeholder="Share role responsibilities, project brief, budget parameters, or interview requests..."
+                      className="w-full px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/15 text-xs text-white placeholder-white/30 focus:outline-none focus:border-white/50 resize-none font-light"
                     />
                   </div>
 
                   <div className="flex flex-wrap items-center justify-between gap-2.5 pt-1">
                     <button
                       type="submit"
-                      className="px-5 py-2.5 rounded-full bg-white text-black text-xs font-semibold hover:bg-white/90 transition-colors cursor-pointer"
+                      className="px-5 py-2.5 rounded-full bg-white text-black text-xs font-semibold hover:bg-white/90 transition-colors cursor-pointer font-heading"
                     >
-                      Send Inquiry via Email →
+                      Send Message to Pranto →
                     </button>
 
                     <button
                       type="button"
                       onClick={handleCopyBrief}
-                      className="px-3.5 py-2 rounded-full bg-white/5 border border-white/15 text-white/70 hover:text-white text-xs font-mono transition-colors cursor-pointer"
+                      className="px-3.5 py-2 rounded-full bg-white/5 border border-white/15 text-white/70 hover:text-white text-xs font-mono-tech transition-colors cursor-pointer"
                     >
-                      {briefCopied ? '✓ Brief Copied!' : 'Copy Brief Text'}
+                      {briefCopied ? '✓ Inquiry Copied!' : 'Copy Inquiry Text'}
                     </button>
                   </div>
                 </form>
@@ -1457,20 +1611,20 @@ export default function App() {
                 {/* Quick Location & Details */}
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 pt-2 text-xs border-t border-white/10">
                   <div className="p-3 rounded-xl bg-white/[0.03] border border-white/10">
-                    <div className="text-white/40 font-mono">Location</div>
+                    <div className="text-white/40 font-mono-tech text-[10px]">Location</div>
                     <div className="text-white font-medium mt-0.5">
                       Dhaka, Bangladesh
                     </div>
                   </div>
                   <div className="p-3 rounded-xl bg-white/[0.03] border border-white/10">
-                    <div className="text-white/40 font-mono">Local Time (UTC+6)</div>
-                    <div className="text-cyan-300 font-mono font-medium mt-0.5">
+                    <div className="text-white/40 font-mono-tech text-[10px]">Local Time (UTC+6)</div>
+                    <div className="text-cyan-300 font-mono-tech font-medium mt-0.5">
                       {dhakaTime || '06:00 PM'}
                     </div>
                   </div>
                   <div className="p-3 rounded-xl bg-white/[0.03] border border-white/10 col-span-2 sm:col-span-1">
-                    <div className="text-white/40 font-mono">Networks</div>
-                    <div className="text-white font-mono mt-0.5 flex gap-2">
+                    <div className="text-white/40 font-mono-tech text-[10px]">Portfolios</div>
+                    <div className="text-white font-mono-tech mt-0.5 flex gap-2">
                       <a
                         href="https://linkedin.com"
                         target="_blank"

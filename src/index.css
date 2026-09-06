@@ -3,13 +3,28 @@
 @tailwind utilities;
 
 :root {
-  --font-heading: 'Space Grotesk', 'HelveticaNowDisplay-Medium', -apple-system, sans-serif;
-  --font-body: 'Plus Jakarta Sans', 'HelveticaNowDisplayW01-Rg', -apple-system, sans-serif;
+  --font-display: 'Syne', 'Space Grotesk', -apple-system, sans-serif;
+  --font-heading: 'Space Grotesk', 'Outfit', -apple-system, sans-serif;
+  --font-body: 'Outfit', 'Plus Jakarta Sans', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
 }
 
 body {
   font-family: var(--font-body);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
+  font-weight: 400;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-heading {
+  font-family: var(--font-heading);
+}
+
+.font-mono-tech {
+  font-family: var(--font-mono);
 }
 
 @keyframes blink {

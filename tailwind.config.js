@@ -7,8 +7,10 @@ export default {
   theme: {
     extend: {
       fontFamily: {
+        display: ['var(--font-display)'],
         heading: ['var(--font-heading)'],
         body: ['var(--font-body)'],
+        mono: ['var(--font-mono)', 'monospace'],
       },
     },
   },
