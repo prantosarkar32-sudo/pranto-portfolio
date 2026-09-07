@@ -14,8 +14,7 @@ export default function PortfolioApp() {
   const [dhakaTime, setDhakaTime] = useState('');
   const [scrolled, setScrolled] = useState(false);
 
-  // Avatar Video & Interactive Parallax refs
-  const videoRef = useRef<HTMLVideoElement>(null);
+  // Avatar 3D Parallax & Hover state
   const avatarFrameRef = useRef<HTMLDivElement>(null);
   const [isAvatarHovered, setIsAvatarHovered] = useState(false);
 
@@ -137,43 +136,7 @@ export default function PortfolioApp() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Hover Play / Pause Video Interaction (60fps buttery smooth, zero frame skips or stutter)
-  const handleAvatarMouseEnter = () => {
-    setIsAvatarHovered(true);
-    const video = videoRef.current;
-    if (video) {
-      video.play().catch(() => {});
-    }
-  };
 
-  const handleAvatarMouseLeave = () => {
-    setIsAvatarHovered(false);
-    const video = videoRef.current;
-    if (video) {
-      video.pause();
-    }
-  };
-
-  const handleAvatarClick = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    if (video.paused) {
-      video.play().catch(() => {});
-      setIsAvatarHovered(true);
-    } else {
-      video.pause();
-      setIsAvatarHovered(false);
-    }
-  };
-
-  const handleLoadedMetadata = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.pause();
-    const dur = video.duration || 4.04;
-    // Set to forward-facing warm smile
-    video.currentTime = dur * 0.45;
-  };
 
   // Ultra-Smooth 60fps GPU Parallax Tilt (Pure GPU transform, zero video stutter)
   useEffect(() => {
@@ -492,22 +455,6 @@ export default function PortfolioApp() {
       {/* Hardware-accelerated fixed canvas background (zero scroll repaints) */}
       <div className="site-bg-canvas" />
 
-      {/* Background Avatar Video (Responsive framing: centered on phones, 70% right on desktop) */}
-      <video
-        ref={videoRef}
-        poster="/avatar.png"
-        className={`hero-avatar-video fixed inset-0 z-0 w-full h-full object-cover pointer-events-none select-none transition-opacity duration-700 transform-gpu will-change-transform ${
-          scrolled ? 'opacity-25' : 'opacity-100'
-        }`}
-        muted
-        loop
-        playsInline
-        preload="auto"
-        onLoadedMetadata={handleLoadedMetadata}
-      >
-        <source src="/avatar.mp4" type="video/mp4" />
-        <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260826_041744_63efcd78-bf7d-4039-99e2-2461e8a61903.mp4" type="video/mp4" />
-      </video>
 
       {/* ========================================================================= */}
       {/* RESPONSIVE EDITORIAL VEIL: Top-to-Bottom on Mobile, Left-to-Right on Desktop */}
@@ -697,20 +644,46 @@ export default function PortfolioApp() {
             </p>
           </div>
 
-          {/* RIGHT SIDE: Interactive 3D Avatar Stage (Smooth 60fps Play on Hover / Tap) */}
+          {/* RIGHT SIDE: Interactive 3D Avatar Stage (Stationary, Smooth Hover Scale & Parallax Tilt) */}
           <div
             className="lg:col-span-5 xl:col-span-4 relative flex items-center justify-center lg:justify-end z-20 self-center min-h-[220px] sm:min-h-[340px] lg:min-h-[580px] pointer-events-auto cursor-pointer"
-            onMouseEnter={handleAvatarMouseEnter}
-            onMouseLeave={handleAvatarMouseLeave}
-            onClick={handleAvatarClick}
+            onMouseEnter={() => {
+              sound.playHover();
+              setIsAvatarHovered(true);
+            }}
+            onMouseLeave={() => setIsAvatarHovered(false)}
           >
-            {/* The interactive frame with smooth hover scale */}
+            {/* Parallax tilt wrapper (driven by mouse coordinate rAF) */}
             <div
               ref={avatarFrameRef}
-              className={`relative w-[260px] sm:w-[360px] lg:w-[480px] max-w-full aspect-[404/597] pointer-events-auto transition-transform duration-500 will-change-transform transform-gpu ${
-                isAvatarHovered ? 'scale-[1.025]' : 'scale-100'
-              }`}
-            />
+              className="relative w-[260px] sm:w-[360px] lg:w-[480px] max-w-full aspect-[404/597] pointer-events-auto will-change-transform transform-gpu"
+            >
+              {/* Inner hover effect wrapper */}
+              <div
+                className={`relative w-full h-full transition-all duration-300 transform-gpu ${
+                  isAvatarHovered ? 'scale-[1.04] brightness-105' : 'scale-100'
+                }`}
+              >
+                {/* Soft Crimson Ambient Glow */}
+                <div
+                  className={`absolute inset-0 rounded-full bg-[#ff1a40]/30 blur-3xl pointer-events-none transition-opacity duration-500 ${
+                    isAvatarHovered ? 'opacity-100 scale-110' : 'opacity-40 scale-95'
+                  }`}
+                />
+
+                {/* 3D Character Master Avatar Asset (Crisp, High-Resolution, Calm & Still) */}
+                <img
+                  src="/avatar.png"
+                  alt="Pranto Sarkar — Motion Designer & AI Artist"
+                  className={`w-full h-full object-contain pointer-events-none select-none transition-all duration-300 ${
+                    isAvatarHovered
+                      ? 'drop-shadow-[0_25px_50px_rgba(0,0,0,0.7)] drop-shadow-[0_0_35px_rgba(255,26,64,0.45)]'
+                      : 'drop-shadow-[0_15px_35px_rgba(0,0,0,0.5)]'
+                  }`}
+                  loading="eager"
+                />
+              </div>
+            </div>
           </div>
         </div>
 
