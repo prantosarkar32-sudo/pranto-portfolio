@@ -3,7 +3,9 @@
 @tailwind utilities;
 
 :root {
-  --site-bg: #000000;
+  --site-bg: #b80828;
+  --site-bg-dark: #660314;
+  --site-bg-bright: #e50932;
   --font-display: 'Sora', sans-serif;
   --font-heading: 'Sora', sans-serif;
   --font-body: 'Inter', sans-serif;
@@ -11,18 +13,28 @@
   --font-mono: 'JetBrains Mono', monospace;
 }
 
-h1, h2, h3 {
-  font-family: "Sora", sans-serif;
+/* Master Typography Rules */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
   font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 body {
-  font-family: "Inter", sans-serif;
+  margin: 0;
+  background-color: #990520;
+  background-image: 
+    radial-gradient(ellipse at 82% 28%, #e50932 0%, #b80828 42%, #5c0110 100%);
+  background-attachment: fixed;
+  color: #ffffff;
+  font-family: var(--font-body);
   letter-spacing: -0.012em;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
 .bn-text {
-  font-family: "Hind Siliguri", sans-serif;
+  font-family: var(--font-bengali);
 }
 
 .font-display {
@@ -41,102 +53,50 @@ body {
   font-family: var(--font-mono);
 }
 
-/* =========================
-   INTRO SCREEN
-========================= */
-
-.intro-screen {
-  position: fixed;
-  inset: 0;
-
-  width: 100%;
-  height: 100vh;
-
-  /* Website-এর same background */
-  background: var(--site-bg);
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  z-index: 9999;
+/* 3D Glass Surface in Red Environment */
+.glass-panel-red {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.04) 45%, rgba(60, 2, 12, 0.6) 100%);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-top: 1.5px solid rgba(255, 255, 255, 0.45);
+  border-left: 1.5px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 
+    0 25px 50px -12px rgba(45, 0, 8, 0.65),
+    inset 0 1px 2px rgba(255, 255, 255, 0.4),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.4);
 }
 
-
-/* =========================
-   HI TEXT
-========================= */
-
-.hi-text {
-  margin: 0;
-
-  color: #ffffff;
-
-  font-family: "Inter", sans-serif;
-  font-size: clamp(140px, 22vw, 420px);
-  font-weight: 700;
-
-  line-height: 1;
-  letter-spacing: -0.07em;
-
-  opacity: 0;
-
-  animation: hiReveal 0.10s linear forwards;
-
-  transition:
-    opacity 0.45s ease,
-    transform 0.45s ease;
+.glass-pill-red {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-
-/* HI reveal */
-@keyframes hiReveal {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
+.glass-pill-red:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.45);
+  transform: translateY(-1.5px);
+  box-shadow: 0 10px 25px rgba(50, 0, 10, 0.4);
 }
 
-
-/* Mouse scroll করলে HI চলে যাবে */
-body.entered .hi-text,
-.intro-screen.entered .hi-text {
-  opacity: 0;
-  transform: translateY(-20px);
-}
-
-
-/* তারপর intro layer disappear */
-body.entered .intro-screen,
-.intro-screen.entered {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-
-  transition:
-    opacity 0.6s ease 0.15s,
-    visibility 0.6s ease 0.15s;
-}
-
-
-
-@keyframes blink {
+/* Subtle Avatar Float Animation */
+@keyframes avatarFloat {
   0%, 100% {
-    opacity: 1;
+    transform: translateY(0px);
   }
   50% {
-    opacity: 0;
+    transform: translateY(-6px);
   }
 }
 
-.animate-blink {
-  animation: blink 1s step-end infinite;
+.animate-avatar-float {
+  animation: avatarFloat 6s ease-in-out infinite;
 }
 
-/* Avatar Greeting Animations */
+/* Subtle Hand Wave */
 @keyframes hand-wave {
   0% { transform: rotate(0deg); }
   15% { transform: rotate(18deg); }
@@ -152,123 +112,7 @@ body.entered .intro-screen,
   transform-origin: 70% 70%;
 }
 
-@keyframes avatarIntro {
-  0% {
-    opacity: 0;
-    transform: translateY(20px) scale(0.92);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes avatarGoHome {
-  0% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-24px) scale(0.85);
-    pointer-events: none;
-  }
-}
-
-.avatar-intro {
-  animation: avatarIntro 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.avatar-wave .waving-hand {
-  animation: hand-wave 1.8s ease-in-out infinite;
-  transform-origin: 70% 70%;
-}
-
-.avatar-go-home {
-  animation: avatarGoHome 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-/* 3D Glass Surface Styling */
-.glass-panel-3d {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.03) 40%, rgba(10, 15, 29, 0.65) 100%);
-  backdrop-filter: blur(28px) saturate(190%);
-  -webkit-backdrop-filter: blur(28px) saturate(190%);
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  border-top: 1.5px solid rgba(255, 255, 255, 0.45);
-  border-left: 1.5px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 
-    0 25px 60px -10px rgba(0, 0, 0, 0.75),
-    0 12px 28px -5px rgba(0, 0, 0, 0.5),
-    inset 0 1px 2px rgba(255, 255, 255, 0.6),
-    inset 0 -1px 2px rgba(0, 0, 0, 0.4),
-    inset 1px 0 2px rgba(255, 255, 255, 0.25);
-  transform-style: preserve-3d;
-  perspective: 1000px;
-}
-
-.glass-item-3d {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.03) 100%);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-top: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 
-    0 8px 20px -4px rgba(0, 0, 0, 0.4),
-    inset 0 1px 1px rgba(255, 255, 255, 0.3);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  transform: translateZ(10px);
-}
-
-.glass-item-3d:hover {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.07) 100%);
-  border-color: rgba(255, 255, 255, 0.4);
-  transform: translateZ(25px) translateY(-3px) scale(1.04);
-  box-shadow: 
-    0 16px 30px -4px rgba(0, 0, 0, 0.55),
-    inset 0 1px 2px rgba(255, 255, 255, 0.5);
-}
-
-.glass-badge-3d {
-  box-shadow: 
-    0 4px 10px rgba(0, 0, 0, 0.4),
-    inset 0 1px 1px rgba(255, 255, 255, 0.45),
-    inset 0 -1px 2px rgba(0, 0, 0, 0.5);
-}
-
-/* Glass Pill Button Styling */
-.glass-pill {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.25);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.glass-pill:hover {
-  background: rgba(255, 255, 255, 0.95);
-  color: #000 !important;
-  border-color: rgba(255, 255, 255, 0.9);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.3);
-}
-
-/* Scrim vignette over background video for contrast & beauty */
-.video-vignette {
-  background: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.75) 100%),
-              linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, transparent 40%),
-              linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, transparent 30%);
-}
-
-@keyframes pulse-subtle {
-  0%, 100% { opacity: 0.8; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.05); }
-}
-
-.animate-pulse-subtle {
-  animation: pulse-subtle 3s ease-in-out infinite;
-}
-
+/* Continuous Skills Marquee */
 @keyframes marquee-scroll {
   0% { transform: translateX(0%); }
   100% { transform: translateX(-50%); }
@@ -277,12 +121,34 @@ body.entered .intro-screen,
 .animate-marquee {
   display: flex;
   width: max-content;
-  animation: marquee-scroll 32s linear infinite;
+  animation: marquee-scroll 34s linear infinite;
 }
 
 .animate-marquee:hover {
   animation-play-state: paused;
 }
 
+/* Custom Horizontal Scroll Bar for Projects */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
 
-
+/* Custom Sleek Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: #50020d;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
