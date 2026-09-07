@@ -16,6 +16,40 @@ export default function App() {
   const [reelMuted, setReelMuted] = useState(true);
   const [dhakaTime, setDhakaTime] = useState('');
 
+  // Avatar Greeting State (User's avatar intro, wave, and go-home scroll logic)
+  const [avatarClass, setAvatarClass] = useState<string>('opacity-0 translate-y-3');
+  const greetedRef = useRef<boolean>(false);
+  const returnedHomeRef = useRef<boolean>(false);
+
+  // Avatar lifecycle: Enter -> Wave after 700ms -> Scroll >80px Go-Home
+  useEffect(() => {
+    const introTimer = setTimeout(() => {
+      setAvatarClass('avatar-intro');
+    }, 200);
+
+    const waveTimer = setTimeout(() => {
+      setAvatarClass('avatar-intro avatar-wave');
+      greetedRef.current = true;
+    }, 900);
+
+    const handleScroll = () => {
+      if (greetedRef.current && window.scrollY > 80 && !returnedHomeRef.current) {
+        setAvatarClass('avatar-go-home');
+        returnedHomeRef.current = true;
+      } else if (returnedHomeRef.current && window.scrollY <= 20) {
+        setAvatarClass('avatar-intro avatar-wave');
+        returnedHomeRef.current = false;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      clearTimeout(introTimer);
+      clearTimeout(waveTimer);
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   // Briefing / Job Inquiry Form State
   const [briefName, setBriefName] = useState('');
   const [briefEmail, setBriefEmail] = useState('');
@@ -699,6 +733,17 @@ export default function App() {
       <main className="relative z-[5] w-full h-screen flex flex-col justify-end pb-16 md:justify-center md:pb-0 px-5 sm:px-8 md:px-10 overflow-hidden">
         {/* Content container (Left) */}
         <div className="max-w-xl relative z-10">
+          {/* Animated Greeting Avatar Badge (Load enters -> Waves hand -> Scroll goes home) */}
+          <div
+            className={`inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/[0.08] border border-white/20 backdrop-blur-md text-xs font-mono-tech mb-3.5 select-none transition-all duration-300 ${avatarClass}`}
+          >
+            <span className="waving-hand text-base inline-block">👋</span>
+            <span className="font-heading font-medium text-white/90 text-[12px] sm:text-[13px]">
+              hey there! welcome to my portfolio
+            </span>
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+          </div>
+
           {/* 1. Blurred intro label - Premium Bold & Thin Contrast */}
           <div className="pointer-events-none select-none mb-3 sm:mb-4 text-[clamp(19px,4.2vw,27px)] leading-[1.25] text-white blur-[3px]">
             <span className="font-display font-extrabold uppercase">hey there, i'm pranto sarkar,</span>
