@@ -4,11 +4,9 @@ import { sound } from './audio';
 
 export default function PortfolioApp() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [pillsVisible, setPillsVisible] = useState(false);
   const [activeModal, setActiveModal] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [briefCopied, setBriefCopied] = useState(false);
-  const [soundActive, setSoundActive] = useState(false);
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
   const [inspectedTool, setInspectedTool] = useState<string | null>(null);
   const [reelPlaying, setReelPlaying] = useState(true);
@@ -96,13 +94,6 @@ export default function PortfolioApp() {
   // Reel Video Ref
   const reelVideoRef = useRef<HTMLVideoElement>(null);
 
-  // Show action pill buttons 300ms after page load
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setPillsVisible(true);
-    }, 300);
-    return () => clearTimeout(timer);
-  }, []);
 
   // Update Dhaka local time (UTC+6) every second
   useEffect(() => {
@@ -295,11 +286,6 @@ export default function PortfolioApp() {
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
     }
-  };
-
-  const toggleSound = () => {
-    const active = sound.toggle();
-    setSoundActive(active);
   };
 
   const openModal = (id: string) => {
@@ -535,16 +521,6 @@ export default function PortfolioApp() {
     { id: 'contact', label: 'contact' },
   ];
 
-  const heroPills = [
-    { label: 'view reel', action: () => openModal('reel') },
-    { label: 'experience & cv', action: () => openModal('experience') },
-    { label: 'featured works', action: () => {
-      document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
-    }},
-    { label: 'capabilities', action: () => openModal('services') },
-    { label: 'hire pranto', action: () => openModal('contact') },
-  ];
-
   return (
     <div className="relative min-h-screen w-full bg-[#990520] text-white selection:bg-white selection:text-[#b80828] font-body overflow-x-hidden">
       {/* Background Avatar Video (mouse-scrub controlled - face moves with cursor) */}
@@ -566,16 +542,6 @@ export default function PortfolioApp() {
         <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260826_041744_63efcd78-bf7d-4039-99e2-2461e8a61903.mp4" type="video/mp4" />
       </video>
 
-
-      {/* Interactive mouse-scrub hint pill (bottom-left) */}
-      <div
-        className={`fixed bottom-6 left-6 z-20 hidden sm:flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/[0.08] border border-white/20 backdrop-blur-md text-[11px] font-mono-tech tracking-wider text-white/75 pointer-events-none select-none transition-opacity duration-300 ${
-          scrolled ? 'opacity-0' : 'opacity-100'
-        }`}
-      >
-        <span className="w-1.5 h-1.5 rounded-full bg-white/90 animate-ping" />
-        <span className="font-light">drag cursor left / right to move face</span>
-      </div>
 
       {/* ========================================================================= */}
       {/* 03 — TOP NAVIGATION (Thin, Premium, Sticky on Scroll) */}
@@ -601,13 +567,9 @@ export default function PortfolioApp() {
           <span className="text-[22px] sm:text-[26px] text-white select-none leading-none group-hover:rotate-45 transition-transform duration-300">
             ✳︎
           </span>
-          <div className="hidden lg:flex items-center gap-2.5 border-l border-white/20 pl-3">
+          <div className="hidden lg:flex items-center border-l border-white/20 pl-3">
             <span className="text-[10px] font-mono-tech uppercase tracking-[0.2em] font-light text-white/70">
               MOTION DESIGNER &amp; AI ARTIST
-            </span>
-            <span className="inline-flex items-center gap-1.5 text-[9px] font-mono-tech uppercase tracking-wider text-emerald-300 bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-500/30">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span>AVAILABLE FOR HIRE</span>
             </span>
           </div>
         </div>
@@ -640,22 +602,8 @@ export default function PortfolioApp() {
           ))}
         </nav>
 
-        {/* FAR RIGHT: Sound Pill + Download CV */}
-        <div className="hidden md:flex items-center gap-4">
-          <button
-            type="button"
-            onClick={toggleSound}
-            title={soundActive ? 'Audio Feedback ON' : 'Audio Feedback OFF (Click to toggle)'}
-            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-mono-tech tracking-wider border transition-all cursor-pointer ${
-              soundActive
-                ? 'bg-white/20 border-white/50 text-white shadow-sm'
-                : 'bg-white/5 border-white/15 text-white/60 hover:text-white hover:border-white/35'
-            }`}
-          >
-            <span className={`w-1.5 h-1.5 rounded-full ${soundActive ? 'bg-emerald-400 animate-pulse' : 'bg-white/30'}`} />
-            <span>SOUND {soundActive ? 'ON' : 'OFF'}</span>
-          </button>
-
+        {/* FAR RIGHT: Download CV */}
+        <div className="hidden md:flex items-center">
           <a
             href="/Pranto_Sarkar_CV.pdf"
             download="Pranto_Sarkar_CV.pdf"
@@ -717,12 +665,6 @@ export default function PortfolioApp() {
             : 'opacity-0 pointer-events-none'
         }`}
       >
-        <div className="mb-2">
-          <span className="text-[10px] font-mono-tech uppercase tracking-widest text-emerald-300 bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-500/30">
-            ● AVAILABLE FOR HIRE
-          </span>
-        </div>
-
         {navLinks.map((item) => (
           <button
             key={item.id}
@@ -757,14 +699,6 @@ export default function PortfolioApp() {
               <line x1="12" y1="15" x2="12" y2="3" />
             </svg>
           </a>
-
-          <button
-            type="button"
-            onClick={toggleSound}
-            className="self-start text-[11px] font-mono-tech text-white/70 hover:text-white uppercase"
-          >
-            AUDIO FEEDBACK: {soundActive ? 'ON' : 'OFF'}
-          </button>
         </div>
       </div>
 
@@ -777,17 +711,8 @@ export default function PortfolioApp() {
 
         {/* HERO MAIN CONTENT GRID */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto relative z-10 w-full max-w-7xl mx-auto">
-          {/* LEFT SIDE: Typography, Intro, Pills, Contact */}
+          {/* LEFT SIDE: Typography & Editorial Intro */}
           <div className="lg:col-span-7 flex flex-col items-start text-left z-20 max-w-xl">
-            {/* Small Welcome Pill */}
-            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-xs font-mono-tech mb-4 select-none transition-transform hover:scale-[1.02]">
-              <span className="animate-hand-wave text-sm inline-block">👋</span>
-              <span className="font-heading font-medium text-white/95 text-[12px] sm:text-[13px]">
-                hey there! welcome to my portfolio
-              </span>
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            </div>
-
             {/* Main Introduction Typography (Sora Bold) */}
             <h1 className="text-[clamp(32px,5.8vw,56px)] leading-[1.08] font-display font-extrabold uppercase tracking-tight text-white mb-2">
               HEY THERE, I’M PRANTO<br />
@@ -800,66 +725,12 @@ export default function PortfolioApp() {
             </h2>
 
             {/* Editorial Body Copy (Controlled Width) */}
-            <p className="text-white/80 text-[clamp(14px,2.2vw,17px)] leading-[1.48] font-light tracking-tight max-w-lg mb-6 min-h-[50px]">
+            <p className="text-white/80 text-[clamp(14px,2.2vw,17px)] leading-[1.48] font-light tracking-tight max-w-lg min-h-[50px]">
               {displayed}
               {!done && (
                 <span className="inline-block w-[2px] h-[1.1em] bg-white align-middle ml-[2px] animate-pulse" />
               )}
             </p>
-
-            {/* Compact Action Pill Buttons (Matching Master Style) */}
-            <div
-              className={`flex flex-wrap gap-y-1.5 transition-all duration-400 ease-out mb-4 ${
-                pillsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
-              }`}
-            >
-              {heroPills.map((pill) => (
-                <button
-                  key={pill.label}
-                  type="button"
-                  onClick={() => {
-                    sound.playClick();
-                    pill.action();
-                  }}
-                  onMouseEnter={() => sound.playHover()}
-                  className="inline-flex items-center justify-center bg-white text-[#990520] font-semibold rounded-full text-[13px] sm:text-[14px] px-4 sm:px-5 py-[0.35em] mx-[0.2em] mb-[0.3em] whitespace-nowrap cursor-pointer hover:bg-black hover:text-white transition-all duration-200 hover:scale-[1.03] shadow-md"
-                >
-                  {pill.label}
-                </button>
-              ))}
-            </div>
-
-            {/* Contact Email Pill with Animated Underline */}
-            <button
-              type="button"
-              onClick={handleCopyEmail}
-              onMouseEnter={() => sound.playHover()}
-              className="inline-flex items-center justify-center text-white bg-white/10 hover:bg-white/20 border border-white/30 rounded-full text-[12px] sm:text-[14px] px-4 sm:px-5 py-[0.35em] whitespace-nowrap cursor-pointer transition-all duration-200 gap-2 sm:gap-3 group"
-              title="Click to copy email address"
-            >
-              <span>
-                reach me:{' '}
-                <span className="underline underline-offset-2 font-mono-tech text-[12px] sm:text-[13px] group-hover:underline-offset-4 transition-all">
-                  prantosarkar32@gmail.com
-                </span>
-              </span>
-              {copied ? (
-                <span className="text-[11px] font-mono-tech text-emerald-300 font-medium">copied!</span>
-              ) : (
-                <svg
-                  width="12"
-                  height="12"
-                  viewBox="0 0 14 14"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.4"
-                  className="inline-block shrink-0"
-                >
-                  <rect x="4.5" y="1.5" width="8" height="8" rx="1" />
-                  <rect x="1.5" y="4.5" width="8" height="8" rx="1" />
-                </svg>
-              )}
-            </button>
           </div>
 
           {/* RIGHT SIDE: Interactive 3D Avatar Stage (Video Avatar with Mouse Face Movement) */}
