@@ -566,7 +566,25 @@ export default function PortfolioApp() {
             : 'bg-transparent'
         }`}
       >
-        <div />
+        {/* FAR LEFT: Hire Me Button (Liquid Glass UI with pulsing availability indicator) */}
+        <button
+          type="button"
+          onClick={() => {
+            sound.playClick();
+            openModal('contact');
+          }}
+          onMouseEnter={() => sound.playHover()}
+          className="liquid-glass-capsule inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-white font-heading font-semibold text-xs sm:text-sm tracking-wider cursor-pointer select-none group transition-transform duration-300 hover:scale-105"
+          title="Hire me / Get in touch"
+        >
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400 shadow-[0_0_8px_#34d399]" />
+          </span>
+          <span className="font-display font-bold tracking-wider uppercase text-xs sm:text-sm text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)]">
+            HIRE ME
+          </span>
+        </button>
 
         {/* CENTER ON SCROLL: Brand Title & Subtitle Badge */}
         <div
@@ -574,17 +592,17 @@ export default function PortfolioApp() {
             sound.playClick();
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
-          className={`absolute left-1/2 -translate-x-1/2 flex flex-col items-center justify-center text-center cursor-pointer select-none transition-all duration-300 max-w-[52vw] sm:max-w-none px-2 group ${
+          className={`absolute left-1/2 -translate-x-1/2 flex flex-col items-center justify-center text-center cursor-pointer select-none transition-all duration-300 max-w-[50vw] sm:max-w-none px-2 group ${
             scrolled
               ? 'opacity-100 translate-y-0 pointer-events-auto'
               : 'opacity-0 -translate-y-2 pointer-events-none'
           }`}
           title="Click to scroll to top"
         >
-          <span className="font-display font-extrabold text-xs sm:text-sm md:text-[15px] tracking-wider uppercase text-white leading-tight drop-shadow-[0_1px_4px_rgba(0,0,0,0.4)] group-hover:text-white/85 transition-colors">
+          <span className="font-display font-black text-xs sm:text-base md:text-[17px] tracking-wider uppercase text-white leading-tight drop-shadow-[0_1px_4px_rgba(0,0,0,0.4)] group-hover:text-white/85 transition-colors">
             PRANTO SARKAR
           </span>
-          <span className="font-heading font-normal text-[9px] sm:text-[10.5px] md:text-[11px] tracking-widest text-white/80 lowercase leading-tight group-hover:text-white/95 transition-colors">
+          <span className="font-heading font-normal text-[9.5px] sm:text-[11px] md:text-[12px] tracking-widest text-white/80 lowercase leading-tight group-hover:text-white/95 transition-colors">
             motion designer &amp; ai artist
           </span>
         </div>
@@ -709,23 +727,23 @@ export default function PortfolioApp() {
           {/* LEFT SIDE: Typography & Editorial Intro (Massive, cinematic scale & strict alignment) */}
           <div className="lg:col-span-8 flex flex-col items-start text-left z-20 max-w-3xl">
             {/* Intro Greeting */}
-            <p className="text-[clamp(20px,3vw,34px)] font-display font-bold tracking-wider text-white/90 uppercase mb-2.5 sm:mb-3">
+            <p className="text-[clamp(22px,3.4vw,38px)] font-display font-bold tracking-wider text-white/95 uppercase mb-2.5 sm:mb-3">
               HEY THERE, I’M
             </p>
 
-            {/* Main Name Heading (Monumental Scale & Ultra-Tight Leading) */}
-            <h1 className="text-[clamp(64px,11.5vw,138px)] leading-[0.85] font-display font-black uppercase tracking-[-0.04em] text-white drop-shadow-[0_6px_32px_rgba(0,0,0,0.45)] mb-5 sm:mb-6">
+            {/* Main Name Heading (Monumental Scale & Ultra-Tight Leading, Truly Eye-Catching) */}
+            <h1 className="text-[clamp(74px,14vw,172px)] leading-[0.82] font-display font-black uppercase tracking-[-0.045em] text-white drop-shadow-[0_8px_40px_rgba(0,0,0,0.6)] mb-5 sm:mb-7">
               PRANTO<br />
               SARKAR.
             </h1>
 
             {/* Secondary Title (Matching lowercase & proportional scale) */}
-            <h2 className="text-[clamp(20px,3vw,32px)] font-heading font-medium tracking-wide text-white/90 mb-6 sm:mb-7 lowercase">
+            <h2 className="text-[clamp(22px,3.4vw,36px)] font-heading font-medium tracking-wide text-white/90 mb-6 sm:mb-8 lowercase">
               motion designer &amp; ai artist
             </h2>
 
             {/* Editorial Body Copy (Clean proportional readability) */}
-            <p className="text-white/85 text-[clamp(15px,1.8vw,19px)] leading-[1.6] font-light tracking-normal max-w-[560px] min-h-[50px]">
+            <p className="text-white/85 text-[clamp(15px,1.8vw,19px)] leading-[1.65] font-light tracking-normal max-w-[580px] min-h-[50px]">
               {displayed}
               {!done && (
                 <span className="inline-block w-[2px] h-[1.1em] bg-white align-middle ml-[2px] animate-pulse" />
