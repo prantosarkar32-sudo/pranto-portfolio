@@ -602,32 +602,38 @@ export default function PortfolioApp() {
           ))}
         </nav>
 
-        {/* FAR RIGHT: Glass UI CV Download Pill + Mobile Hamburger */}
+        {/* FAR RIGHT: Liquid Glass UI CV Download Capsule + Mobile Hamburger */}
         <div className="flex items-center gap-3">
           <a
             href="/Pranto_Sarkar_CV.pdf"
             download="Pranto_Sarkar_CV.pdf"
             onMouseEnter={() => sound.playHover()}
             onClick={() => sound.playClick()}
-            className="glass-pill-red inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 rounded-full text-white font-heading font-bold text-xs sm:text-sm uppercase tracking-wider hover:text-white transition-all duration-300 shadow-[0_4px_16px_rgba(0,0,0,0.3)] hover:scale-105 active:scale-95 cursor-pointer select-none group border border-white/25"
-            title="Download CV"
+            className="liquid-glass-capsule inline-flex items-center gap-2.5 px-4 sm:px-5 py-1.5 sm:py-2 rounded-full text-white font-heading font-bold text-xs sm:text-sm tracking-wider cursor-pointer select-none group"
+            title="Touch or click to download CV"
           >
-            <span>CV</span>
-            <svg
-              width="13"
-              height="13"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="transition-transform duration-200 group-hover:translate-y-0.5"
-            >
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-              <polyline points="7 10 12 15 17 10" />
-              <line x1="12" y1="15" x2="12" y2="3" />
-            </svg>
+            {/* Liquid Glass Icon Token with Inner Shimmer */}
+            <div className="relative w-6 h-6 rounded-full bg-white/25 border border-white/50 shadow-[inset_0_1px_2px_rgba(255,255,255,0.7)] flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-110">
+              <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/30 to-white/60 pointer-events-none" />
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="relative z-10 transition-transform duration-300 group-hover:translate-y-0.5 text-white"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+            </div>
+            <span className="font-display font-extrabold tracking-wider text-xs sm:text-sm text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)]">
+              CV
+            </span>
           </a>
 
           {/* Mobile Hamburger */}
