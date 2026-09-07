@@ -700,13 +700,13 @@ export default function PortfolioApp() {
       {/* ========================================================================= */}
       {/* 02 — HERO SECTION (Full-Screen 100vh with Master Reference Composition) */}
       {/* ========================================================================= */}
-      <section className="relative w-full min-h-screen flex flex-col justify-between pt-24 sm:pt-28 pb-6 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 overflow-hidden select-none">
+      <section className="relative w-full min-h-screen flex flex-col justify-between pt-16 sm:pt-20 pb-6 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 overflow-hidden select-none">
         {/* Ambient Subtle Radial Glow in Red Canvas */}
         <div className="absolute top-1/4 right-10 w-[550px] h-[550px] rounded-full bg-[#ff1a40]/20 blur-[130px] pointer-events-none" />
 
-        {/* HERO MAIN CONTENT GRID (Expanded Widescreen Layout Shifted Further to Side) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto relative z-10 w-full max-w-[1760px] mx-auto">
-          {/* LEFT SIDE: Typography & Editorial Intro (Anchored Further to the Left Edge) */}
+        {/* HERO MAIN CONTENT GRID (Positioned into Upper Square Area as Indicated) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mt-2 sm:mt-4 lg:mt-6 mb-auto relative z-10 w-full max-w-[1760px] mx-auto">
+          {/* LEFT SIDE: Typography & Editorial Intro (Positioned in the Upper Square Area) */}
           <div className="lg:col-span-8 flex flex-col items-start text-left z-20 max-w-3xl">
             {/* Intro Greeting */}
             <p className="text-[clamp(22px,3.4vw,38px)] font-display font-bold tracking-wider text-white/95 uppercase mb-2.5 sm:mb-3">
@@ -734,7 +734,7 @@ export default function PortfolioApp() {
           </div>
 
           {/* RIGHT SIDE: Interactive 3D Avatar Stage (Video Avatar with Mouse Face Movement) */}
-          <div className="lg:col-span-4 relative flex items-center justify-center lg:justify-end z-10 min-h-[360px] sm:min-h-[460px] lg:min-h-[580px] pointer-events-none">
+          <div className="lg:col-span-4 relative flex items-center justify-center lg:justify-end z-10 self-center min-h-[360px] sm:min-h-[460px] lg:min-h-[580px] pointer-events-none">
             {/* The transparent frame preserves the exact desktop layout & composition */}
             <div
               className="relative w-[320px] sm:w-[420px] lg:w-[480px] max-w-full aspect-[404/597] pointer-events-none transition-transform duration-300"
