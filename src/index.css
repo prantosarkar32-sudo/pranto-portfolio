@@ -41,6 +41,42 @@ body {
   will-change: transform;
 }
 
+/* Responsive Avatar Video Framing (Centered on mobile, 70% center on desktop) */
+.hero-avatar-video {
+  object-position: 56% 26%;
+}
+@media (min-width: 768px) {
+  .hero-avatar-video {
+    object-position: 70% center;
+  }
+}
+
+/* Responsive Editorial Gradient Veil (Top-to-bottom on mobile, left-to-right on desktop) */
+.hero-gradient-veil {
+  background: linear-gradient(
+    180deg,
+    rgba(24, 1, 5, 0.94) 0%,
+    rgba(38, 2, 8, 0.85) 30%,
+    rgba(62, 3, 13, 0.55) 55%,
+    rgba(96, 5, 20, 0.3) 75%,
+    rgba(145, 8, 28, 0.45) 100%
+  );
+}
+@media (min-width: 1024px) {
+  .hero-gradient-veil {
+    background: linear-gradient(
+      90deg,
+      rgba(24, 1, 5, 0.94) 0%,
+      rgba(38, 2, 8, 0.86) 22%,
+      rgba(62, 3, 13, 0.68) 42%,
+      rgba(96, 5, 20, 0.44) 56%,
+      rgba(145, 8, 28, 0.18) 72%,
+      rgba(190, 10, 36, 0.05) 86%,
+      transparent 100%
+    );
+  }
+}
+
 .bn-text {
   font-family: var(--font-bengali);
 }

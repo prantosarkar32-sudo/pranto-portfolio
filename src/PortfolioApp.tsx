@@ -492,14 +492,13 @@ export default function PortfolioApp() {
       {/* Hardware-accelerated fixed canvas background (zero scroll repaints) */}
       <div className="site-bg-canvas" />
 
-      {/* Background Avatar Video (Plays smoothly on hover, loops seamlessly) */}
+      {/* Background Avatar Video (Responsive framing: centered on phones, 70% right on desktop) */}
       <video
         ref={videoRef}
         poster="/avatar.png"
-        className={`fixed inset-0 z-0 w-full h-full object-cover pointer-events-none select-none transition-opacity duration-700 transform-gpu will-change-transform ${
+        className={`hero-avatar-video fixed inset-0 z-0 w-full h-full object-cover pointer-events-none select-none transition-opacity duration-700 transform-gpu will-change-transform ${
           scrolled ? 'opacity-25' : 'opacity-100'
         }`}
-        style={{ objectPosition: '70% center' }}
         muted
         loop
         playsInline
@@ -511,16 +510,12 @@ export default function PortfolioApp() {
       </video>
 
       {/* ========================================================================= */}
-      {/* SMOOTH HORIZONTAL GRADIENT: Dark Crimson on Left to Light Bright Red on Right */}
+      {/* RESPONSIVE EDITORIAL VEIL: Top-to-Bottom on Mobile, Left-to-Right on Desktop */}
       {/* ========================================================================= */}
       <div
-        className={`fixed inset-0 z-[1] pointer-events-none transition-opacity duration-700 ${
+        className={`hero-gradient-veil fixed inset-0 z-[1] pointer-events-none transition-opacity duration-700 ${
           scrolled ? 'opacity-30' : 'opacity-100'
         }`}
-        style={{
-          background:
-            'linear-gradient(90deg, rgba(24, 1, 5, 0.94) 0%, rgba(38, 2, 8, 0.86) 22%, rgba(62, 3, 13, 0.68) 42%, rgba(96, 5, 20, 0.44) 56%, rgba(145, 8, 28, 0.18) 72%, rgba(190, 10, 36, 0.05) 86%, transparent 100%)',
-        }}
       />
 
 
@@ -528,49 +523,49 @@ export default function PortfolioApp() {
       {/* 03 — TOP NAVIGATION (Thin, Premium, Sticky on Scroll) */}
       {/* ========================================================================= */}
       <header
-        className={`fixed top-0 inset-x-0 z-40 w-full px-5 sm:px-8 py-4 sm:py-5 flex justify-between items-center transition-all duration-300 ${
+        className={`fixed top-0 inset-x-0 z-40 w-full px-3.5 sm:px-8 py-2.5 sm:py-5 flex justify-between items-center transition-all duration-300 ${
           scrolled
-            ? 'bg-[#7a0418]/85 backdrop-blur-md border-b border-white/10 shadow-lg py-3 sm:py-3.5'
+            ? 'bg-[#7a0418]/90 backdrop-blur-md border-b border-white/10 shadow-lg py-2 sm:py-3.5'
             : 'bg-transparent'
         }`}
       >
-        {/* FAR LEFT ON SCROLL: Brand Title & Subtitle (Positioned on the side as indicated) */}
+        {/* FAR LEFT ON SCROLL: Brand Title & Subtitle (Positioned on the side, mobile-safe truncation) */}
         <div
           onClick={() => {
             sound.playClick();
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
-          className={`flex flex-col items-start justify-center text-left cursor-pointer select-none transition-all duration-300 group ${
+          className={`flex flex-col items-start justify-center text-left cursor-pointer select-none transition-all duration-300 max-w-[52vw] sm:max-w-none group ${
             scrolled
               ? 'opacity-100 translate-x-0 pointer-events-auto'
               : 'opacity-0 -translate-x-2 pointer-events-none'
           }`}
           title="Click to scroll to top"
         >
-          <span className="font-display font-black text-sm sm:text-base md:text-lg tracking-wider uppercase text-white leading-tight drop-shadow-[0_1px_4px_rgba(0,0,0,0.4)] group-hover:text-white/85 transition-colors">
+          <span className="font-display font-black text-xs sm:text-base md:text-lg tracking-wider uppercase text-white leading-tight drop-shadow-[0_1px_4px_rgba(0,0,0,0.4)] group-hover:text-white/85 transition-colors truncate w-full">
             PRANTO SARKAR
           </span>
-          <span className="font-heading font-normal text-[9.5px] sm:text-[11px] md:text-[12px] tracking-widest text-white/80 lowercase leading-tight group-hover:text-white/95 transition-colors">
+          <span className="font-heading font-normal text-[8px] sm:text-[11px] md:text-[12px] tracking-widest text-white/80 lowercase leading-tight group-hover:text-white/95 transition-colors truncate w-full">
             motion designer &amp; ai artist
           </span>
         </div>
 
         {/* FAR RIGHT: Liquid Glass UI CV Download Capsule + Mobile Hamburger */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           <a
             href="/Pranto_Sarkar_CV.pdf"
             download="Pranto_Sarkar_CV.pdf"
             onMouseEnter={() => sound.playHover()}
             onClick={() => sound.playClick()}
-            className="liquid-glass-capsule inline-flex items-center gap-2.5 px-4 sm:px-5 py-1.5 sm:py-2 rounded-full text-white font-heading font-bold text-xs sm:text-sm tracking-wider cursor-pointer select-none group"
+            className="liquid-glass-capsule inline-flex items-center gap-1.5 sm:gap-2.5 px-3 sm:px-5 py-1 sm:py-2 rounded-full text-white font-heading font-bold text-[11px] sm:text-sm tracking-wider cursor-pointer select-none group shrink-0"
             title="Touch or click to download CV"
           >
             {/* Liquid Glass Icon Token with Inner Shimmer */}
-            <div className="relative w-6 h-6 rounded-full bg-white/25 border border-white/50 shadow-[inset_0_1px_2px_rgba(255,255,255,0.7)] flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-110">
+            <div className="relative w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white/25 border border-white/50 shadow-[inset_0_1px_2px_rgba(255,255,255,0.7)] flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-110 shrink-0">
               <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/30 to-white/60 pointer-events-none" />
               <svg
-                width="12"
-                height="12"
+                width="11"
+                height="11"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -584,12 +579,12 @@ export default function PortfolioApp() {
                 <line x1="12" y1="15" x2="12" y2="3" />
               </svg>
             </div>
-            <span className="font-display font-extrabold tracking-wider text-xs sm:text-sm text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)]">
+            <span className="font-display font-extrabold tracking-wider text-[11px] sm:text-sm text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)]">
               CV
             </span>
           </a>
 
-          {/* Mobile Hamburger */}
+          {/* Mobile Hamburger Touch Button */}
           <button
             type="button"
             aria-label="Toggle navigation menu"
@@ -597,21 +592,21 @@ export default function PortfolioApp() {
               sound.playClick();
               setIsMenuOpen((prev) => !prev);
             }}
-            className="flex flex-col justify-center items-center gap-[5px] md:hidden z-50 cursor-pointer p-1"
+            className="flex flex-col justify-center items-center gap-[4.5px] md:hidden z-50 cursor-pointer p-2 w-9 h-9 rounded-full bg-white/10 border border-white/20 active:bg-white/25 transition-colors shrink-0"
           >
             <span
-              className={`w-6 h-[2px] bg-white transition-all duration-300 origin-center ${
-                isMenuOpen ? 'rotate-45 translate-y-[7px]' : ''
+              className={`w-4 h-[2px] bg-white transition-all duration-300 origin-center ${
+                isMenuOpen ? 'rotate-45 translate-y-[6.5px]' : ''
               }`}
             />
             <span
-              className={`w-6 h-[2px] bg-white transition-all duration-300 ${
+              className={`w-4 h-[2px] bg-white transition-all duration-300 ${
                 isMenuOpen ? 'opacity-0' : 'opacity-100'
               }`}
             />
             <span
-              className={`w-6 h-[2px] bg-white transition-all duration-300 origin-center ${
-                isMenuOpen ? '-rotate-45 -translate-y-[7px]' : ''
+              className={`w-4 h-[2px] bg-white transition-all duration-300 origin-center ${
+                isMenuOpen ? '-rotate-45 -translate-y-[6.5px]' : ''
               }`}
             />
           </button>
@@ -666,7 +661,10 @@ export default function PortfolioApp() {
       {/* ========================================================================= */}
       {/* 02 — HERO SECTION (Full-Screen 100vh with Master Reference Composition) */}
       {/* ========================================================================= */}
-      <section className="relative w-full min-h-screen flex flex-col justify-between pt-16 sm:pt-20 pb-6 px-3 sm:px-5 md:px-7 lg:px-8 xl:px-10 overflow-hidden select-none">
+      {/* ========================================================================= */}
+      {/* 02 — HERO SECTION (Full-Screen 100vh with Master Reference Composition) */}
+      {/* ========================================================================= */}
+      <section className="relative w-full min-h-screen flex flex-col justify-between pt-16 sm:pt-20 pb-4 sm:pb-6 px-4 sm:px-5 md:px-7 lg:px-8 xl:px-10 overflow-hidden select-none">
         {/* Ambient Subtle Radial Glow in Red Canvas (Zero-cost GPU radial gradient) */}
         <div className="absolute top-1/4 right-10 w-[550px] h-[550px] rounded-full bg-[radial-gradient(circle,rgba(255,26,64,0.18)_0%,transparent_70%)] pointer-events-none" />
 
@@ -675,23 +673,23 @@ export default function PortfolioApp() {
           {/* LEFT SIDE: Typography & Editorial Intro (Shifted Further to the Left) */}
           <div className="lg:col-span-7 xl:col-span-8 flex flex-col items-start text-left z-20 max-w-3xl">
             {/* Intro Greeting */}
-            <p className="text-[clamp(22px,3.4vw,38px)] font-display font-bold tracking-wider text-white/95 uppercase mb-2.5 sm:mb-3">
+            <p className="text-[clamp(18px,3.4vw,38px)] font-display font-bold tracking-wider text-white/95 uppercase mb-2 sm:mb-3">
               HEY THERE, I’M
             </p>
 
-            {/* Main Name Heading (Shifted Further to Left Side, Monumental Scale) */}
-            <h1 className="text-[clamp(68px,12.8vw,160px)] leading-[0.82] font-display font-black uppercase tracking-[-0.045em] text-white drop-shadow-[0_8px_40px_rgba(0,0,0,0.6)] mb-5 sm:mb-7">
+            {/* Main Name Heading (Monumental scale, mobile-fluid clamp) */}
+            <h1 className="text-[clamp(44px,13.2vw,160px)] leading-[0.84] font-display font-black uppercase tracking-[-0.045em] text-white drop-shadow-[0_8px_40px_rgba(0,0,0,0.6)] mb-4 sm:mb-7">
               PRANTO<br />
               SARKAR.
             </h1>
 
             {/* Secondary Title (Matching lowercase & proportional scale) */}
-            <h2 className="text-[clamp(22px,3.4vw,36px)] font-heading font-medium tracking-wide text-white/90 mb-6 sm:mb-8 lowercase">
+            <h2 className="text-[clamp(18px,3.2vw,36px)] font-heading font-medium tracking-wide text-white/90 mb-4 sm:mb-8 lowercase">
               motion designer &amp; ai artist
             </h2>
 
             {/* Editorial Body Copy (Clean proportional readability) */}
-            <p className="text-white/85 text-[clamp(15px,1.8vw,19px)] leading-[1.65] font-light tracking-normal max-w-[580px] min-h-[50px]">
+            <p className="text-white/85 text-[clamp(14px,1.8vw,19px)] leading-[1.65] font-light tracking-normal max-w-[580px] min-h-[44px]">
               {displayed}
               {!done && (
                 <span className="inline-block w-[2px] h-[1.1em] bg-white align-middle ml-[2px] animate-pulse" />
@@ -699,9 +697,9 @@ export default function PortfolioApp() {
             </p>
           </div>
 
-          {/* RIGHT SIDE: Interactive 3D Avatar Stage (Smooth 60fps Play on Hover) */}
+          {/* RIGHT SIDE: Interactive 3D Avatar Stage (Smooth 60fps Play on Hover / Tap) */}
           <div
-            className="lg:col-span-5 xl:col-span-4 relative flex items-center justify-center lg:justify-end z-20 self-center min-h-[360px] sm:min-h-[460px] lg:min-h-[580px] pointer-events-auto cursor-pointer"
+            className="lg:col-span-5 xl:col-span-4 relative flex items-center justify-center lg:justify-end z-20 self-center min-h-[220px] sm:min-h-[340px] lg:min-h-[580px] pointer-events-auto cursor-pointer"
             onMouseEnter={handleAvatarMouseEnter}
             onMouseLeave={handleAvatarMouseLeave}
             onClick={handleAvatarClick}
@@ -709,16 +707,16 @@ export default function PortfolioApp() {
             {/* The interactive frame with smooth hover scale */}
             <div
               ref={avatarFrameRef}
-              className={`relative w-[320px] sm:w-[420px] lg:w-[480px] max-w-full aspect-[404/597] pointer-events-auto transition-transform duration-500 will-change-transform transform-gpu ${
+              className={`relative w-[260px] sm:w-[360px] lg:w-[480px] max-w-full aspect-[404/597] pointer-events-auto transition-transform duration-500 will-change-transform transform-gpu ${
                 isAvatarHovered ? 'scale-[1.025]' : 'scale-100'
               }`}
             />
           </div>
         </div>
 
-        {/* 12 — SOFTWARE / ARSENAL BAR (Floating Pill on Left Side in One Single Horizontal Line) */}
+        {/* 12 — SOFTWARE / ARSENAL BAR (Responsive: In-flow on mobile, Floating Pill on desktop) */}
         <aside
-          className="glass-panel-red absolute bottom-14 sm:bottom-16 left-3 sm:left-5 md:left-7 lg:left-8 xl:left-10 z-20 flex items-center gap-2.5 sm:gap-3 p-2 sm:px-4 sm:py-2.5 rounded-full select-none pointer-events-auto whitespace-nowrap flex-nowrap max-w-[95vw] overflow-x-auto shadow-2xl transition-transform duration-300 hover:scale-[1.02]"
+          className="glass-panel-red relative lg:absolute my-4 lg:my-0 lg:bottom-14 left-auto lg:left-8 xl:left-10 z-20 flex items-center gap-2 sm:gap-3 p-2 sm:px-4 sm:py-2.5 rounded-full select-none pointer-events-auto whitespace-nowrap flex-nowrap max-w-[calc(100vw-2rem)] lg:max-w-[95vw] overflow-x-auto shadow-2xl transition-transform duration-300 hover:scale-[1.01] shrink-0"
         >
           <div className="flex items-center gap-1.5 text-[11px] font-mono-tech uppercase tracking-wider text-white/70 pl-1 pr-0.5 whitespace-nowrap shrink-0">
             <span className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_#ffffff] animate-pulse" />
@@ -758,9 +756,9 @@ export default function PortfolioApp() {
           </div>
         </aside>
 
-        {/* Arsenal Capability Popover */}
+        {/* Arsenal Capability Popover (Responsive on mobile and desktop) */}
         {inspectedTool && (
-          <div className="fixed bottom-28 left-3 sm:left-5 md:left-7 lg:left-8 xl:left-10 z-30 max-w-sm glass-panel-red rounded-2xl p-4 border border-white/25 shadow-2xl animate-fadeIn text-left">
+          <div className="relative lg:fixed my-3 lg:my-0 lg:bottom-28 left-auto lg:left-8 xl:left-10 z-30 w-full max-w-sm glass-panel-red rounded-2xl p-4 border border-white/25 shadow-2xl animate-fadeIn text-left">
             <div className="flex justify-between items-center mb-2">
               <div className="flex items-center gap-2">
                 <span className="text-xs font-display font-bold text-white uppercase tracking-wider">
@@ -787,7 +785,7 @@ export default function PortfolioApp() {
         {/* 13 — SKILLS TICKER (Continuous Slow Marquee at Bottom of Hero) */}
         <div
           onClick={() => openModal('services')}
-          className="absolute bottom-2 inset-x-0 overflow-hidden py-2 cursor-pointer select-none group pointer-events-auto"
+          className="relative lg:absolute bottom-0 lg:bottom-2 inset-x-0 overflow-hidden py-2 cursor-pointer select-none group pointer-events-auto mt-3 lg:mt-0"
           title="Click to view all capabilities & services"
         >
           <div className="flex whitespace-nowrap animate-marquee opacity-60 hover:opacity-100 transition-opacity duration-300">
@@ -836,7 +834,7 @@ export default function PortfolioApp() {
           onMouseUp={handleReelMouseUp}
           onMouseLeave={handleReelMouseUp}
           onWheel={handleReelWheel}
-          className="flex gap-6 overflow-x-auto no-scrollbar py-4 cursor-grab active:cursor-grabbing select-none scroll-smooth"
+          className="flex gap-4 sm:gap-6 overflow-x-auto no-scrollbar py-4 cursor-grab active:cursor-grabbing select-none scroll-smooth px-1"
         >
           {projects.map((p) => (
             <div
@@ -846,7 +844,7 @@ export default function PortfolioApp() {
                 setSelectedProject(p.id);
                 openModal('project-detail');
               }}
-              className="flex-shrink-0 w-[300px] sm:w-[380px] lg:w-[440px] rounded-3xl p-5 glass-panel-red border border-white/20 group hover:border-white/50 transition-all duration-300 flex flex-col justify-between"
+              className="flex-shrink-0 w-[275px] sm:w-[380px] lg:w-[440px] rounded-2xl sm:rounded-3xl p-4 sm:p-5 glass-panel-red border border-white/20 group hover:border-white/50 transition-all duration-300 flex flex-col justify-between"
             >
               <div>
                 {/* Project Image Thumbnail */}
@@ -1071,25 +1069,25 @@ export default function PortfolioApp() {
       {/* ========================================================================= */}
       {/* 16 — CONTACT SECTION (Grand Final Ending) */}
       {/* ========================================================================= */}
-      <footer id="contact" className="relative py-24 sm:py-32 px-5 sm:px-8 md:px-12 border-t border-white/20 bg-[#50020d] select-none">
+      <footer id="contact" className="relative py-16 sm:py-32 px-4 sm:px-8 md:px-12 border-t border-white/20 bg-[#50020d] select-none">
         <div className="max-w-7xl mx-auto">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-[10px] font-mono-tech uppercase tracking-widest text-white/80 mb-6">
             <span>05 / COLLABORATION</span>
           </div>
 
-          <h2 className="text-[clamp(32px,6vw,72px)] font-display font-extrabold uppercase tracking-tight text-white leading-[1.05] mb-6 max-w-4xl">
+          <h2 className="text-[clamp(28px,6.5vw,72px)] font-display font-extrabold uppercase tracking-tight text-white leading-[1.05] mb-5 sm:mb-6 max-w-4xl">
             “LET’S BUILD SOMETHING PEOPLE REMEMBER.”
           </h2>
 
-          <p className="text-white/80 text-sm sm:text-lg font-light max-w-2xl mb-10 leading-relaxed">
+          <p className="text-white/80 text-sm sm:text-lg font-light max-w-2xl mb-8 sm:mb-10 leading-relaxed">
             Available for selected motion design, commercial direction, AI visual production, and brand identity projects worldwide.
           </p>
 
-          <div className="flex flex-wrap items-center gap-4 mb-16">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 mb-12 sm:mb-16 w-full sm:w-auto">
             <button
               type="button"
               onClick={() => openModal('contact')}
-              className="px-8 py-4 rounded-full bg-white text-[#990520] font-heading font-bold text-sm uppercase tracking-wide hover:bg-black hover:text-white transition-all shadow-xl hover:scale-105 active:scale-95 cursor-pointer"
+              className="w-full sm:w-auto px-8 py-3.5 sm:py-4 rounded-full bg-white text-[#990520] font-heading font-bold text-sm uppercase tracking-wide hover:bg-black hover:text-white transition-all shadow-xl hover:scale-105 active:scale-95 cursor-pointer text-center"
             >
               HIRE PRANTO
             </button>
@@ -1097,19 +1095,19 @@ export default function PortfolioApp() {
             <button
               type="button"
               onClick={handleCopyEmail}
-              className="px-6 py-4 rounded-full bg-white/10 hover:bg-white/20 border border-white/30 text-white font-mono-tech text-xs sm:text-sm tracking-wider transition-all cursor-pointer"
+              className="w-full sm:w-auto px-6 py-3.5 sm:py-4 rounded-full bg-white/10 hover:bg-white/20 border border-white/30 text-white font-mono-tech text-xs sm:text-sm tracking-wider transition-all cursor-pointer text-center truncate"
             >
               {copied ? '✓ prantosarkar32@gmail.com copied' : 'prantosarkar32@gmail.com'}
             </button>
           </div>
 
           {/* Social Networks & Footer Meta */}
-          <div className="pt-8 border-t border-white/15 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono-tech text-white/60">
+          <div className="pt-8 border-t border-white/15 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono-tech text-white/60 text-center sm:text-left">
             <div>
               PRANTO SARKAR® · ALL RIGHTS RESERVED © {new Date().getFullYear()}
             </div>
 
-            <div className="flex items-center gap-5">
+            <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-5">
               <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">
                 LinkedIn
               </a>
@@ -1139,11 +1137,11 @@ export default function PortfolioApp() {
       {/* ========================================================================= */}
       {activeModal === 'reel' && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-[#3d010a]/90 backdrop-blur-2xl animate-fadeIn"
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-[#3d010a]/90 backdrop-blur-2xl animate-fadeIn"
           onClick={closeModal}
         >
           <div
-            className="glass-panel-red w-full max-w-4xl rounded-3xl p-6 sm:p-8 relative border border-white/25 shadow-2xl text-left"
+            className="glass-panel-red w-full max-w-4xl max-h-[88vh] overflow-y-auto rounded-2xl sm:rounded-3xl p-4 sm:p-8 relative border border-white/25 shadow-2xl text-left"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -1247,11 +1245,11 @@ export default function PortfolioApp() {
       {/* ========================================================================= */}
       {activeModal === 'project-detail' && selectedProject && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-[#3d010a]/90 backdrop-blur-2xl animate-fadeIn"
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-[#3d010a]/90 backdrop-blur-2xl animate-fadeIn"
           onClick={closeModal}
         >
           <div
-            className="glass-panel-red w-full max-w-3xl max-h-[85vh] overflow-y-auto rounded-3xl p-6 sm:p-8 relative border border-white/25 shadow-2xl text-left"
+            className="glass-panel-red w-full max-w-3xl max-h-[88vh] overflow-y-auto rounded-2xl sm:rounded-3xl p-4 sm:p-8 relative border border-white/25 shadow-2xl text-left"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -1342,11 +1340,11 @@ export default function PortfolioApp() {
       {/* ========================================================================= */}
       {activeModal === 'experience' && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-[#3d010a]/90 backdrop-blur-2xl animate-fadeIn"
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-[#3d010a]/90 backdrop-blur-2xl animate-fadeIn"
           onClick={closeModal}
         >
           <div
-            className="glass-panel-red w-full max-w-3xl max-h-[85vh] overflow-y-auto rounded-3xl p-6 sm:p-8 relative border border-white/25 shadow-2xl text-left space-y-6"
+            className="glass-panel-red w-full max-w-3xl max-h-[88vh] overflow-y-auto rounded-2xl sm:rounded-3xl p-4 sm:p-8 relative border border-white/25 shadow-2xl text-left space-y-6"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -1407,11 +1405,11 @@ export default function PortfolioApp() {
 
       {activeModal === 'services' && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-[#3d010a]/90 backdrop-blur-2xl animate-fadeIn"
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-[#3d010a]/90 backdrop-blur-2xl animate-fadeIn"
           onClick={closeModal}
         >
           <div
-            className="glass-panel-red w-full max-w-3xl max-h-[85vh] overflow-y-auto rounded-3xl p-6 sm:p-8 relative border border-white/25 shadow-2xl text-left space-y-6"
+            className="glass-panel-red w-full max-w-3xl max-h-[88vh] overflow-y-auto rounded-2xl sm:rounded-3xl p-4 sm:p-8 relative border border-white/25 shadow-2xl text-left space-y-6"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -1448,11 +1446,11 @@ export default function PortfolioApp() {
 
       {activeModal === 'contact' && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-[#3d010a]/90 backdrop-blur-2xl animate-fadeIn"
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-[#3d010a]/90 backdrop-blur-2xl animate-fadeIn"
           onClick={closeModal}
         >
           <div
-            className="glass-panel-red w-full max-w-xl max-h-[85vh] overflow-y-auto rounded-3xl p-6 sm:p-8 relative border border-white/25 shadow-2xl text-left space-y-5"
+            className="glass-panel-red w-full max-w-xl max-h-[88vh] overflow-y-auto rounded-2xl sm:rounded-3xl p-4 sm:p-8 relative border border-white/25 shadow-2xl text-left space-y-5"
             onClick={(e) => e.stopPropagation()}
           >
             <button
