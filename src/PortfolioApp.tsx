@@ -718,13 +718,13 @@ export default function PortfolioApp() {
       {/* ========================================================================= */}
       {/* 02 — HERO SECTION (Full-Screen 100vh with Master Reference Composition) */}
       {/* ========================================================================= */}
-      <section className="relative w-full min-h-screen flex flex-col justify-between pt-24 sm:pt-28 pb-6 px-5 sm:px-8 md:px-12 overflow-hidden select-none">
+      <section className="relative w-full min-h-screen flex flex-col justify-between pt-24 sm:pt-28 pb-6 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 overflow-hidden select-none">
         {/* Ambient Subtle Radial Glow in Red Canvas */}
         <div className="absolute top-1/4 right-10 w-[550px] h-[550px] rounded-full bg-[#ff1a40]/20 blur-[130px] pointer-events-none" />
 
-        {/* HERO MAIN CONTENT GRID */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto relative z-10 w-full max-w-7xl mx-auto">
-          {/* LEFT SIDE: Typography & Editorial Intro (Massive, cinematic scale & strict alignment) */}
+        {/* HERO MAIN CONTENT GRID (Expanded Widescreen Layout Shifted Further to Side) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto relative z-10 w-full max-w-[1760px] mx-auto">
+          {/* LEFT SIDE: Typography & Editorial Intro (Anchored Further to the Left Edge) */}
           <div className="lg:col-span-8 flex flex-col items-start text-left z-20 max-w-3xl">
             {/* Intro Greeting */}
             <p className="text-[clamp(22px,3.4vw,38px)] font-display font-bold tracking-wider text-white/95 uppercase mb-2.5 sm:mb-3">
@@ -765,7 +765,7 @@ export default function PortfolioApp() {
 
         {/* 12 — SOFTWARE / ARSENAL BAR (Floating Pill on Left Side in One Single Horizontal Line) */}
         <aside
-          className="glass-panel-red absolute bottom-14 sm:bottom-16 left-5 sm:left-8 md:left-12 lg:left-16 z-20 flex items-center gap-2.5 sm:gap-3 p-2 sm:px-4 sm:py-2.5 rounded-full select-none pointer-events-auto whitespace-nowrap flex-nowrap max-w-[95vw] overflow-x-auto shadow-2xl transition-transform duration-300 hover:scale-[1.02]"
+          className="glass-panel-red absolute bottom-14 sm:bottom-16 left-4 sm:left-6 md:left-8 lg:left-10 xl:left-12 z-20 flex items-center gap-2.5 sm:gap-3 p-2 sm:px-4 sm:py-2.5 rounded-full select-none pointer-events-auto whitespace-nowrap flex-nowrap max-w-[95vw] overflow-x-auto shadow-2xl transition-transform duration-300 hover:scale-[1.02]"
         >
           <div className="flex items-center gap-1.5 text-[11px] font-mono-tech uppercase tracking-wider text-white/70 pl-1 pr-0.5 whitespace-nowrap shrink-0">
             <span className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_#ffffff] animate-pulse" />
@@ -807,7 +807,7 @@ export default function PortfolioApp() {
 
         {/* Arsenal Capability Popover */}
         {inspectedTool && (
-          <div className="fixed bottom-28 left-5 sm:left-8 md:left-12 lg:left-16 z-30 max-w-sm glass-panel-red rounded-2xl p-4 border border-white/25 shadow-2xl animate-fadeIn text-left">
+          <div className="fixed bottom-28 left-4 sm:left-6 md:left-8 lg:left-10 xl:left-12 z-30 max-w-sm glass-panel-red rounded-2xl p-4 border border-white/25 shadow-2xl animate-fadeIn text-left">
             <div className="flex justify-between items-center mb-2">
               <div className="flex items-center gap-2">
                 <span className="text-xs font-display font-bold text-white uppercase tracking-wider">
