@@ -20,8 +20,9 @@ export default function PortfolioApp() {
   const targetTimeRef = useRef<number>(0);
   const isSeekingRef = useRef<boolean>(false);
 
-  // Avatar subtle parallax offset
-  const [avatarOffset, setAvatarOffset] = useState({ x: 0, y: 0 });
+  // Avatar subtle parallax ref (Direct DOM manipulation - prevents 120fps React re-renders)
+  const avatarFrameRef = useRef<HTMLDivElement>(null);
+  const rafIdRef = useRef<number | null>(null);
 
   // Briefing / Job Inquiry Form State
   const [briefName, setBriefName] = useState('');
@@ -117,10 +118,11 @@ export default function PortfolioApp() {
     return () => clearInterval(interval);
   }, []);
 
-  // Scroll detection for sticky nav
+  // Scroll detection for sticky nav (optimized - no redundant re-renders)
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 40);
+      const isScrolled = window.scrollY > 40;
+      setScrolled((prev) => (prev !== isScrolled ? isScrolled : prev));
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
@@ -140,15 +142,48 @@ export default function PortfolioApp() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  // Ultra-Smooth, Cross-Browser Video Scrubbing (Safari, Chrome, Firefox optimized)
+  const performVideoSeek = () => {
+    rafIdRef.current = null;
+    const video = videoRef.current;
+    if (!video) return;
+
+    const target = targetTimeRef.current;
+    if (Math.abs(video.currentTime - target) < 0.015) {
+      isSeekingRef.current = false;
+      return;
+    }
+
+    isSeekingRef.current = true;
+    try {
+      if ('fastSeek' in video && typeof (video as any).fastSeek === 'function') {
+        (video as any).fastSeek(target);
+      } else {
+        video.currentTime = target;
+      }
+    } catch {
+      video.currentTime = target;
+    }
+  };
+
+  const scheduleVideoSeek = (targetTime: number) => {
+    targetTimeRef.current = targetTime;
+    if (rafIdRef.current === null && !isSeekingRef.current) {
+      rafIdRef.current = requestAnimationFrame(performVideoSeek);
+    }
+  };
+
   // Mouse & touch move handler for parallax & avatar video scrubbing
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      // Subtle avatar parallax
-      const centerX = window.innerWidth / 2;
-      const centerY = window.innerHeight / 2;
-      const moveX = ((e.clientX - centerX) / centerX) * 4;
-      const moveY = ((e.clientY - centerY) / centerY) * 4;
-      setAvatarOffset({ x: moveX, y: moveY });
+      // Direct DOM transform without triggering 120fps React re-renders
+      if (avatarFrameRef.current) {
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+        const moveX = ((e.clientX - centerX) / centerX) * 4;
+        const moveY = ((e.clientY - centerY) / centerY) * 4;
+        avatarFrameRef.current.style.transform = `translate3d(${moveX.toFixed(2)}px, ${moveY.toFixed(2)}px, 0)`;
+      }
 
       // Video scrubbing with mouse movement
       const video = videoRef.current;
@@ -163,17 +198,12 @@ export default function PortfolioApp() {
       const delta = e.clientX - prevXRef.current;
       prevXRef.current = e.clientX;
 
-      const SENSITIVITY = 0.9;
+      const SENSITIVITY = 0.85;
       const timeOffset = (delta / window.innerWidth) * SENSITIVITY * duration;
 
       let nextTarget = targetTimeRef.current + timeOffset;
       nextTarget = Math.max(0, Math.min(duration, nextTarget));
-      targetTimeRef.current = nextTarget;
-
-      if (!isSeekingRef.current) {
-        isSeekingRef.current = true;
-        video.currentTime = nextTarget;
-      }
+      scheduleVideoSeek(nextTarget);
     };
 
     const handleMouseLeave = () => {
@@ -196,16 +226,11 @@ export default function PortfolioApp() {
       const delta = touch.clientX - prevXRef.current;
       prevXRef.current = touch.clientX;
 
-      const SENSITIVITY = 1.1;
+      const SENSITIVITY = 1.0;
       const timeOffset = (delta / window.innerWidth) * SENSITIVITY * duration;
       let nextTarget = targetTimeRef.current + timeOffset;
       nextTarget = Math.max(0, Math.min(duration, nextTarget));
-      targetTimeRef.current = nextTarget;
-
-      if (!isSeekingRef.current) {
-        isSeekingRef.current = true;
-        video.currentTime = nextTarget;
-      }
+      scheduleVideoSeek(nextTarget);
     };
 
     const handleTouchEnd = () => {
@@ -218,6 +243,9 @@ export default function PortfolioApp() {
     window.addEventListener('touchend', handleTouchEnd);
 
     return () => {
+      if (rafIdRef.current !== null) {
+        cancelAnimationFrame(rafIdRef.current);
+      }
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseleave', handleMouseLeave);
       window.removeEventListener('touchmove', handleTouchMove);
@@ -225,15 +253,16 @@ export default function PortfolioApp() {
     };
   }, []);
 
-  // onSeeked handler to ensure video stays synchronized
+  // onSeeked handler to ensure video stays synchronized without flooding media pipeline
   const handleSeeked = () => {
+    isSeekingRef.current = false;
     const video = videoRef.current;
     if (!video) return;
 
-    if (Math.abs(video.currentTime - targetTimeRef.current) > 0.02) {
-      video.currentTime = targetTimeRef.current;
-    } else {
-      isSeekingRef.current = false;
+    if (Math.abs(video.currentTime - targetTimeRef.current) > 0.04) {
+      if (rafIdRef.current === null) {
+        rafIdRef.current = requestAnimationFrame(performVideoSeek);
+      }
     }
   };
 
@@ -526,9 +555,8 @@ export default function PortfolioApp() {
       {/* Background Avatar Video (mouse-scrub controlled - face moves with cursor) */}
       <video
         ref={videoRef}
-        src="/avatar.mp4"
         poster="/avatar.png"
-        className={`fixed inset-0 z-0 w-full h-full object-cover pointer-events-none select-none transition-opacity duration-700 ${
+        className={`fixed inset-0 z-0 w-full h-full object-cover pointer-events-none select-none transition-opacity duration-700 transform-gpu will-change-transform ${
           scrolled ? 'opacity-25' : 'opacity-100'
         }`}
         style={{ objectPosition: '70% center' }}
@@ -735,10 +763,8 @@ export default function PortfolioApp() {
           <div className="lg:col-span-5 xl:col-span-4 relative flex items-center justify-center lg:justify-end z-10 self-center min-h-[360px] sm:min-h-[460px] lg:min-h-[580px] pointer-events-none">
             {/* The transparent frame preserves the exact desktop layout & composition */}
             <div
-              className="relative w-[320px] sm:w-[420px] lg:w-[480px] max-w-full aspect-[404/597] pointer-events-none transition-transform duration-300"
-              style={{
-                transform: `translate3d(${avatarOffset.x}px, ${avatarOffset.y}px, 0)`,
-              }}
+              ref={avatarFrameRef}
+              className="relative w-[320px] sm:w-[420px] lg:w-[480px] max-w-full aspect-[404/597] pointer-events-none transition-transform duration-100 will-change-transform transform-gpu"
             />
           </div>
         </div>
