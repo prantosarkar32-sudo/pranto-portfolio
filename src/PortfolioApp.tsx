@@ -17,9 +17,7 @@ export default function PortfolioApp() {
   // Avatar Video & Interactive Parallax refs
   const videoRef = useRef<HTMLVideoElement>(null);
   const avatarFrameRef = useRef<HTMLDivElement>(null);
-  const isSeekingRef = useRef<boolean>(false);
-  const pendingTimeRef = useRef<number | null>(null);
-  const lastSeekRef = useRef<number>(0);
+  const [isAvatarHovered, setIsAvatarHovered] = useState(false);
 
   // Briefing / Job Inquiry Form State
   const [briefName, setBriefName] = useState('');
@@ -139,57 +137,32 @@ export default function PortfolioApp() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Controlled video seek: single-frame buffer, throttle, and deadzone (Zero lag across Safari, Chrome, Firefox)
-  const doSeek = (targetTime: number) => {
+  // Hover Play / Pause Video Interaction (60fps buttery smooth, zero frame skips or stutter)
+  const handleAvatarMouseEnter = () => {
+    setIsAvatarHovered(true);
     const video = videoRef.current;
-    if (!video) return;
-
-    isSeekingRef.current = true;
-    lastSeekRef.current = performance.now();
-    pendingTimeRef.current = null;
-
-    try {
-      if ('fastSeek' in video && typeof (video as any).fastSeek === 'function') {
-        (video as any).fastSeek(targetTime);
-      } else {
-        video.currentTime = targetTime;
-      }
-    } catch {
-      video.currentTime = targetTime;
+    if (video) {
+      video.play().catch(() => {});
     }
   };
 
-  const requestVideoSeek = (targetTime: number) => {
+  const handleAvatarMouseLeave = () => {
+    setIsAvatarHovered(false);
     const video = videoRef.current;
-    if (!video) return;
-
-    // Filter micro-movements to keep decoders idle
-    if (Math.abs(video.currentTime - targetTime) < 0.08) {
-      return;
+    if (video) {
+      video.pause();
     }
-
-    // If already seeking, queue latest target
-    if (isSeekingRef.current) {
-      pendingTimeRef.current = targetTime;
-      return;
-    }
-
-    // Throttle to max ~18 seeks/sec
-    const now = performance.now();
-    if (now - lastSeekRef.current < 55) {
-      pendingTimeRef.current = targetTime;
-      return;
-    }
-
-    doSeek(targetTime);
   };
 
-  const handleSeeked = () => {
-    isSeekingRef.current = false;
-    if (pendingTimeRef.current !== null) {
-      const next = pendingTimeRef.current;
-      pendingTimeRef.current = null;
-      requestVideoSeek(next);
+  const handleAvatarClick = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (video.paused) {
+      video.play().catch(() => {});
+      setIsAvatarHovered(true);
+    } else {
+      video.pause();
+      setIsAvatarHovered(false);
     }
   };
 
@@ -198,11 +171,11 @@ export default function PortfolioApp() {
     if (!video) return;
     video.pause();
     const dur = video.duration || 4.04;
-    // Set to forward-facing smile
+    // Set to forward-facing warm smile
     video.currentTime = dur * 0.45;
   };
 
-  // Ultra-Smooth 60fps GPU Parallax + Mouse-Controlled Face Tracking
+  // Ultra-Smooth 60fps GPU Parallax Tilt (Pure GPU transform, zero video stutter)
   useEffect(() => {
     let animFrame: number | null = null;
     let targetX = 0;
@@ -225,16 +198,8 @@ export default function PortfolioApp() {
     const handleMouseMove = (e: MouseEvent) => {
       const centerX = window.innerWidth / 2;
       const centerY = window.innerHeight / 2;
-      targetX = ((e.clientX - centerX) / centerX) * 5;
-      targetY = ((e.clientY - centerY) / centerY) * 5;
-
-      // Track cursor: looking left to right according to cursor X position
-      const video = videoRef.current;
-      if (video && video.duration) {
-        const ratio = Math.max(0, Math.min(1, e.clientX / window.innerWidth));
-        const targetTime = ratio * video.duration;
-        requestVideoSeek(targetTime);
-      }
+      targetX = ((e.clientX - centerX) / centerX) * 6;
+      targetY = ((e.clientY - centerY) / centerY) * 6;
     };
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
@@ -527,7 +492,7 @@ export default function PortfolioApp() {
       {/* Hardware-accelerated fixed canvas background (zero scroll repaints) */}
       <div className="site-bg-canvas" />
 
-      {/* Background Avatar Video (Tracks mouse cursor, strictly stationary when mouse stops) */}
+      {/* Background Avatar Video (Plays smoothly on hover, loops seamlessly) */}
       <video
         ref={videoRef}
         poster="/avatar.png"
@@ -536,9 +501,9 @@ export default function PortfolioApp() {
         }`}
         style={{ objectPosition: '70% center' }}
         muted
+        loop
         playsInline
         preload="auto"
-        onSeeked={handleSeeked}
         onLoadedMetadata={handleLoadedMetadata}
       >
         <source src="/avatar.mp4" type="video/mp4" />
@@ -734,12 +699,19 @@ export default function PortfolioApp() {
             </p>
           </div>
 
-          {/* RIGHT SIDE: Interactive 3D Avatar Stage (Video Avatar with Mouse Face Movement) */}
-          <div className="lg:col-span-5 xl:col-span-4 relative flex items-center justify-center lg:justify-end z-10 self-center min-h-[360px] sm:min-h-[460px] lg:min-h-[580px] pointer-events-none">
-            {/* The transparent frame preserves the exact desktop layout & composition */}
+          {/* RIGHT SIDE: Interactive 3D Avatar Stage (Smooth 60fps Play on Hover) */}
+          <div
+            className="lg:col-span-5 xl:col-span-4 relative flex items-center justify-center lg:justify-end z-20 self-center min-h-[360px] sm:min-h-[460px] lg:min-h-[580px] pointer-events-auto cursor-pointer"
+            onMouseEnter={handleAvatarMouseEnter}
+            onMouseLeave={handleAvatarMouseLeave}
+            onClick={handleAvatarClick}
+          >
+            {/* The interactive frame with smooth hover scale */}
             <div
               ref={avatarFrameRef}
-              className="relative w-[320px] sm:w-[420px] lg:w-[480px] max-w-full aspect-[404/597] pointer-events-none transition-transform duration-100 will-change-transform transform-gpu"
+              className={`relative w-[320px] sm:w-[420px] lg:w-[480px] max-w-full aspect-[404/597] pointer-events-auto transition-transform duration-500 will-change-transform transform-gpu ${
+                isAvatarHovered ? 'scale-[1.025]' : 'scale-100'
+              }`}
             />
           </div>
         </div>
