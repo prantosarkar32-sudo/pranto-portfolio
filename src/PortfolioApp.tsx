@@ -16,9 +16,16 @@ export default function PortfolioApp() {
   const [dhakaTime, setDhakaTime] = useState('');
   const [scrolled, setScrolled] = useState(false);
 
-  // Custom cursor state
+  // Custom cursor state & interaction detection
   const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
   const [cursorText, setCursorText] = useState('');
+  const [isHoveringInteractive, setIsHoveringInteractive] = useState(false);
+
+  // Avatar Video mouse-scrubbing refs
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const prevXRef = useRef<number | null>(null);
+  const targetTimeRef = useRef<number>(0);
+  const isSeekingRef = useRef<boolean>(false);
 
   // Avatar subtle parallax offset
   const [avatarOffset, setAvatarOffset] = useState({ x: 0, y: 0 });
@@ -147,22 +154,120 @@ export default function PortfolioApp() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Mouse move handler for custom cursor & avatar subtle parallax
+  // Mouse & touch move handler for custom cursor, parallax & avatar video scrubbing
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setCursorPos({ x: e.clientX, y: e.clientY });
 
-      // Subtle avatar parallax (2-4px movement response)
+      // Detect if hovering over interactive clickable element
+      const target = e.target as HTMLElement | null;
+      const interactive = !!target?.closest('button, a, input, textarea, select, [role="button"], .cursor-pointer');
+      setIsHoveringInteractive(interactive);
+
+      // Subtle avatar parallax
       const centerX = window.innerWidth / 2;
       const centerY = window.innerHeight / 2;
       const moveX = ((e.clientX - centerX) / centerX) * 4;
       const moveY = ((e.clientY - centerY) / centerY) * 4;
       setAvatarOffset({ x: moveX, y: moveY });
+
+      // Video scrubbing with mouse movement
+      const video = videoRef.current;
+      if (!video) return;
+      const duration = video.duration || 4.04;
+
+      if (prevXRef.current === null) {
+        prevXRef.current = e.clientX;
+        return;
+      }
+
+      const delta = e.clientX - prevXRef.current;
+      prevXRef.current = e.clientX;
+
+      const SENSITIVITY = 0.9;
+      const timeOffset = (delta / window.innerWidth) * SENSITIVITY * duration;
+
+      let nextTarget = targetTimeRef.current + timeOffset;
+      nextTarget = Math.max(0, Math.min(duration, nextTarget));
+      targetTimeRef.current = nextTarget;
+
+      if (!isSeekingRef.current) {
+        isSeekingRef.current = true;
+        video.currentTime = nextTarget;
+      }
+    };
+
+    const handleMouseLeave = () => {
+      prevXRef.current = null;
+      setCursorPos({ x: -100, y: -100 });
+    };
+
+    // Touch scrubbing for mobile devices
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches.length === 0) return;
+      const touch = e.touches[0];
+      const video = videoRef.current;
+      if (!video) return;
+
+      const duration = video.duration || 4.04;
+      if (prevXRef.current === null) {
+        prevXRef.current = touch.clientX;
+        return;
+      }
+
+      const delta = touch.clientX - prevXRef.current;
+      prevXRef.current = touch.clientX;
+
+      const SENSITIVITY = 1.1;
+      const timeOffset = (delta / window.innerWidth) * SENSITIVITY * duration;
+      let nextTarget = targetTimeRef.current + timeOffset;
+      nextTarget = Math.max(0, Math.min(duration, nextTarget));
+      targetTimeRef.current = nextTarget;
+
+      if (!isSeekingRef.current) {
+        isSeekingRef.current = true;
+        video.currentTime = nextTarget;
+      }
+    };
+
+    const handleTouchEnd = () => {
+      prevXRef.current = null;
     };
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseleave', handleMouseLeave);
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseleave', handleMouseLeave);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleTouchEnd);
+    };
   }, []);
+
+  // onSeeked handler to ensure video stays synchronized
+  const handleSeeked = () => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (Math.abs(video.currentTime - targetTimeRef.current) > 0.02) {
+      video.currentTime = targetTimeRef.current;
+    } else {
+      isSeekingRef.current = false;
+    }
+  };
+
+  const handleLoadedMetadata = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    const dur = video.duration || 4.04;
+    // Set initial frame to warm forward-facing smile
+    const initialTime = dur * 0.45;
+    targetTimeRef.current = initialTime;
+    video.currentTime = initialTime;
+  };
 
   // Horizontal Reel Drag Scrubbing
   const handleReelMouseDown = (e: React.MouseEvent) => {
@@ -457,19 +562,50 @@ export default function PortfolioApp() {
 
   return (
     <div className="relative min-h-screen w-full bg-[#990520] text-white selection:bg-white selection:text-[#b80828] font-body overflow-x-hidden">
-      {/* Custom Desktop Cursor */}
+      {/* Background Avatar Video (mouse-scrub controlled - face moves with cursor) */}
+      <video
+        ref={videoRef}
+        src="/avatar.mp4"
+        poster="/avatar.png"
+        className={`fixed inset-0 z-0 w-full h-full object-cover pointer-events-none select-none transition-opacity duration-700 ${
+          scrolled ? 'opacity-25' : 'opacity-100'
+        }`}
+        style={{ objectPosition: '70% center' }}
+        muted
+        playsInline
+        preload="auto"
+        onSeeked={handleSeeked}
+        onLoadedMetadata={handleLoadedMetadata}
+      >
+        <source src="/avatar.mp4" type="video/mp4" />
+        <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260826_041744_63efcd78-bf7d-4039-99e2-2461e8a61903.mp4" type="video/mp4" />
+      </video>
+
+      {/* Custom Desktop Cursor (Master Reference Circle with "DRAG" badge) */}
       <div
-        className={`fixed top-0 left-0 pointer-events-none z-50 -translate-x-1/2 -translate-y-1/2 transition-transform duration-75 hidden md:flex items-center justify-center rounded-full border border-white/60 backdrop-blur-sm ${
-          cursorText
-            ? 'w-16 h-16 bg-white/20 text-[10px] font-mono-tech tracking-widest text-white uppercase'
-            : 'w-4 h-4 bg-white/40'
+        className={`fixed top-0 left-0 pointer-events-none z-50 -translate-x-1/2 -translate-y-1/2 hidden md:flex items-center justify-center rounded-full transition-all duration-75 ease-out select-none ${
+          isHoveringInteractive
+            ? 'w-2.5 h-2.5 bg-white/70 scale-75 opacity-40'
+            : !scrolled || cursorText === 'DRAG' || cursorText === 'DRAGGING'
+            ? 'w-[58px] h-[58px] rounded-full border border-white/75 bg-white/20 backdrop-blur-sm text-[10px] font-mono-tech tracking-widest text-white uppercase shadow-[0_4px_20px_rgba(0,0,0,0.3)] scale-100 opacity-100'
+            : 'w-3 h-3 bg-white/50 opacity-50'
         }`}
         style={{
           transform: `translate3d(${cursorPos.x}px, ${cursorPos.y}px, 0)`,
           display: cursorPos.x < 0 ? 'none' : undefined,
         }}
       >
-        {cursorText}
+        {!isHoveringInteractive && (!scrolled || cursorText) ? (cursorText || 'DRAG') : ''}
+      </div>
+
+      {/* Interactive mouse-scrub hint pill (bottom-left) */}
+      <div
+        className={`fixed bottom-6 left-6 z-20 hidden sm:flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/[0.08] border border-white/20 backdrop-blur-md text-[11px] font-mono-tech tracking-wider text-white/75 pointer-events-none select-none transition-opacity duration-300 ${
+          scrolled ? 'opacity-0' : 'opacity-100'
+        }`}
+      >
+        <span className="w-1.5 h-1.5 rounded-full bg-white/90 animate-ping" />
+        <span className="font-light">drag cursor left / right to move face</span>
       </div>
 
       {/* ========================================================================= */}
@@ -757,26 +893,15 @@ export default function PortfolioApp() {
             </button>
           </div>
 
-          {/* RIGHT SIDE: ABSOLUTE AVATAR LOCK (Supplied 3D Avatar Asset) */}
-          <div className="lg:col-span-5 relative flex items-center justify-center lg:justify-end z-10">
-            {/* The Avatar Canvas Area */}
+          {/* RIGHT SIDE: Interactive 3D Avatar Stage (Video Avatar with Mouse Face Movement) */}
+          <div className="lg:col-span-5 relative flex items-center justify-center lg:justify-end z-10 min-h-[360px] sm:min-h-[460px] lg:min-h-[580px] pointer-events-none">
+            {/* The transparent frame preserves the exact desktop layout & composition */}
             <div
-              className="relative w-[320px] sm:w-[420px] lg:w-[480px] max-w-full aspect-[404/597] animate-avatar-float transition-transform duration-300"
+              className="relative w-[320px] sm:w-[420px] lg:w-[480px] max-w-full aspect-[404/597] pointer-events-none transition-transform duration-300"
               style={{
                 transform: `translate3d(${avatarOffset.x}px, ${avatarOffset.y}px, 0)`,
               }}
-            >
-              {/* Soft Crimson Ambient Edge Blend */}
-              <div className="absolute -inset-4 bg-radial-gradient from-transparent via-[#b80828]/20 to-transparent pointer-events-none" />
-
-              {/* Exact Unchanged 3D Avatar Image Asset */}
-              <img
-                src="/avatar.png"
-                alt="Pranto Sarkar - 3D Character Avatar"
-                className="w-full h-full object-contain pointer-events-none select-none drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)]"
-                loading="eager"
-              />
-            </div>
+            />
           </div>
         </div>
 
