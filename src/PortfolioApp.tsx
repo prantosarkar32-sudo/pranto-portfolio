@@ -566,25 +566,7 @@ export default function PortfolioApp() {
             : 'bg-transparent'
         }`}
       >
-        {/* FAR LEFT: Hire Me Button (Liquid Glass UI with pulsing availability indicator) */}
-        <button
-          type="button"
-          onClick={() => {
-            sound.playClick();
-            openModal('contact');
-          }}
-          onMouseEnter={() => sound.playHover()}
-          className="liquid-glass-capsule inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-white font-heading font-semibold text-xs sm:text-sm tracking-wider cursor-pointer select-none group transition-transform duration-300 hover:scale-105"
-          title="Hire me / Get in touch"
-        >
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400 shadow-[0_0_8px_#34d399]" />
-          </span>
-          <span className="font-display font-bold tracking-wider uppercase text-xs sm:text-sm text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)]">
-            HIRE ME
-          </span>
-        </button>
+        <div />
 
         {/* CENTER ON SCROLL: Brand Title & Subtitle Badge */}
         <div
