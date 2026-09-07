@@ -16,11 +16,6 @@ export default function PortfolioApp() {
   const [dhakaTime, setDhakaTime] = useState('');
   const [scrolled, setScrolled] = useState(false);
 
-  // Custom cursor state & interaction detection
-  const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
-  const [cursorText, setCursorText] = useState('');
-  const [isHoveringInteractive, setIsHoveringInteractive] = useState(false);
-
   // Avatar Video mouse-scrubbing refs
   const videoRef = useRef<HTMLVideoElement>(null);
   const prevXRef = useRef<number | null>(null);
@@ -154,16 +149,9 @@ export default function PortfolioApp() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Mouse & touch move handler for custom cursor, parallax & avatar video scrubbing
+  // Mouse & touch move handler for parallax & avatar video scrubbing
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      setCursorPos({ x: e.clientX, y: e.clientY });
-
-      // Detect if hovering over interactive clickable element
-      const target = e.target as HTMLElement | null;
-      const interactive = !!target?.closest('button, a, input, textarea, select, [role="button"], .cursor-pointer');
-      setIsHoveringInteractive(interactive);
-
       // Subtle avatar parallax
       const centerX = window.innerWidth / 2;
       const centerY = window.innerHeight / 2;
@@ -199,7 +187,6 @@ export default function PortfolioApp() {
 
     const handleMouseLeave = () => {
       prevXRef.current = null;
-      setCursorPos({ x: -100, y: -100 });
     };
 
     // Touch scrubbing for mobile devices
@@ -276,7 +263,6 @@ export default function PortfolioApp() {
     isDraggingReelRef.current = true;
     startXRef.current = e.pageX - track.offsetLeft;
     scrollLeftRef.current = track.scrollLeft;
-    setCursorText('DRAGGING');
   };
 
   const handleReelMouseMove = (e: React.MouseEvent) => {
@@ -291,7 +277,6 @@ export default function PortfolioApp() {
 
   const handleReelMouseUp = () => {
     isDraggingReelRef.current = false;
-    setCursorText('DRAG');
   };
 
   // Wheel horizontal scrub on project reel
@@ -581,22 +566,6 @@ export default function PortfolioApp() {
         <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260826_041744_63efcd78-bf7d-4039-99e2-2461e8a61903.mp4" type="video/mp4" />
       </video>
 
-      {/* Custom Desktop Cursor (Master Reference Circle with "DRAG" badge) */}
-      <div
-        className={`fixed top-0 left-0 pointer-events-none z-50 -translate-x-1/2 -translate-y-1/2 hidden md:flex items-center justify-center rounded-full transition-all duration-75 ease-out select-none ${
-          isHoveringInteractive
-            ? 'w-2.5 h-2.5 bg-white/70 scale-75 opacity-40'
-            : !scrolled || cursorText === 'DRAG' || cursorText === 'DRAGGING'
-            ? 'w-[58px] h-[58px] rounded-full border border-white/75 bg-white/20 backdrop-blur-sm text-[10px] font-mono-tech tracking-widest text-white uppercase shadow-[0_4px_20px_rgba(0,0,0,0.3)] scale-100 opacity-100'
-            : 'w-3 h-3 bg-white/50 opacity-50'
-        }`}
-        style={{
-          transform: `translate3d(${cursorPos.x}px, ${cursorPos.y}px, 0)`,
-          display: cursorPos.x < 0 ? 'none' : undefined,
-        }}
-      >
-        {!isHoveringInteractive && (!scrolled || cursorText) ? (cursorText || 'DRAG') : ''}
-      </div>
 
       {/* Interactive mouse-scrub hint pill (bottom-left) */}
       <div
@@ -1025,7 +994,6 @@ export default function PortfolioApp() {
           onMouseUp={handleReelMouseUp}
           onMouseLeave={handleReelMouseUp}
           onWheel={handleReelWheel}
-          onMouseEnter={() => setCursorText('DRAG')}
           className="flex gap-6 overflow-x-auto no-scrollbar py-4 cursor-grab active:cursor-grabbing select-none scroll-smooth"
         >
           {projects.map((p) => (
@@ -1036,7 +1004,6 @@ export default function PortfolioApp() {
                 setSelectedProject(p.id);
                 openModal('project-detail');
               }}
-              onMouseEnter={() => setCursorText('VIEW')}
               className="flex-shrink-0 w-[300px] sm:w-[380px] lg:w-[440px] rounded-3xl p-5 glass-panel-red border border-white/20 group hover:border-white/50 transition-all duration-300 flex flex-col justify-between"
             >
               <div>
