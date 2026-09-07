@@ -543,7 +543,7 @@ export default function PortfolioApp() {
       </video>
 
       {/* ========================================================================= */}
-      {/* MIDDLE COLOR SHELTER: Dark Shelter on Left (Text & Toolkit), Light on Right (Avatar) */}
+      {/* SMOOTH HORIZONTAL GRADIENT: Dark Crimson on Left to Light Bright Red on Right */}
       {/* ========================================================================= */}
       <div
         className={`fixed inset-0 z-[1] pointer-events-none transition-opacity duration-700 ${
@@ -551,7 +551,7 @@ export default function PortfolioApp() {
         }`}
         style={{
           background:
-            'linear-gradient(90deg, rgba(22, 1, 5, 0.92) 0%, rgba(38, 2, 9, 0.88) 32%, rgba(58, 2, 13, 0.70) 46%, rgba(90, 4, 19, 0.32) 56%, rgba(135, 5, 26, 0.08) 65%, transparent 76%)',
+            'linear-gradient(90deg, rgba(24, 1, 5, 0.94) 0%, rgba(38, 2, 8, 0.86) 22%, rgba(62, 3, 13, 0.68) 42%, rgba(96, 5, 20, 0.44) 56%, rgba(145, 8, 28, 0.18) 72%, rgba(190, 10, 36, 0.05) 86%, transparent 100%)',
         }}
       />
 
@@ -687,15 +687,20 @@ export default function PortfolioApp() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto relative z-10 w-full max-w-7xl mx-auto">
           {/* LEFT SIDE: Typography & Editorial Intro */}
           <div className="lg:col-span-7 flex flex-col items-start text-left z-20 max-w-xl">
-            {/* Main Introduction Typography (Sora Bold) */}
-            <h1 className="text-[clamp(32px,5.8vw,56px)] leading-[1.08] font-display font-extrabold uppercase tracking-tight text-white mb-2">
-              HEY THERE, I’M PRANTO<br />
+            {/* Intro Greeting (Smaller) */}
+            <p className="text-[clamp(16px,2.2vw,24px)] font-display font-semibold tracking-wide text-white/90 uppercase mb-1">
+              HEY THERE, I’M
+            </p>
+
+            {/* Main Name Heading (Bigger & Impactful) */}
+            <h1 className="text-[clamp(44px,7.4vw,82px)] leading-[0.98] font-display font-extrabold uppercase tracking-tight text-white mb-2 sm:mb-3">
+              PRANTO<br />
               SARKAR.
             </h1>
 
             {/* Secondary Title */}
-            <h2 className="text-[clamp(16px,2.8vw,22px)] font-heading font-normal tracking-wide text-white/85 mb-4 sm:mb-5">
-              senior motion designer &amp; ai artist
+            <h2 className="text-[clamp(15px,2.2vw,20px)] font-heading font-normal tracking-wide text-white/85 mb-4 sm:mb-5">
+              motion designer &amp; ai artist
             </h2>
 
             {/* Editorial Body Copy (Controlled Width) */}
@@ -705,74 +710,6 @@ export default function PortfolioApp() {
                 <span className="inline-block w-[2px] h-[1.1em] bg-white align-middle ml-[2px] animate-pulse" />
               )}
             </p>
-
-            {/* 12 — SOFTWARE / ARSENAL BAR (Placed on Left Side with Text) */}
-            <div className="relative mt-7 sm:mt-9 w-full">
-              <aside className="glass-panel-red inline-flex items-center gap-2.5 sm:gap-3 p-2 sm:px-4 sm:py-2.5 rounded-full select-none pointer-events-auto max-w-full overflow-x-auto shadow-2xl transition-transform duration-300 hover:scale-[1.02]">
-                <div className="flex items-center gap-1.5 text-[11px] font-mono-tech uppercase tracking-wider text-white/70 pl-1 pr-0.5 whitespace-nowrap">
-                  <span className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_#ffffff] animate-pulse" />
-                  <span className="font-bold text-white">TOOLKIT:</span>
-                </div>
-
-                <div className="h-4 w-[1px] bg-white/25" />
-
-                <div className="flex items-center gap-1.5 sm:gap-2">
-                  {creativeTools.map((tool) => (
-                    <div
-                      key={tool.name}
-                      onClick={() => {
-                        sound.playClick();
-                        setInspectedTool(inspectedTool === tool.name ? null : tool.name);
-                      }}
-                      onMouseEnter={() => sound.playHover()}
-                      className="inline-flex items-center gap-2 px-2.5 sm:px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 transition-all cursor-pointer group select-none"
-                      title={`Click to inspect ${tool.name} capabilities`}
-                    >
-                      <div
-                        className="w-5 h-5 rounded-[4px] flex items-center justify-center text-[10px] font-black border transition-transform group-hover:scale-110 shrink-0 font-display"
-                        style={{
-                          backgroundColor: tool.bg,
-                          color: tool.color,
-                          borderColor: tool.border,
-                          boxShadow: `0 0 10px ${tool.glow}`,
-                        }}
-                      >
-                        {tool.short}
-                      </div>
-                      <span className="text-xs text-white/95 font-medium tracking-wide whitespace-nowrap group-hover:text-white">
-                        {tool.name}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </aside>
-
-              {/* Arsenal Capability Popover */}
-              {inspectedTool && (
-                <div className="absolute bottom-full mb-3 left-0 z-30 max-w-sm glass-panel-red rounded-2xl p-4 border border-white/25 shadow-2xl animate-fadeIn text-left">
-                  <div className="flex justify-between items-center mb-2">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-display font-bold text-white uppercase tracking-wider">
-                        {inspectedTool}
-                      </span>
-                      <span className="text-[10px] font-mono-tech text-white bg-white/15 px-2 py-0.5 rounded-full border border-white/20">
-                        {creativeTools.find((t) => t.name === inspectedTool)?.experience}
-                      </span>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setInspectedTool(null)}
-                      className="text-white/70 hover:text-white text-xs cursor-pointer"
-                    >
-                      ✕
-                    </button>
-                  </div>
-                  <p className="text-xs font-light text-white/90 leading-relaxed">
-                    {creativeTools.find((t) => t.name === inspectedTool)?.description}
-                  </p>
-                </div>
-              )}
-            </div>
           </div>
 
           {/* RIGHT SIDE: Interactive 3D Avatar Stage (Video Avatar with Mouse Face Movement) */}
@@ -786,6 +723,74 @@ export default function PortfolioApp() {
             />
           </div>
         </div>
+
+        {/* 12 — SOFTWARE / ARSENAL BAR (Floating Pill on Left Side in One Single Horizontal Line) */}
+        <aside
+          className="glass-panel-red absolute bottom-14 sm:bottom-16 left-5 sm:left-8 md:left-12 lg:left-16 z-20 flex items-center gap-2.5 sm:gap-3 p-2 sm:px-4 sm:py-2.5 rounded-full select-none pointer-events-auto whitespace-nowrap flex-nowrap max-w-[95vw] overflow-x-auto shadow-2xl transition-transform duration-300 hover:scale-[1.02]"
+        >
+          <div className="flex items-center gap-1.5 text-[11px] font-mono-tech uppercase tracking-wider text-white/70 pl-1 pr-0.5 whitespace-nowrap shrink-0">
+            <span className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_#ffffff] animate-pulse" />
+            <span className="font-bold text-white">TOOLKIT:</span>
+          </div>
+
+          <div className="h-4 w-[1px] bg-white/25 shrink-0" />
+
+          <div className="flex items-center gap-1.5 sm:gap-2 flex-nowrap shrink-0">
+            {creativeTools.map((tool) => (
+              <div
+                key={tool.name}
+                onClick={() => {
+                  sound.playClick();
+                  setInspectedTool(inspectedTool === tool.name ? null : tool.name);
+                }}
+                onMouseEnter={() => sound.playHover()}
+                className="inline-flex items-center gap-2 px-2.5 sm:px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 transition-all cursor-pointer group select-none shrink-0"
+                title={`Click to inspect ${tool.name} capabilities`}
+              >
+                <div
+                  className="w-5 h-5 rounded-[4px] flex items-center justify-center text-[10px] font-black border transition-transform group-hover:scale-110 shrink-0 font-display"
+                  style={{
+                    backgroundColor: tool.bg,
+                    color: tool.color,
+                    borderColor: tool.border,
+                    boxShadow: `0 0 10px ${tool.glow}`,
+                  }}
+                >
+                  {tool.short}
+                </div>
+                <span className="text-xs text-white/95 font-medium tracking-wide whitespace-nowrap group-hover:text-white">
+                  {tool.name}
+                </span>
+              </div>
+            ))}
+          </div>
+        </aside>
+
+        {/* Arsenal Capability Popover */}
+        {inspectedTool && (
+          <div className="fixed bottom-28 left-5 sm:left-8 md:left-12 lg:left-16 z-30 max-w-sm glass-panel-red rounded-2xl p-4 border border-white/25 shadow-2xl animate-fadeIn text-left">
+            <div className="flex justify-between items-center mb-2">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-display font-bold text-white uppercase tracking-wider">
+                  {inspectedTool}
+                </span>
+                <span className="text-[10px] font-mono-tech text-white bg-white/15 px-2 py-0.5 rounded-full border border-white/20">
+                  {creativeTools.find((t) => t.name === inspectedTool)?.experience}
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setInspectedTool(null)}
+                className="text-white/70 hover:text-white text-xs cursor-pointer"
+              >
+                ✕
+              </button>
+            </div>
+            <p className="text-xs font-light text-white/90 leading-relaxed">
+              {creativeTools.find((t) => t.name === inspectedTool)?.description}
+            </p>
+          </div>
+        )}
 
         {/* 13 — SKILLS TICKER (Continuous Slow Marquee at Bottom of Hero) */}
         <div
