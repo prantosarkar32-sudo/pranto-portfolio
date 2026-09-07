@@ -685,26 +685,26 @@ export default function PortfolioApp() {
 
         {/* HERO MAIN CONTENT GRID */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto relative z-10 w-full max-w-7xl mx-auto">
-          {/* LEFT SIDE: Typography & Editorial Intro (Exact match to screenshot proportions & alignment) */}
-          <div className="lg:col-span-7 flex flex-col items-start text-left z-20 max-w-2xl">
+          {/* LEFT SIDE: Typography & Editorial Intro (Massive, cinematic scale & strict alignment) */}
+          <div className="lg:col-span-8 flex flex-col items-start text-left z-20 max-w-3xl">
             {/* Intro Greeting */}
-            <p className="text-[clamp(16px,2.2vw,24px)] font-display font-bold tracking-wider text-white/90 uppercase mb-2">
+            <p className="text-[clamp(20px,3vw,34px)] font-display font-bold tracking-wider text-white/90 uppercase mb-2.5 sm:mb-3">
               HEY THERE, I’M
             </p>
 
-            {/* Main Name Heading (Matches exact screenshot scale & ultra-tight line height) */}
-            <h1 className="text-[clamp(52px,8.8vw,104px)] leading-[0.88] font-display font-black uppercase tracking-[-0.035em] text-white mb-4 sm:mb-5">
+            {/* Main Name Heading (Monumental Scale & Ultra-Tight Leading) */}
+            <h1 className="text-[clamp(64px,11.5vw,138px)] leading-[0.85] font-display font-black uppercase tracking-[-0.04em] text-white drop-shadow-[0_6px_32px_rgba(0,0,0,0.45)] mb-5 sm:mb-6">
               PRANTO<br />
               SARKAR.
             </h1>
 
-            {/* Secondary Title (Exact lowercase match from screenshot) */}
-            <h2 className="text-[clamp(16px,2.4vw,24px)] font-heading font-normal tracking-wide text-white/90 mb-5 sm:mb-6 lowercase">
+            {/* Secondary Title (Matching lowercase & proportional scale) */}
+            <h2 className="text-[clamp(20px,3vw,32px)] font-heading font-medium tracking-wide text-white/90 mb-6 sm:mb-7 lowercase">
               motion designer &amp; ai artist
             </h2>
 
-            {/* Editorial Body Copy (Controlled width matching 3-line layout in screenshot) */}
-            <p className="text-white/80 text-[clamp(13px,1.4vw,15.5px)] leading-[1.6] font-light tracking-normal max-w-[490px] min-h-[50px]">
+            {/* Editorial Body Copy (Clean proportional readability) */}
+            <p className="text-white/85 text-[clamp(15px,1.8vw,19px)] leading-[1.6] font-light tracking-normal max-w-[560px] min-h-[50px]">
               {displayed}
               {!done && (
                 <span className="inline-block w-[2px] h-[1.1em] bg-white align-middle ml-[2px] animate-pulse" />
@@ -713,7 +713,7 @@ export default function PortfolioApp() {
           </div>
 
           {/* RIGHT SIDE: Interactive 3D Avatar Stage (Video Avatar with Mouse Face Movement) */}
-          <div className="lg:col-span-5 relative flex items-center justify-center lg:justify-end z-10 min-h-[360px] sm:min-h-[460px] lg:min-h-[580px] pointer-events-none">
+          <div className="lg:col-span-4 relative flex items-center justify-center lg:justify-end z-10 min-h-[360px] sm:min-h-[460px] lg:min-h-[580px] pointer-events-none">
             {/* The transparent frame preserves the exact desktop layout & composition */}
             <div
               className="relative w-[320px] sm:w-[420px] lg:w-[480px] max-w-full aspect-[404/597] pointer-events-none transition-transform duration-300"
