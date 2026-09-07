@@ -5,7 +5,7 @@ import PortfolioApp from './PortfolioApp';
 // OFFLINE / LIVE TOGGLE
 // Set to false to bring the entire portfolio website back live!
 // =========================================================================
-const IS_OFFLINE = true;
+const IS_OFFLINE = false;
 
 export default function App() {
   const [copied, setCopied] = useState(false);
