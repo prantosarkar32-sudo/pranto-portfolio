@@ -16,6 +16,21 @@ export default function App() {
   const [reelMuted, setReelMuted] = useState(true);
   const [dhakaTime, setDhakaTime] = useState('');
 
+  // Intro Splash Screen State ("hi" text on enter)
+  const [entered, setEntered] = useState(false);
+
+  useEffect(() => {
+    const enterTimer = setTimeout(() => {
+      setEntered(true);
+      document.body.classList.add('entered');
+    }, 1200);
+
+    return () => {
+      clearTimeout(enterTimer);
+      document.body.classList.remove('entered');
+    };
+  }, []);
+
   // Avatar Greeting State (User's avatar intro, wave, and go-home scroll logic)
   const [avatarClass, setAvatarClass] = useState<string>('opacity-0 translate-y-3');
   const greetedRef = useRef<boolean>(false);
@@ -525,6 +540,20 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen w-full bg-black text-white selection:bg-white selection:text-black overflow-hidden font-body">
+      {/* =========================
+         INTRO SPLASH SCREEN
+      ========================= */}
+      <div
+        className={`intro-screen ${entered ? 'entered' : ''}`}
+        onClick={() => {
+          setEntered(true);
+          document.body.classList.add('entered');
+        }}
+        title="Click to enter"
+      >
+        <h1 className="hi-text select-none">hi</h1>
+      </div>
+
       {/* Background Video (mouse-scrub controlled - crisp & untouched) */}
       <video
         ref={videoRef}
