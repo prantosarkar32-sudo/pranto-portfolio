@@ -14,15 +14,9 @@ export default function PortfolioApp() {
   const [dhakaTime, setDhakaTime] = useState('');
   const [scrolled, setScrolled] = useState(false);
 
-  // Avatar Video mouse-scrubbing refs
+  // Avatar Video & Parallax refs
   const videoRef = useRef<HTMLVideoElement>(null);
-  const prevXRef = useRef<number | null>(null);
-  const targetTimeRef = useRef<number>(0);
-  const isSeekingRef = useRef<boolean>(false);
-
-  // Avatar subtle parallax ref (Direct DOM manipulation - prevents 120fps React re-renders)
   const avatarFrameRef = useRef<HTMLDivElement>(null);
-  const rafIdRef = useRef<number | null>(null);
 
   // Briefing / Job Inquiry Form State
   const [briefName, setBriefName] = useState('');
@@ -142,139 +136,43 @@ export default function PortfolioApp() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Ultra-Smooth, Cross-Browser Video Scrubbing (Safari, Chrome, Firefox optimized)
-  const performVideoSeek = () => {
-    rafIdRef.current = null;
-    const video = videoRef.current;
-    if (!video) return;
-
-    const target = targetTimeRef.current;
-    if (Math.abs(video.currentTime - target) < 0.015) {
-      isSeekingRef.current = false;
-      return;
-    }
-
-    isSeekingRef.current = true;
-    try {
-      if ('fastSeek' in video && typeof (video as any).fastSeek === 'function') {
-        (video as any).fastSeek(target);
-      } else {
-        video.currentTime = target;
-      }
-    } catch {
-      video.currentTime = target;
-    }
-  };
-
-  const scheduleVideoSeek = (targetTime: number) => {
-    targetTimeRef.current = targetTime;
-    if (rafIdRef.current === null && !isSeekingRef.current) {
-      rafIdRef.current = requestAnimationFrame(performVideoSeek);
-    }
-  };
-
-  // Mouse & touch move handler for parallax & avatar video scrubbing
+  // Ultra-Smooth 60fps GPU Parallax (Zero seek stalls, silky cross-browser performance)
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      // Direct DOM transform without triggering 120fps React re-renders
+    let animFrame: number | null = null;
+    let targetX = 0;
+    let targetY = 0;
+    let currentX = 0;
+    let currentY = 0;
+
+    const renderLoop = () => {
+      // Smooth linear interpolation for buttery motion without React re-renders
+      currentX += (targetX - currentX) * 0.08;
+      currentY += (targetY - currentY) * 0.08;
+
       if (avatarFrameRef.current) {
-        const centerX = window.innerWidth / 2;
-        const centerY = window.innerHeight / 2;
-        const moveX = ((e.clientX - centerX) / centerX) * 4;
-        const moveY = ((e.clientY - centerY) / centerY) * 4;
-        avatarFrameRef.current.style.transform = `translate3d(${moveX.toFixed(2)}px, ${moveY.toFixed(2)}px, 0)`;
+        avatarFrameRef.current.style.transform = `translate3d(${currentX.toFixed(2)}px, ${currentY.toFixed(2)}px, 0)`;
       }
 
-      // Video scrubbing with mouse movement
-      const video = videoRef.current;
-      if (!video) return;
-      const duration = video.duration || 4.04;
-
-      if (prevXRef.current === null) {
-        prevXRef.current = e.clientX;
-        return;
-      }
-
-      const delta = e.clientX - prevXRef.current;
-      prevXRef.current = e.clientX;
-
-      const SENSITIVITY = 0.85;
-      const timeOffset = (delta / window.innerWidth) * SENSITIVITY * duration;
-
-      let nextTarget = targetTimeRef.current + timeOffset;
-      nextTarget = Math.max(0, Math.min(duration, nextTarget));
-      scheduleVideoSeek(nextTarget);
+      animFrame = requestAnimationFrame(renderLoop);
     };
 
-    const handleMouseLeave = () => {
-      prevXRef.current = null;
-    };
-
-    // Touch scrubbing for mobile devices
-    const handleTouchMove = (e: TouchEvent) => {
-      if (e.touches.length === 0) return;
-      const touch = e.touches[0];
-      const video = videoRef.current;
-      if (!video) return;
-
-      const duration = video.duration || 4.04;
-      if (prevXRef.current === null) {
-        prevXRef.current = touch.clientX;
-        return;
-      }
-
-      const delta = touch.clientX - prevXRef.current;
-      prevXRef.current = touch.clientX;
-
-      const SENSITIVITY = 1.0;
-      const timeOffset = (delta / window.innerWidth) * SENSITIVITY * duration;
-      let nextTarget = targetTimeRef.current + timeOffset;
-      nextTarget = Math.max(0, Math.min(duration, nextTarget));
-      scheduleVideoSeek(nextTarget);
-    };
-
-    const handleTouchEnd = () => {
-      prevXRef.current = null;
+    const handleMouseMove = (e: MouseEvent) => {
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+      targetX = ((e.clientX - centerX) / centerX) * 5;
+      targetY = ((e.clientY - centerY) / centerY) * 5;
     };
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    window.addEventListener('mouseleave', handleMouseLeave);
-    window.addEventListener('touchmove', handleTouchMove, { passive: true });
-    window.addEventListener('touchend', handleTouchEnd);
+    animFrame = requestAnimationFrame(renderLoop);
 
     return () => {
-      if (rafIdRef.current !== null) {
-        cancelAnimationFrame(rafIdRef.current);
+      if (animFrame !== null) {
+        cancelAnimationFrame(animFrame);
       }
       window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseleave', handleMouseLeave);
-      window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('touchend', handleTouchEnd);
     };
   }, []);
-
-  // onSeeked handler to ensure video stays synchronized without flooding media pipeline
-  const handleSeeked = () => {
-    isSeekingRef.current = false;
-    const video = videoRef.current;
-    if (!video) return;
-
-    if (Math.abs(video.currentTime - targetTimeRef.current) > 0.04) {
-      if (rafIdRef.current === null) {
-        rafIdRef.current = requestAnimationFrame(performVideoSeek);
-      }
-    }
-  };
-
-  const handleLoadedMetadata = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    const dur = video.duration || 4.04;
-    // Set initial frame to warm forward-facing smile
-    const initialTime = dur * 0.45;
-    targetTimeRef.current = initialTime;
-    video.currentTime = initialTime;
-  };
 
   // Horizontal Reel Drag Scrubbing
   const handleReelMouseDown = (e: React.MouseEvent) => {
@@ -552,7 +450,10 @@ export default function PortfolioApp() {
 
   return (
     <div className="relative min-h-screen w-full bg-[#990520] text-white selection:bg-white selection:text-[#b80828] font-body overflow-x-hidden">
-      {/* Background Avatar Video (mouse-scrub controlled - face moves with cursor) */}
+      {/* Hardware-accelerated fixed canvas background (zero scroll repaints) */}
+      <div className="site-bg-canvas" />
+
+      {/* Background Avatar Video (Hardware-accelerated ambient live video, 60fps across all browsers) */}
       <video
         ref={videoRef}
         poster="/avatar.png"
@@ -560,11 +461,11 @@ export default function PortfolioApp() {
           scrolled ? 'opacity-25' : 'opacity-100'
         }`}
         style={{ objectPosition: '70% center' }}
+        autoPlay
+        loop
         muted
         playsInline
         preload="auto"
-        onSeeked={handleSeeked}
-        onLoadedMetadata={handleLoadedMetadata}
       >
         <source src="/avatar.mp4" type="video/mp4" />
         <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260826_041744_63efcd78-bf7d-4039-99e2-2461e8a61903.mp4" type="video/mp4" />
@@ -727,8 +628,8 @@ export default function PortfolioApp() {
       {/* 02 — HERO SECTION (Full-Screen 100vh with Master Reference Composition) */}
       {/* ========================================================================= */}
       <section className="relative w-full min-h-screen flex flex-col justify-between pt-16 sm:pt-20 pb-6 px-3 sm:px-5 md:px-7 lg:px-8 xl:px-10 overflow-hidden select-none">
-        {/* Ambient Subtle Radial Glow in Red Canvas */}
-        <div className="absolute top-1/4 right-10 w-[550px] h-[550px] rounded-full bg-[#ff1a40]/20 blur-[130px] pointer-events-none" />
+        {/* Ambient Subtle Radial Glow in Red Canvas (Zero-cost GPU radial gradient) */}
+        <div className="absolute top-1/4 right-10 w-[550px] h-[550px] rounded-full bg-[radial-gradient(circle,rgba(255,26,64,0.18)_0%,transparent_70%)] pointer-events-none" />
 
         {/* HERO MAIN CONTENT GRID (Positioned at Left Edge) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start mt-2 sm:mt-4 lg:mt-6 mb-auto relative z-10 w-full">

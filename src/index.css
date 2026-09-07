@@ -23,14 +23,22 @@ h1, h2, h3, h4, h5, h6 {
 body {
   margin: 0;
   background-color: #990520;
-  background-image: 
-    radial-gradient(ellipse at 82% 28%, #e50932 0%, #b80828 42%, #5c0110 100%);
-  background-attachment: fixed;
   color: #ffffff;
   font-family: var(--font-body);
   letter-spacing: -0.012em;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+}
+
+/* GPU-accelerated fixed background canvas (avoids full-page scroll repaints on Safari & mobile) */
+.site-bg-canvas {
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(ellipse at 82% 28%, #e50932 0%, #b80828 42%, #5c0110 100%);
+  z-index: 0;
+  pointer-events: none;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
 }
 
 .bn-text {
@@ -56,8 +64,8 @@ body {
 /* 3D Glass Surface in Red Environment */
 .glass-panel-red {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.04) 45%, rgba(60, 2, 12, 0.6) 100%);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-top: 1.5px solid rgba(255, 255, 255, 0.45);
   border-left: 1.5px solid rgba(255, 255, 255, 0.35);
@@ -69,8 +77,8 @@ body {
 
 .glass-pill-red {
   background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -88,8 +96,8 @@ body {
 .liquid-glass-capsule {
   position: relative;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.08) 45%, rgba(255, 255, 255, 0.03) 75%, rgba(255, 255, 255, 0.18) 100%);
-  backdrop-filter: blur(28px) saturate(220%);
-  -webkit-backdrop-filter: blur(28px) saturate(220%);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
   border: 1.2px solid rgba(255, 255, 255, 0.4);
   box-shadow: 
     0 10px 30px -6px rgba(60, 2, 12, 0.55),
