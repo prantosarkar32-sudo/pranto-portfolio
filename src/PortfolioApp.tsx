@@ -1070,13 +1070,6 @@ export default function PortfolioApp() {
               HIRE PRANTO
             </button>
 
-            <button
-              type="button"
-              onClick={handleCopyEmail}
-              className="w-full sm:w-auto px-6 py-3.5 sm:py-4 rounded-full bg-white/10 hover:bg-white/20 border border-white/30 text-white font-mono-tech text-xs sm:text-sm tracking-wider transition-all cursor-pointer text-center truncate"
-            >
-              {copied ? '✓ prantosarkar32@gmail.com copied' : 'prantosarkar32@gmail.com'}
-            </button>
           </div>
 
           {/* Social Networks & Footer Meta */}
