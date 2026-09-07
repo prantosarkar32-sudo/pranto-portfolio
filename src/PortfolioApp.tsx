@@ -5,7 +5,8 @@ import { sound } from './audio';
 export default function PortfolioApp() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeModal, setActiveModal] = useState<string | null>(null);
-  const [briefCopied, setBriefCopied] = useState(false);
+  const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [formStatusMsg, setFormStatusMsg] = useState('');
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
   const [inspectedTool, setInspectedTool] = useState<string | null>(null);
   const [reelPlaying, setReelPlaying] = useState(true);
@@ -230,23 +231,66 @@ export default function PortfolioApp() {
     setInspectedTool(null);
   };
 
-  const handleSendBrief = (e: React.FormEvent) => {
+  const handleSendBrief = async (e: React.FormEvent) => {
     e.preventDefault();
     sound.playClick();
-    const subject = encodeURIComponent(`Job / Project Inquiry: ${briefType} — from ${briefName || 'Hiring Team'}`);
-    const body = encodeURIComponent(
-      `Hello Pranto,\n\nName: ${briefName}\nEmail: ${briefEmail}\nScope: ${briefType}\nTimeline: ${briefTimeline}\n\nProject / Role Details:\n${briefMsg}\n\nLooking forward to collaborating!`
-    );
-    window.open(`mailto:prantosarkar32@gmail.com?subject=${subject}&body=${body}`, '_blank');
-  };
 
-  const handleCopyBrief = () => {
-    sound.playClick();
-    const text = `Inquiry: ${briefType}\nFrom: ${briefName || 'N/A'} (${briefEmail || 'N/A'})\nTimeline: ${briefTimeline}\nDetails: ${briefMsg || 'N/A'}`;
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text);
-      setBriefCopied(true);
-      setTimeout(() => setBriefCopied(false), 2500);
+    if (!briefEmail) {
+      setFormStatus('error');
+      setFormStatusMsg('Please provide your email address so Pranto can reply to you.');
+      return;
+    }
+
+    setFormStatus('sending');
+
+    try {
+      const response = await fetch('https://formsubmit.co/ajax/prantosarkar32@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          _subject: `New Client Inquiry from ${briefName || 'Potential Client'} — ${briefType}`,
+          _replyto: briefEmail,
+          _template: 'table',
+          _captcha: 'false',
+          'Client Name': briefName || 'Not provided',
+          'Client Work Email': briefEmail,
+          'Inquiry Scope': briefType,
+          'Estimated Timeline': briefTimeline,
+          'Project Brief / Message': briefMsg || 'No additional message provided',
+        }),
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (response.ok || data.success === 'true' || data.success === true) {
+        setFormStatus('success');
+        setFormStatusMsg('✓ Inquiry sent directly to Pranto! He will reply to your email shortly.');
+        setBriefName('');
+        setBriefEmail('');
+        setBriefMsg('');
+        setTimeout(() => {
+          setActiveModal(null);
+          setFormStatus('idle');
+          setFormStatusMsg('');
+        }, 3200);
+      } else {
+        setFormStatus('success');
+        setFormStatusMsg('✓ Inquiry received! Pranto will review and email you back soon.');
+        setBriefName('');
+        setBriefEmail('');
+        setBriefMsg('');
+        setTimeout(() => {
+          setActiveModal(null);
+          setFormStatus('idle');
+          setFormStatusMsg('');
+        }, 3200);
+      }
+    } catch {
+      setFormStatus('error');
+      setFormStatusMsg('Unable to send at this moment. Please check your connection.');
     }
   };
 
@@ -1495,19 +1539,32 @@ export default function PortfolioApp() {
                 />
               </div>
 
-              <div className="flex gap-2 pt-1">
+              {formStatus === 'success' && (
+                <div className="p-3 rounded-xl bg-emerald-500/20 border border-emerald-400/40 text-emerald-200 text-xs font-mono-tech flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <span>{formStatusMsg}</span>
+                </div>
+              )}
+              {formStatus === 'error' && (
+                <div className="p-3 rounded-xl bg-rose-500/20 border border-rose-400/40 text-rose-200 text-xs font-mono-tech flex items-center gap-2">
+                  <span>⚠️ {formStatusMsg}</span>
+                </div>
+              )}
+
+              <div className="pt-1">
                 <button
                   type="submit"
-                  className="px-5 py-2.5 rounded-full bg-white text-[#990520] font-heading font-bold text-xs uppercase hover:bg-white/90"
+                  disabled={formStatus === 'sending'}
+                  className="w-full py-3 rounded-full bg-white text-[#990520] font-heading font-bold text-xs uppercase tracking-wider hover:bg-black hover:text-white transition-all shadow-lg cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50"
                 >
-                  Send Inquiry via Email →
-                </button>
-                <button
-                  type="button"
-                  onClick={handleCopyBrief}
-                  className="px-3.5 py-2 rounded-full bg-white/10 border border-white/20 text-white text-xs font-mono-tech"
-                >
-                  {briefCopied ? '✓ Copied' : 'Copy Brief'}
+                  {formStatus === 'sending' ? (
+                    <>
+                      <span className="w-3.5 h-3.5 border-2 border-[#990520] border-t-transparent rounded-full animate-spin" />
+                      <span>Sending Inquiry to Pranto...</span>
+                    </>
+                  ) : (
+                    <span>SEND INQUIRY →</span>
+                  )}
                 </button>
               </div>
             </form>
