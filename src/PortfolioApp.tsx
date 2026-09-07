@@ -18,7 +18,6 @@ export default function PortfolioApp() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const avatarFrameRef = useRef<HTMLDivElement>(null);
   const [isAvatarHovered, setIsAvatarHovered] = useState(false);
-  const touchTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Briefing / Job Inquiry Form State
   const [briefName, setBriefName] = useState('');
@@ -138,89 +137,14 @@ export default function PortfolioApp() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Controlled Avatar Video Hover Playback (Plays smoothly on hover, strictly stationary when idle)
-  const handleAvatarMouseEnter = () => {
-    setIsAvatarHovered(true);
-    sound.playHover();
-    const video = videoRef.current;
-    if (video) {
-      video.play().catch(() => {});
-    }
-  };
-
-  const handleAvatarMouseLeave = () => {
-    setIsAvatarHovered(false);
-    const video = videoRef.current;
-    if (video) {
-      video.pause();
-    }
-  };
-
-  const handleAvatarClick = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    if (video.paused) {
-      sound.playClick();
-      video.play().catch(() => {});
-      setIsAvatarHovered(true);
-      if (touchTimerRef.current) clearTimeout(touchTimerRef.current);
-      touchTimerRef.current = setTimeout(() => {
-        video.pause();
-        setIsAvatarHovered(false);
-      }, 4000);
-    } else {
-      video.pause();
-      setIsAvatarHovered(false);
-      if (touchTimerRef.current) clearTimeout(touchTimerRef.current);
-    }
-  };
-
-  const handleLoadedMetadata = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.pause();
-    const dur = video.duration || 4.04;
-    video.currentTime = dur * 0.45;
-  };
-
-  const handleVideoEnded = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    if (isAvatarHovered) {
-      video.currentTime = 0;
-      video.play().catch(() => {});
-    } else {
-      video.pause();
-      video.currentTime = (video.duration || 4.04) * 0.45;
-    }
-  };
-
-  // Ensure avatar video starts paused and at warm forward-facing smile
+  // Auto-pause video when scrolled away from hero section to save battery/GPU
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    video.pause();
-    const initPause = () => {
-      video.pause();
-      if (video.duration) {
-        video.currentTime = video.duration * 0.45;
-      }
-    };
-    if (video.readyState >= 1) {
-      initPause();
-    } else {
-      video.addEventListener('loadedmetadata', initPause, { once: true });
-    }
-  }, []);
-
-  // Pause video if scrolled away from hero section
-  useEffect(() => {
     if (scrolled) {
-      const video = videoRef.current;
-      if (video && !video.paused) {
-        video.pause();
-        setIsAvatarHovered(false);
-      }
+      video.pause();
+    } else {
+      video.play().catch(() => {});
     }
   }, [scrolled]);
 
@@ -539,21 +463,20 @@ export default function PortfolioApp() {
       {/* Hardware-accelerated fixed canvas background (zero scroll repaints) */}
       <div className="site-bg-canvas" />
 
-      {/* Background Avatar Video (Plays smoothly on hover, strictly paused when idle) */}
+      {/* Background Avatar Video (Looking towards PRANTO SARKAR and naturally blinking) */}
       <video
         ref={videoRef}
-        poster="/avatar.png"
+        poster="/avatar.jpg"
         className={`hero-avatar-video fixed inset-0 z-0 w-full h-full object-cover pointer-events-none select-none transition-opacity duration-700 transform-gpu will-change-transform ${
           scrolled ? 'opacity-25' : 'opacity-100'
         }`}
+        autoPlay
+        loop
         muted
         playsInline
         preload="auto"
-        onLoadedMetadata={handleLoadedMetadata}
-        onEnded={handleVideoEnded}
       >
         <source src="/avatar.mp4" type="video/mp4" />
-        <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260826_041744_63efcd78-bf7d-4039-99e2-2461e8a61903.mp4" type="video/mp4" />
       </video>
       {/* RESPONSIVE EDITORIAL VEIL: Top-to-Bottom on Mobile, Left-to-Right on Desktop */}
       {/* ========================================================================= */}
@@ -742,12 +665,15 @@ export default function PortfolioApp() {
             </p>
           </div>
 
-          {/* RIGHT SIDE: Interactive 3D Avatar Stage (Smooth 60fps Play on Hover / Tap) */}
+          {/* RIGHT SIDE: Interactive 3D Avatar Stage (Looking towards PRANTO SARKAR with 3D Parallax Tilt) */}
           <div
             className="lg:col-span-5 xl:col-span-4 relative flex items-center justify-center lg:justify-end z-20 self-center min-h-[220px] sm:min-h-[340px] lg:min-h-[580px] pointer-events-auto cursor-pointer"
-            onMouseEnter={handleAvatarMouseEnter}
-            onMouseLeave={handleAvatarMouseLeave}
-            onClick={handleAvatarClick}
+            onMouseEnter={() => {
+              sound.playHover();
+              setIsAvatarHovered(true);
+            }}
+            onMouseLeave={() => setIsAvatarHovered(false)}
+            onClick={() => sound.playClick()}
           >
             {/* The interactive frame with smooth hover scale */}
             <div
