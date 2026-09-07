@@ -10,6 +10,7 @@ export default {
         display: ['var(--font-display)'],
         heading: ['var(--font-heading)'],
         body: ['var(--font-body)'],
+        bengali: ['var(--font-bengali)'],
         mono: ['var(--font-mono)', 'monospace'],
       },
     },

@@ -3,16 +3,25 @@
 @tailwind utilities;
 
 :root {
-  --font-display: 'Syne', 'Space Grotesk', -apple-system, sans-serif;
-  --font-heading: 'Space Grotesk', 'Outfit', -apple-system, sans-serif;
-  --font-body: 'Outfit', 'Plus Jakarta Sans', -apple-system, sans-serif;
+  --font-display: 'Sora', sans-serif;
+  --font-heading: 'Sora', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-bengali: 'Hind Siliguri', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 }
 
+h1, h2, h3 {
+  font-family: "Sora", sans-serif;
+  font-weight: 700;
+}
+
 body {
-  font-family: var(--font-body);
-  letter-spacing: -0.015em;
-  font-weight: 400;
+  font-family: "Inter", sans-serif;
+  letter-spacing: -0.012em;
+}
+
+.bn-text {
+  font-family: "Hind Siliguri", sans-serif;
 }
 
 .font-display {
@@ -21,6 +30,10 @@ body {
 
 .font-heading {
   font-family: var(--font-heading);
+}
+
+.font-body {
+  font-family: var(--font-body);
 }
 
 .font-mono-tech {
