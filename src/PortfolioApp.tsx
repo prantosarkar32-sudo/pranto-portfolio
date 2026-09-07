@@ -685,26 +685,26 @@ export default function PortfolioApp() {
 
         {/* HERO MAIN CONTENT GRID */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto relative z-10 w-full max-w-7xl mx-auto">
-          {/* LEFT SIDE: Typography & Editorial Intro */}
+          {/* LEFT SIDE: Typography & Editorial Intro (Exact match to screenshot proportions & alignment) */}
           <div className="lg:col-span-7 flex flex-col items-start text-left z-20 max-w-2xl">
             {/* Intro Greeting */}
-            <p className="text-[clamp(18px,2.5vw,28px)] font-display font-bold tracking-wider text-white/90 uppercase mb-1.5 sm:mb-2">
+            <p className="text-[clamp(16px,2.2vw,24px)] font-display font-bold tracking-wider text-white/90 uppercase mb-2">
               HEY THERE, I’M
             </p>
 
-            {/* Main Name Heading (Huge, Ultra-Focal & Cinematic) */}
-            <h1 className="text-[clamp(54px,9vw,104px)] leading-[0.93] font-display font-black uppercase tracking-[-0.03em] text-white drop-shadow-[0_4px_28px_rgba(0,0,0,0.4)] mb-3 sm:mb-4">
+            {/* Main Name Heading (Matches exact screenshot scale & ultra-tight line height) */}
+            <h1 className="text-[clamp(52px,8.8vw,104px)] leading-[0.88] font-display font-black uppercase tracking-[-0.035em] text-white mb-4 sm:mb-5">
               PRANTO<br />
               SARKAR.
             </h1>
 
-            {/* Secondary Title */}
-            <h2 className="text-[clamp(18px,2.8vw,26px)] font-heading font-medium tracking-wide text-white/90 mb-5 sm:mb-6">
+            {/* Secondary Title (Exact lowercase match from screenshot) */}
+            <h2 className="text-[clamp(16px,2.4vw,24px)] font-heading font-normal tracking-wide text-white/90 mb-5 sm:mb-6 lowercase">
               motion designer &amp; ai artist
             </h2>
 
-            {/* Editorial Body Copy (Controlled Width) */}
-            <p className="text-white/85 text-[clamp(15px,2vw,18px)] leading-[1.55] font-light tracking-tight max-w-xl min-h-[50px]">
+            {/* Editorial Body Copy (Controlled width matching 3-line layout in screenshot) */}
+            <p className="text-white/80 text-[clamp(13px,1.4vw,15.5px)] leading-[1.6] font-light tracking-normal max-w-[490px] min-h-[50px]">
               {displayed}
               {!done && (
                 <span className="inline-block w-[2px] h-[1.1em] bg-white align-middle ml-[2px] animate-pulse" />
