@@ -602,22 +602,24 @@ export default function PortfolioApp() {
           ))}
         </nav>
 
-        {/* FAR RIGHT: Download CV */}
-        <div className="hidden md:flex items-center">
+        {/* FAR RIGHT: Glass UI CV Download Pill + Mobile Hamburger */}
+        <div className="flex items-center gap-3">
           <a
             href="/Pranto_Sarkar_CV.pdf"
             download="Pranto_Sarkar_CV.pdf"
             onMouseEnter={() => sound.playHover()}
-            className="inline-flex items-center gap-2 text-[17px] lg:text-[19px] font-heading font-semibold text-white tracking-tight underline underline-offset-4 hover:opacity-80 transition-opacity group"
+            onClick={() => sound.playClick()}
+            className="glass-pill-red inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 rounded-full text-white font-heading font-bold text-xs sm:text-sm uppercase tracking-wider hover:text-white transition-all duration-300 shadow-[0_4px_16px_rgba(0,0,0,0.3)] hover:scale-105 active:scale-95 cursor-pointer select-none group border border-white/25"
+            title="Download CV"
           >
-            <span>download cv</span>
+            <span>CV</span>
             <svg
-              width="15"
-              height="15"
+              width="13"
+              height="13"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth="2.4"
+              strokeWidth="2.5"
               strokeLinecap="round"
               strokeLinejoin="round"
               className="transition-transform duration-200 group-hover:translate-y-0.5"
@@ -627,34 +629,34 @@ export default function PortfolioApp() {
               <line x1="12" y1="15" x2="12" y2="3" />
             </svg>
           </a>
-        </div>
 
-        {/* Mobile Hamburger */}
-        <button
-          type="button"
-          aria-label="Toggle navigation menu"
-          onClick={() => {
-            sound.playClick();
-            setIsMenuOpen((prev) => !prev);
-          }}
-          className="flex flex-col justify-center items-center gap-[5px] md:hidden z-50 cursor-pointer p-1"
-        >
-          <span
-            className={`w-6 h-[2px] bg-white transition-all duration-300 origin-center ${
-              isMenuOpen ? 'rotate-45 translate-y-[7px]' : ''
-            }`}
-          />
-          <span
-            className={`w-6 h-[2px] bg-white transition-all duration-300 ${
-              isMenuOpen ? 'opacity-0' : 'opacity-100'
-            }`}
-          />
-          <span
-            className={`w-6 h-[2px] bg-white transition-all duration-300 origin-center ${
-              isMenuOpen ? '-rotate-45 -translate-y-[7px]' : ''
-            }`}
-          />
-        </button>
+          {/* Mobile Hamburger */}
+          <button
+            type="button"
+            aria-label="Toggle navigation menu"
+            onClick={() => {
+              sound.playClick();
+              setIsMenuOpen((prev) => !prev);
+            }}
+            className="flex flex-col justify-center items-center gap-[5px] md:hidden z-50 cursor-pointer p-1"
+          >
+            <span
+              className={`w-6 h-[2px] bg-white transition-all duration-300 origin-center ${
+                isMenuOpen ? 'rotate-45 translate-y-[7px]' : ''
+              }`}
+            />
+            <span
+              className={`w-6 h-[2px] bg-white transition-all duration-300 ${
+                isMenuOpen ? 'opacity-0' : 'opacity-100'
+              }`}
+            />
+            <span
+              className={`w-6 h-[2px] bg-white transition-all duration-300 origin-center ${
+                isMenuOpen ? '-rotate-45 -translate-y-[7px]' : ''
+              }`}
+            />
+          </button>
+        </div>
       </header>
 
       {/* Mobile Fullscreen Navigation Overlay */}
