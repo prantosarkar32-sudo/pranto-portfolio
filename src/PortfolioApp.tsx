@@ -562,11 +562,32 @@ export default function PortfolioApp() {
       <header
         className={`fixed top-0 inset-x-0 z-40 w-full px-5 sm:px-8 py-4 sm:py-5 flex justify-between items-center transition-all duration-300 ${
           scrolled
-            ? 'bg-[#7a0418]/85 backdrop-blur-md border-b border-white/10 shadow-lg py-3.5 sm:py-4'
+            ? 'bg-[#7a0418]/85 backdrop-blur-md border-b border-white/10 shadow-lg py-3 sm:py-3.5'
             : 'bg-transparent'
         }`}
       >
         <div />
+
+        {/* CENTER ON SCROLL: Brand Title & Subtitle Badge */}
+        <div
+          onClick={() => {
+            sound.playClick();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          className={`absolute left-1/2 -translate-x-1/2 flex flex-col items-center justify-center text-center cursor-pointer select-none transition-all duration-300 max-w-[52vw] sm:max-w-none px-2 group ${
+            scrolled
+              ? 'opacity-100 translate-y-0 pointer-events-auto'
+              : 'opacity-0 -translate-y-2 pointer-events-none'
+          }`}
+          title="Click to scroll to top"
+        >
+          <span className="font-display font-extrabold text-xs sm:text-sm md:text-[15px] tracking-wider uppercase text-white leading-tight drop-shadow-[0_1px_4px_rgba(0,0,0,0.4)] group-hover:text-white/85 transition-colors">
+            PRANTO SARKAR
+          </span>
+          <span className="font-heading font-normal text-[9px] sm:text-[10.5px] md:text-[11px] tracking-widest text-white/80 lowercase leading-tight group-hover:text-white/95 transition-colors">
+            motion designer &amp; ai artist
+          </span>
+        </div>
 
         {/* FAR RIGHT: Liquid Glass UI CV Download Capsule + Mobile Hamburger */}
         <div className="flex items-center gap-3">
