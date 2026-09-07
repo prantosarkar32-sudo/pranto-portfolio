@@ -5,7 +5,6 @@ import { sound } from './audio';
 export default function PortfolioApp() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeModal, setActiveModal] = useState<string | null>(null);
-  const [copied, setCopied] = useState(false);
   const [briefCopied, setBriefCopied] = useState(false);
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
   const [inspectedTool, setInspectedTool] = useState<string | null>(null);
@@ -214,15 +213,6 @@ export default function PortfolioApp() {
     if (!track) return;
     if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
       track.scrollLeft += e.deltaY;
-    }
-  };
-
-  const handleCopyEmail = () => {
-    sound.playClick();
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText('prantosarkar32@gmail.com');
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
     }
   };
 
@@ -1441,19 +1431,6 @@ export default function PortfolioApp() {
               </h3>
             </div>
 
-            <div className="p-3.5 rounded-2xl bg-white/10 border border-white/20 flex justify-between items-center">
-              <div>
-                <div className="text-[10px] font-mono-tech uppercase text-white/60">Email:</div>
-                <div className="font-mono-tech text-xs sm:text-sm text-white select-all">prantosarkar32@gmail.com</div>
-              </div>
-              <button
-                type="button"
-                onClick={handleCopyEmail}
-                className="px-3.5 py-1.5 rounded-full bg-white text-[#990520] font-semibold text-xs hover:bg-white/90"
-              >
-                {copied ? '✓ Copied' : 'Copy'}
-              </button>
-            </div>
 
             <form onSubmit={handleSendBrief} className="space-y-3 text-xs">
               <div className="grid sm:grid-cols-2 gap-3">
