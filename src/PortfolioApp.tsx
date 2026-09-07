@@ -686,25 +686,25 @@ export default function PortfolioApp() {
         {/* HERO MAIN CONTENT GRID */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto relative z-10 w-full max-w-7xl mx-auto">
           {/* LEFT SIDE: Typography & Editorial Intro */}
-          <div className="lg:col-span-7 flex flex-col items-start text-left z-20 max-w-xl">
-            {/* Intro Greeting (Smaller) */}
-            <p className="text-[clamp(16px,2.2vw,24px)] font-display font-semibold tracking-wide text-white/90 uppercase mb-1">
+          <div className="lg:col-span-7 flex flex-col items-start text-left z-20 max-w-2xl">
+            {/* Intro Greeting */}
+            <p className="text-[clamp(18px,2.5vw,28px)] font-display font-bold tracking-wider text-white/90 uppercase mb-1.5 sm:mb-2">
               HEY THERE, I’M
             </p>
 
-            {/* Main Name Heading (Bigger & Impactful) */}
-            <h1 className="text-[clamp(44px,7.4vw,82px)] leading-[0.98] font-display font-extrabold uppercase tracking-tight text-white mb-2 sm:mb-3">
+            {/* Main Name Heading (Huge, Ultra-Focal & Cinematic) */}
+            <h1 className="text-[clamp(54px,9vw,104px)] leading-[0.93] font-display font-black uppercase tracking-[-0.03em] text-white drop-shadow-[0_4px_28px_rgba(0,0,0,0.4)] mb-3 sm:mb-4">
               PRANTO<br />
               SARKAR.
             </h1>
 
             {/* Secondary Title */}
-            <h2 className="text-[clamp(15px,2.2vw,20px)] font-heading font-normal tracking-wide text-white/85 mb-4 sm:mb-5">
+            <h2 className="text-[clamp(18px,2.8vw,26px)] font-heading font-medium tracking-wide text-white/90 mb-5 sm:mb-6">
               motion designer &amp; ai artist
             </h2>
 
             {/* Editorial Body Copy (Controlled Width) */}
-            <p className="text-white/80 text-[clamp(14px,2.2vw,17px)] leading-[1.48] font-light tracking-tight max-w-lg min-h-[50px]">
+            <p className="text-white/85 text-[clamp(15px,2vw,18px)] leading-[1.55] font-light tracking-tight max-w-xl min-h-[50px]">
               {displayed}
               {!done && (
                 <span className="inline-block w-[2px] h-[1.1em] bg-white align-middle ml-[2px] animate-pulse" />
