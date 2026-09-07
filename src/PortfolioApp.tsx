@@ -14,9 +14,12 @@ export default function PortfolioApp() {
   const [dhakaTime, setDhakaTime] = useState('');
   const [scrolled, setScrolled] = useState(false);
 
-  // Avatar Video & Parallax refs
+  // Avatar Video & Interactive Parallax refs
   const videoRef = useRef<HTMLVideoElement>(null);
   const avatarFrameRef = useRef<HTMLDivElement>(null);
+  const isSeekingRef = useRef<boolean>(false);
+  const pendingTimeRef = useRef<number | null>(null);
+  const lastSeekRef = useRef<number>(0);
 
   // Briefing / Job Inquiry Form State
   const [briefName, setBriefName] = useState('');
@@ -136,7 +139,70 @@ export default function PortfolioApp() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Ultra-Smooth 60fps GPU Parallax (Zero seek stalls, silky cross-browser performance)
+  // Controlled video seek: single-frame buffer, throttle, and deadzone (Zero lag across Safari, Chrome, Firefox)
+  const doSeek = (targetTime: number) => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    isSeekingRef.current = true;
+    lastSeekRef.current = performance.now();
+    pendingTimeRef.current = null;
+
+    try {
+      if ('fastSeek' in video && typeof (video as any).fastSeek === 'function') {
+        (video as any).fastSeek(targetTime);
+      } else {
+        video.currentTime = targetTime;
+      }
+    } catch {
+      video.currentTime = targetTime;
+    }
+  };
+
+  const requestVideoSeek = (targetTime: number) => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Filter micro-movements to keep decoders idle
+    if (Math.abs(video.currentTime - targetTime) < 0.08) {
+      return;
+    }
+
+    // If already seeking, queue latest target
+    if (isSeekingRef.current) {
+      pendingTimeRef.current = targetTime;
+      return;
+    }
+
+    // Throttle to max ~18 seeks/sec
+    const now = performance.now();
+    if (now - lastSeekRef.current < 55) {
+      pendingTimeRef.current = targetTime;
+      return;
+    }
+
+    doSeek(targetTime);
+  };
+
+  const handleSeeked = () => {
+    isSeekingRef.current = false;
+    if (pendingTimeRef.current !== null) {
+      const next = pendingTimeRef.current;
+      pendingTimeRef.current = null;
+      requestVideoSeek(next);
+    }
+  };
+
+  const handleLoadedMetadata = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.pause();
+    const dur = video.duration || 4.04;
+    // Set to forward-facing smile
+    video.currentTime = dur * 0.45;
+  };
+
+  // Ultra-Smooth 60fps GPU Parallax + Mouse-Controlled Face Tracking
   useEffect(() => {
     let animFrame: number | null = null;
     let targetX = 0;
@@ -161,6 +227,14 @@ export default function PortfolioApp() {
       const centerY = window.innerHeight / 2;
       targetX = ((e.clientX - centerX) / centerX) * 5;
       targetY = ((e.clientY - centerY) / centerY) * 5;
+
+      // Track cursor: looking left to right according to cursor X position
+      const video = videoRef.current;
+      if (video && video.duration) {
+        const ratio = Math.max(0, Math.min(1, e.clientX / window.innerWidth));
+        const targetTime = ratio * video.duration;
+        requestVideoSeek(targetTime);
+      }
     };
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
@@ -453,7 +527,7 @@ export default function PortfolioApp() {
       {/* Hardware-accelerated fixed canvas background (zero scroll repaints) */}
       <div className="site-bg-canvas" />
 
-      {/* Background Avatar Video (Hardware-accelerated ambient live video, 60fps across all browsers) */}
+      {/* Background Avatar Video (Tracks mouse cursor, strictly stationary when mouse stops) */}
       <video
         ref={videoRef}
         poster="/avatar.png"
@@ -461,11 +535,11 @@ export default function PortfolioApp() {
           scrolled ? 'opacity-25' : 'opacity-100'
         }`}
         style={{ objectPosition: '70% center' }}
-        autoPlay
-        loop
         muted
         playsInline
         preload="auto"
+        onSeeked={handleSeeked}
+        onLoadedMetadata={handleLoadedMetadata}
       >
         <source src="/avatar.mp4" type="video/mp4" />
         <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260826_041744_63efcd78-bf7d-4039-99e2-2461e8a61903.mp4" type="video/mp4" />
