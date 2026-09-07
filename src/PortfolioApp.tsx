@@ -566,22 +566,20 @@ export default function PortfolioApp() {
             : 'bg-transparent'
         }`}
       >
-        <div />
-
-        {/* CENTER ON SCROLL: Brand Title & Subtitle Badge */}
+        {/* FAR LEFT ON SCROLL: Brand Title & Subtitle (Positioned on the side as indicated) */}
         <div
           onClick={() => {
             sound.playClick();
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
-          className={`absolute left-1/2 -translate-x-1/2 flex flex-col items-center justify-center text-center cursor-pointer select-none transition-all duration-300 max-w-[50vw] sm:max-w-none px-2 group ${
+          className={`flex flex-col items-start justify-center text-left cursor-pointer select-none transition-all duration-300 group ${
             scrolled
-              ? 'opacity-100 translate-y-0 pointer-events-auto'
-              : 'opacity-0 -translate-y-2 pointer-events-none'
+              ? 'opacity-100 translate-x-0 pointer-events-auto'
+              : 'opacity-0 -translate-x-2 pointer-events-none'
           }`}
           title="Click to scroll to top"
         >
-          <span className="font-display font-black text-xs sm:text-base md:text-[17px] tracking-wider uppercase text-white leading-tight drop-shadow-[0_1px_4px_rgba(0,0,0,0.4)] group-hover:text-white/85 transition-colors">
+          <span className="font-display font-black text-sm sm:text-base md:text-lg tracking-wider uppercase text-white leading-tight drop-shadow-[0_1px_4px_rgba(0,0,0,0.4)] group-hover:text-white/85 transition-colors">
             PRANTO SARKAR
           </span>
           <span className="font-heading font-normal text-[9.5px] sm:text-[11px] md:text-[12px] tracking-widest text-white/80 lowercase leading-tight group-hover:text-white/95 transition-colors">
