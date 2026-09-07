@@ -20,13 +20,42 @@ export default function App() {
   const [entered, setEntered] = useState(false);
 
   useEffect(() => {
-    const enterTimer = setTimeout(() => {
+    const handleEnter = () => {
       setEntered(true);
       document.body.classList.add('entered');
-    }, 1200);
+    };
+
+    // Mouse scroll / wheel triggers entrance
+    const handleWheel = (e: WheelEvent) => {
+      if (Math.abs(e.deltaY) > 5 || Math.abs(e.deltaX) > 5) {
+        handleEnter();
+      }
+    };
+
+    // Window scroll triggers entrance
+    const handleScroll = () => {
+      if (window.scrollY > 10) {
+        handleEnter();
+      }
+    };
+
+    // Touch swipe (mobile)
+    const handleTouchMove = () => {
+      handleEnter();
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: true });
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+
+    // Fallback timer: automatically enters after 2.8s if user hasn't scrolled yet
+    const fallbackTimer = setTimeout(handleEnter, 2800);
 
     return () => {
-      clearTimeout(enterTimer);
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('touchmove', handleTouchMove);
+      clearTimeout(fallbackTimer);
       document.body.classList.remove('entered');
     };
   }, []);
@@ -549,7 +578,11 @@ export default function App() {
           setEntered(true);
           document.body.classList.add('entered');
         }}
-        title="Click to enter"
+        onWheel={() => {
+          setEntered(true);
+          document.body.classList.add('entered');
+        }}
+        title="Scroll or click to enter"
       >
         <h1 className="hi-text select-none">hi</h1>
       </div>
