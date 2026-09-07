@@ -542,6 +542,19 @@ export default function PortfolioApp() {
         <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260826_041744_63efcd78-bf7d-4039-99e2-2461e8a61903.mp4" type="video/mp4" />
       </video>
 
+      {/* ========================================================================= */}
+      {/* MIDDLE COLOR SHELTER: Dark Shelter on Left (Text & Toolkit), Light on Right (Avatar) */}
+      {/* ========================================================================= */}
+      <div
+        className={`fixed inset-0 z-[1] pointer-events-none transition-opacity duration-700 ${
+          scrolled ? 'opacity-30' : 'opacity-100'
+        }`}
+        style={{
+          background:
+            'linear-gradient(90deg, rgba(22, 1, 5, 0.92) 0%, rgba(38, 2, 9, 0.88) 32%, rgba(58, 2, 13, 0.70) 46%, rgba(90, 4, 19, 0.32) 56%, rgba(135, 5, 26, 0.08) 65%, transparent 76%)',
+        }}
+      />
+
 
       {/* ========================================================================= */}
       {/* 03 — TOP NAVIGATION (Thin, Premium, Sticky on Scroll) */}
@@ -692,6 +705,74 @@ export default function PortfolioApp() {
                 <span className="inline-block w-[2px] h-[1.1em] bg-white align-middle ml-[2px] animate-pulse" />
               )}
             </p>
+
+            {/* 12 — SOFTWARE / ARSENAL BAR (Placed on Left Side with Text) */}
+            <div className="relative mt-7 sm:mt-9 w-full">
+              <aside className="glass-panel-red inline-flex items-center gap-2.5 sm:gap-3 p-2 sm:px-4 sm:py-2.5 rounded-full select-none pointer-events-auto max-w-full overflow-x-auto shadow-2xl transition-transform duration-300 hover:scale-[1.02]">
+                <div className="flex items-center gap-1.5 text-[11px] font-mono-tech uppercase tracking-wider text-white/70 pl-1 pr-0.5 whitespace-nowrap">
+                  <span className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_#ffffff] animate-pulse" />
+                  <span className="font-bold text-white">TOOLKIT:</span>
+                </div>
+
+                <div className="h-4 w-[1px] bg-white/25" />
+
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  {creativeTools.map((tool) => (
+                    <div
+                      key={tool.name}
+                      onClick={() => {
+                        sound.playClick();
+                        setInspectedTool(inspectedTool === tool.name ? null : tool.name);
+                      }}
+                      onMouseEnter={() => sound.playHover()}
+                      className="inline-flex items-center gap-2 px-2.5 sm:px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 transition-all cursor-pointer group select-none"
+                      title={`Click to inspect ${tool.name} capabilities`}
+                    >
+                      <div
+                        className="w-5 h-5 rounded-[4px] flex items-center justify-center text-[10px] font-black border transition-transform group-hover:scale-110 shrink-0 font-display"
+                        style={{
+                          backgroundColor: tool.bg,
+                          color: tool.color,
+                          borderColor: tool.border,
+                          boxShadow: `0 0 10px ${tool.glow}`,
+                        }}
+                      >
+                        {tool.short}
+                      </div>
+                      <span className="text-xs text-white/95 font-medium tracking-wide whitespace-nowrap group-hover:text-white">
+                        {tool.name}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </aside>
+
+              {/* Arsenal Capability Popover */}
+              {inspectedTool && (
+                <div className="absolute bottom-full mb-3 left-0 z-30 max-w-sm glass-panel-red rounded-2xl p-4 border border-white/25 shadow-2xl animate-fadeIn text-left">
+                  <div className="flex justify-between items-center mb-2">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-display font-bold text-white uppercase tracking-wider">
+                        {inspectedTool}
+                      </span>
+                      <span className="text-[10px] font-mono-tech text-white bg-white/15 px-2 py-0.5 rounded-full border border-white/20">
+                        {creativeTools.find((t) => t.name === inspectedTool)?.experience}
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setInspectedTool(null)}
+                      className="text-white/70 hover:text-white text-xs cursor-pointer"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                  <p className="text-xs font-light text-white/90 leading-relaxed">
+                    {creativeTools.find((t) => t.name === inspectedTool)?.description}
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* RIGHT SIDE: Interactive 3D Avatar Stage (Video Avatar with Mouse Face Movement) */}
@@ -705,74 +786,6 @@ export default function PortfolioApp() {
             />
           </div>
         </div>
-
-        {/* 12 — SOFTWARE / ARSENAL BAR (Floating Pill close to Lower-Right Hero Area) */}
-        <aside
-          className="glass-panel-red absolute bottom-14 sm:bottom-16 right-5 sm:right-10 z-20 flex items-center gap-2.5 sm:gap-3 p-2 sm:px-4 sm:py-2.5 rounded-full select-none pointer-events-auto max-w-[95vw] overflow-x-auto shadow-2xl transition-transform duration-300 hover:scale-[1.02]"
-        >
-          <div className="flex items-center gap-1.5 text-[11px] font-mono-tech uppercase tracking-wider text-white/70 pl-1 pr-0.5 whitespace-nowrap">
-            <span className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_#ffffff] animate-pulse" />
-            <span className="font-bold text-white">TOOLKIT:</span>
-          </div>
-
-          <div className="h-4 w-[1px] bg-white/25" />
-
-          <div className="flex items-center gap-1.5 sm:gap-2">
-            {creativeTools.map((tool) => (
-              <div
-                key={tool.name}
-                onClick={() => {
-                  sound.playClick();
-                  setInspectedTool(inspectedTool === tool.name ? null : tool.name);
-                }}
-                onMouseEnter={() => sound.playHover()}
-                className="inline-flex items-center gap-2 px-2.5 sm:px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 transition-all cursor-pointer group select-none"
-                title={`Click to inspect ${tool.name} capabilities`}
-              >
-                <div
-                  className="w-5 h-5 rounded-[4px] flex items-center justify-center text-[10px] font-black border transition-transform group-hover:scale-110 shrink-0 font-display"
-                  style={{
-                    backgroundColor: tool.bg,
-                    color: tool.color,
-                    borderColor: tool.border,
-                    boxShadow: `0 0 10px ${tool.glow}`,
-                  }}
-                >
-                  {tool.short}
-                </div>
-                <span className="text-xs text-white/95 font-medium tracking-wide whitespace-nowrap group-hover:text-white">
-                  {tool.name}
-                </span>
-              </div>
-            ))}
-          </div>
-        </aside>
-
-        {/* Arsenal Capability Popover */}
-        {inspectedTool && (
-          <div className="fixed bottom-28 right-5 sm:right-10 z-30 max-w-sm glass-panel-red rounded-2xl p-4 border border-white/25 shadow-2xl animate-fadeIn text-left">
-            <div className="flex justify-between items-center mb-2">
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-display font-bold text-white uppercase tracking-wider">
-                  {inspectedTool}
-                </span>
-                <span className="text-[10px] font-mono-tech text-white bg-white/15 px-2 py-0.5 rounded-full border border-white/20">
-                  {creativeTools.find((t) => t.name === inspectedTool)?.experience}
-                </span>
-              </div>
-              <button
-                type="button"
-                onClick={() => setInspectedTool(null)}
-                className="text-white/70 hover:text-white text-xs cursor-pointer"
-              >
-                ✕
-              </button>
-            </div>
-            <p className="text-xs font-light text-white/90 leading-relaxed">
-              {creativeTools.find((t) => t.name === inspectedTool)?.description}
-            </p>
-          </div>
-        )}
 
         {/* 13 — SKILLS TICKER (Continuous Slow Marquee at Bottom of Hero) */}
         <div
