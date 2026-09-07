@@ -553,34 +553,7 @@ export default function PortfolioApp() {
             : 'bg-transparent'
         }`}
       >
-        {/* LEFT: Navigation Links (Replacing brand logo as requested) */}
-        <nav className="hidden md:flex items-center text-[18px] lg:text-[21px] font-heading font-normal tracking-tight text-white">
-          {navLinks.map((item, idx) => (
-            <React.Fragment key={item.id}>
-              <button
-                type="button"
-                onClick={() => {
-                  sound.playClick();
-                  if (item.id === 'projects') {
-                    document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
-                  } else if (item.id === 'about-me') {
-                    document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
-                  } else {
-                    openModal(item.id);
-                  }
-                }}
-                onMouseEnter={() => sound.playHover()}
-                className="hover:opacity-60 transition-opacity duration-200 cursor-pointer text-white"
-              >
-                {item.label}
-              </button>
-              {idx < navLinks.length - 1 && (
-                <span className="text-white/40 select-none mx-2.5 font-light">,</span>
-              )}
-            </React.Fragment>
-          ))}
-        </nav>
-        <div className="md:hidden" />
+        <div />
 
         {/* FAR RIGHT: Liquid Glass UI CV Download Capsule + Mobile Hamburger */}
         <div className="flex items-center gap-3">
