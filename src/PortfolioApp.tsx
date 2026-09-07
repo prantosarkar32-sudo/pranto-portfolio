@@ -553,29 +553,8 @@ export default function PortfolioApp() {
             : 'bg-transparent'
         }`}
       >
-        {/* LEFT: PRANTO SARKAR® ✳︎ Title + Green Availability Pill */}
-        <div
-          className="flex items-center gap-3 cursor-pointer group"
-          onClick={() => {
-            sound.playClick();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-        >
-          <span className="text-[20px] sm:text-[24px] font-display font-bold tracking-tight text-white select-none uppercase">
-            PRANTO SARKAR®
-          </span>
-          <span className="text-[22px] sm:text-[26px] text-white select-none leading-none group-hover:rotate-45 transition-transform duration-300">
-            ✳︎
-          </span>
-          <div className="hidden lg:flex items-center border-l border-white/20 pl-3">
-            <span className="text-[10px] font-mono-tech uppercase tracking-[0.2em] font-light text-white/70">
-              MOTION DESIGNER &amp; AI ARTIST
-            </span>
-          </div>
-        </div>
-
-        {/* CENTER / RIGHT Navigation Links */}
-        <nav className="hidden md:flex items-center text-[17px] lg:text-[19px] font-heading font-medium tracking-tight text-white/90">
+        {/* LEFT: Navigation Links (Replacing brand logo as requested) */}
+        <nav className="hidden md:flex items-center text-[18px] lg:text-[21px] font-heading font-normal tracking-tight text-white">
           {navLinks.map((item, idx) => (
             <React.Fragment key={item.id}>
               <button
@@ -591,16 +570,17 @@ export default function PortfolioApp() {
                   }
                 }}
                 onMouseEnter={() => sound.playHover()}
-                className="hover:text-white hover:opacity-80 transition-opacity duration-200 cursor-pointer text-white"
+                className="hover:opacity-60 transition-opacity duration-200 cursor-pointer text-white"
               >
                 {item.label}
               </button>
               {idx < navLinks.length - 1 && (
-                <span className="text-white/40 select-none mx-2">,</span>
+                <span className="text-white/40 select-none mx-2.5 font-light">,</span>
               )}
             </React.Fragment>
           ))}
         </nav>
+        <div className="md:hidden" />
 
         {/* FAR RIGHT: Liquid Glass UI CV Download Capsule + Mobile Hamburger */}
         <div className="flex items-center gap-3">
