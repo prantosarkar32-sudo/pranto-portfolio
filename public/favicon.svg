@@ -1,4 +1,40 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="16" fill="#000000"/>
-  <text x="32" y="44" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="36" fill="#ffffff" text-anchor="middle" font-weight="900">✳</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#b80828"/>
+      <stop offset="40%" stop-color="#700315"/>
+      <stop offset="100%" stop-color="#150105"/>
+    </linearGradient>
+    <linearGradient id="rim" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.5)"/>
+      <stop offset="50%" stop-color="rgba(255,50,80,0.25)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0.08)"/>
+    </linearGradient>
+    <linearGradient id="letterGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="60%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f5d0d6"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="1.5" stdDeviation="1.5" flood-color="#000000" flood-opacity="0.7"/>
+    </filter>
+  </defs>
+
+  <!-- Background Squircle -->
+  <rect x="1.5" y="1.5" width="61" height="61" rx="16" fill="url(#bg)" stroke="url(#rim)" stroke-width="1.5"/>
+
+  <!-- Subtle Ambient Glow -->
+  <circle cx="32" cy="32" r="18" fill="#ff1a40" opacity="0.2" filter="blur(4px)"/>
+
+  <g filter="url(#shadow)" fill="url(#letterGrad)">
+    <!-- P -->
+    <path d="M 13 17 L 25.5 17 C 29.5 17 32 19.5 32 24.5 C 32 29.5 29.5 32 25.5 32 L 19 32 L 19 47 L 13 47 Z M 19 22.5 L 19 26.5 L 24.5 26.5 C 26 26.5 27 25.8 27 24.5 C 27 23.2 26 22.5 24.5 22.5 Z" />
+
+    <!-- S -->
+    <path d="M 36.5 41.5 C 37.8 44.5 40.5 46.5 44 46.5 C 47.8 46.5 50.5 44.2 50.5 40.8 C 50.5 36.5 46.8 35.2 42.5 34 C 38.5 32.8 35.5 31.2 35.5 27 C 35.5 22.5 39.2 19.5 43.5 19.5 C 47.2 19.5 50 21.5 51.2 24.5 L 46.2 26.8 C 45.5 25.2 44.5 24.5 43.5 24.5 C 41.8 24.5 40.8 25.5 40.8 26.8 C 40.8 28.2 42 29 44.5 29.8 C 48.8 31 56 32.5 56 40.5 C 56 46.2 50.8 51.5 44 51.5 C 38 51.5 33 47 31.2 41 Z" transform="matrix(0.92, 0, 0, 0.92, 4.5, 0.5)"/>
+  </g>
+
+  <!-- Electric Ruby Dot Accent -->
+  <circle cx="49.5" cy="15.5" r="2.2" fill="#ff224a"/>
+  <circle cx="49.5" cy="15.5" r="3.8" fill="#ff224a" opacity="0.4"/>
 </svg>
