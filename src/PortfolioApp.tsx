@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useTypewriter } from './useTypewriter';
 import { sound } from './audio';
+import { LiveWallpaper } from './LiveWallpaper';
 
 export default function PortfolioApp() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -512,10 +513,13 @@ export default function PortfolioApp() {
       >
         <source src="/avatar.mp4" type="video/mp4" />
       </video>
+      {/* Cinematic Live Wallpaper Layer (Breathing Ambient Glow & Interactive Floating Embers) */}
+      <LiveWallpaper scrolled={scrolled} />
+
       {/* RESPONSIVE EDITORIAL VEIL: Top-to-Bottom on Mobile, Left-to-Right on Desktop */}
       {/* ========================================================================= */}
       <div
-        className={`hero-gradient-veil fixed inset-0 z-[1] pointer-events-none transition-opacity duration-700 ${
+        className={`hero-gradient-veil fixed inset-0 z-[2] pointer-events-none transition-opacity duration-700 ${
           scrolled ? 'opacity-30' : 'opacity-100'
         }`}
       />
